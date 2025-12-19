@@ -1,0 +1,74 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: longhorn
+    repoURL: https://charts.longhorn.io
+    targetRevision: 1.8.0
+    helm:
+      releaseName: longhorn
+      values: |
+        persistence:
+          defaultClass: true
+          defaultClassReplicaCount: 3
+          reclaimPolicy: Retain
+
+        defaultSettings:
+          backupTarget: ""
+          backupTargetCredentialSecret: ""
+          defaultReplicaCount: 3
+          defaultDataLocality: disabled
+          replicaSoftAntiAffinity: false
+          replicaAutoBalance: disabled
+          storageOverProvisioningPercentage: 200
+          storageMinimalAvailablePercentage: 25
+          upgradeChecker: true
+          defaultLonghornStaticStorageClass: longhorn-static
+          nodeDownPodDeletionPolicy: do-nothing
+          allowNodeDrainWithLastHealthyReplica: false
+          mkfsExt4Parameters: ""
+          guaranteedInstanceManagerCpu: 12
+          priorityClass: ""
+          autoSalvage: true
+          autoDeletePodWhenVolumeDetachedUnexpectedly: true
+          disableSchedulingOnCordonedNode: true
+          replicaZoneSoftAntiAffinity: true
+          volumeAttachmentRecoveryPolicy: wait
+          nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+          allowVolumeCreationWithDegradedAvailability: true
+          autoCleanupSystemGeneratedSnapshot: true
+          concurrentAutomaticEngineUpgradePerNodeLimit: 0
+          backingImageCleanupWaitInterval: 60
+          guaranteedEngineManagerCpu: 12
+          guaranteedReplicaManagerCpu: 12
+
+        ingress:
+          enabled: false
+
+        service:
+          ui:
+            type: ClusterIP
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

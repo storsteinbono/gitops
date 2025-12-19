@@ -1,0 +1,29 @@
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets (should never be in Git for GitOps)
+secrets/
+*.secret
+*.key
+*.pem
+
+# Helm charts cache
+charts/
+*.tgz
+
+# Terraform files (if any)
+.terraform/
+*.tfstate
+*.tfstate.backup

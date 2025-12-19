@@ -1,0 +1,17 @@
+# =============================================================================
+# ArgoCD Bootstrap Configuration Variables
+# =============================================================================
+# Copy this file to terraform.tfvars and fill in your values
+
+# ArgoCD namespace (where ArgoCD is installed)
+argocd_namespace = "argocd"
+
+# GitOps repository URL
+# Replace storsteinbono with your GitHub username
+gitops_repo_url = "https://github.com/storsteinbono/gitops.git"
+
+# Branch to sync from
+gitops_repo_branch = "main"
+
+# Path containing the root application manifest
+gitops_repo_path = "bootstrap"
