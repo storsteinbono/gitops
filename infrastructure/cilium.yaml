@@ -1,0 +1,208 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"  # Install first - CNI is critical for all pods
+spec:
+  project: default
+
+  source:
+    chart: cilium
+    repoURL: https://helm.cilium.io/
+    targetRevision: 1.18.3
+    helm:
+      valuesObject:
+        cluster:
+          name: talos
+          id: 1
+
+        kubeProxyReplacement: true
+
+        # Talos specific configuration
+        k8sServiceHost: localhost
+        k8sServicePort: 7445
+        securityContext:
+          capabilities:
+            ciliumAgent: [CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+            cleanCiliumState: [NET_ADMIN, SYS_ADMIN, SYS_RESOURCE]
+
+        cgroup:
+          autoMount:
+            enabled: false
+          hostRoot: /sys/fs/cgroup
+
+        # eBPF optimization
+        bpf:
+          masquerade: true
+
+        # IPAM configuration
+        ipam:
+          mode: kubernetes
+          multiPoolPreAllocation: ""
+
+        # Operator configuration
+        operator:
+          rollOutPods: true
+          prometheus:
+            metricsService: true
+            enabled: true
+            port: 9963
+            serviceMonitor:
+              enabled: false  # Enable when Prometheus is installed
+          dashboards:
+            enabled: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+
+        # Agent configuration
+        rollOutCiliumPods: true
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+
+        k8sClientRateLimit:
+          qps: 20
+          burst: 100
+
+        # L2 announcements for LoadBalancer services
+        l2announcements:
+          enabled: true
+
+        # BGP Control Plane
+        bgpControlPlane:
+          enabled: true
+          secretsNamespace:
+            name: cilium-secrets
+
+        # External IPs support
+        externalIPs:
+          enabled: true
+
+        # Load Balancer configuration
+        loadBalancer:
+          algorithm: maglev
+
+        # Gateway API support
+        gatewayAPI:
+          enabled: true
+          enableAlpn: true
+          enableAppProtocol: true
+
+        # Envoy proxy configuration
+        envoy:
+          prometheus:
+            enabled: true
+            port: "9964"
+            serviceMonitor:
+              enabled: false  # Enable when Prometheus is installed
+          securityContext:
+            capabilities:
+              keepCapNetBindService: true
+              envoy: [NET_ADMIN, PERFMON, BPF]
+
+        # Hubble observability
+        hubble:
+          enabled: true
+          metrics:
+            enabled:
+              - dns
+              - drop
+              - tcp
+              - flow
+              - port-distribution
+              - icmp
+              - "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+            enableOpenMetrics: true
+            port: 9965
+            serviceMonitor:
+              enabled: false  # Enable when Prometheus is installed
+            dashboards:
+              enabled: true
+          relay:
+            enabled: true
+            rollOutPods: true
+            prometheus:
+              enabled: true
+              port: 9966
+              serviceMonitor:
+                enabled: false  # Enable when Prometheus is installed
+          ui:
+            enabled: true
+            rollOutPods: true
+
+        # Ingress controller (disabled - using Traefik or other)
+        ingressController:
+          enabled: false
+
+        # Cluster mesh metrics
+        clustermesh:
+          apiserver:
+            metrics:
+              enabled: true
+              port: 9962
+              serviceMonitor:
+                enabled: false  # Enable when Prometheus is installed
+
+        # mTLS authentication (disabled for now)
+        authentication:
+          enabled: false
+          mutual:
+            spire:
+              enabled: false
+              install:
+                server:
+                  dataStorage:
+                    storageClass: cilium-spire-sc
+
+        # Prometheus metrics
+        prometheus:
+          metricsService: true
+          enabled: true
+          port: 9962
+          serviceMonitor:
+            enabled: false  # Enable when Prometheus is installed
+            trustCRDsExist: false
+
+        # Grafana dashboards
+        dashboards:
+          enabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false  # kube-system already exists
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  ignoreDifferences:
+    - group: ""
+      kind: ConfigMap
+      name: cilium-config
+      jsonPointers:
+        - /data/identity-allocation-mode
