@@ -44,11 +44,11 @@ spec:
         # Enable API and Dashboard
         api:
           dashboard: true
-          insecure: true
+          insecure: false 
 
         ingressRoute:
           dashboard:
-            enabled: false
+            enabled: true
 
 
         # Ingress class configuration
