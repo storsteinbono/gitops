@@ -84,6 +84,8 @@ spec:
           - key: node-role.kubernetes.io/control-plane
             operator: Exists
             effect: NoSchedule
+        additionalArguments:
+          - "--api.dashboard=true"
 
   destination:
     server: https://kubernetes.default.svc
