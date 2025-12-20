@@ -1,9 +1,3 @@
----
-# Expose Longhorn UI via Cloudflare Tunnel → Traefik
-#
-# Access at: https://longhorn.torsteinbo.net
-# Traffic flow: Internet → Cloudflare → Tunnel → Traefik → Longhorn UI
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
