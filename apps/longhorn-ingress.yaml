@@ -14,7 +14,7 @@ metadata:
     # traefik.ingress.kubernetes.io/router.middlewares: longhorn-system-auth@kubernetescrd
 spec:
   rules:
-  - host: longhorn.homelab.torsteinbo.net
+  - host: longhorn.torsteinbo.net
     http:
       paths:
       - path: /
