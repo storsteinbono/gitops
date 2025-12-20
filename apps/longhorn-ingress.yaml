@@ -1,7 +1,7 @@
 ---
 # Expose Longhorn UI via Cloudflare Tunnel → Traefik
 #
-# Access at: https://longhorn.homelab.torsteinbo.net
+# Access at: https://longhorn.torsteinbo.net
 # Traffic flow: Internet → Cloudflare → Tunnel → Traefik → Longhorn UI
 
 apiVersion: networking.k8s.io/v1
@@ -14,7 +14,7 @@ metadata:
     # traefik.ingress.kubernetes.io/router.middlewares: longhorn-system-auth@kubernetescrd
 spec:
   rules:
-  - host: longhorn.homelab.torsteinbo.net
+  - host: longhorn.torsteinbo.net
     http:
       paths:
       - path: /
