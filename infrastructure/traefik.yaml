@@ -36,6 +36,10 @@ spec:
             # TLS is handled by Cloudflare
             tls:
               enabled: false
+          traefik:
+            port: 9000
+            exposedPort: 9000
+            protocol: TCP
 
         # Ingress class configuration
         ingressClass:
