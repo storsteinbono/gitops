@@ -37,9 +37,19 @@ spec:
             tls:
               enabled: false
           traefik:
-            port: 8080
-            exposedPort: 8080
+            port: 9000
+            exposedPort: 9000
             protocol: TCP
+
+        # Enable API and Dashboard
+        api:
+          dashboard: true
+          insecure: true
+
+        ingressRoute:
+          dashboard:
+            enabled: false
+
 
         # Ingress class configuration
         ingressClass:
@@ -84,8 +94,7 @@ spec:
           - key: node-role.kubernetes.io/control-plane
             operator: Exists
             effect: NoSchedule
-        additionalArguments:
-          - "--api.dashboard=true"
+        additionalArguments: []
 
   destination:
     server: https://kubernetes.default.svc
