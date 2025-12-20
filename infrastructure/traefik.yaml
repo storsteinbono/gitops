@@ -1,0 +1,106 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"  # Deploy after CNI, before apps
+spec:
+  project: default
+  source:
+    chart: traefik
+    repoURL: https://traefik.github.io/charts
+    targetRevision: 33.2.1
+    helm:
+      releaseName: traefik
+      values: |
+        # Deployment configuration
+        deployment:
+          replicas: 2
+
+        # Service configuration - ClusterIP (accessed via Cloudflare Tunnel)
+        service:
+          type: ClusterIP
+
+        # Ports configuration
+        ports:
+          web:
+            port: 80
+            exposedPort: 80
+          websecure:
+            port: 443
+            exposedPort: 443
+            # TLS is handled by Cloudflare
+            tls:
+              enabled: false
+
+        # Ingress class configuration
+        ingressClass:
+          enabled: true
+          isDefaultClass: true  # Make Traefik the default ingress controller
+
+        # Provider configuration
+        providers:
+          kubernetesCRD:
+            enabled: true
+            allowCrossNamespace: true
+          kubernetesIngress:
+            enabled: true
+            allowExternalNameServices: true
+            publishedService:
+              enabled: true
+
+        # Logs
+        logs:
+          general:
+            level: INFO
+          access:
+            enabled: true
+
+        # Metrics
+        metrics:
+          prometheus:
+            enabled: true
+            entryPoint: metrics
+
+        # Resources
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+
+        # Tolerations for control-plane nodes
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/audit: baseline
+        pod-security.kubernetes.io/warn: baseline
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
