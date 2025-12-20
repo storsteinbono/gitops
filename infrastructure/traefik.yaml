@@ -37,8 +37,8 @@ spec:
             tls:
               enabled: false
           traefik:
-            port: 9000
-            exposedPort: 9000
+            port: 8080
+            exposedPort: 8080
             protocol: TCP
 
         # Ingress class configuration
