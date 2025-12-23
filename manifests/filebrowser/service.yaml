@@ -6,8 +6,8 @@ metadata:
 spec:
   selector:
     app: filebrowser
-  ports:
+  ports:  
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
   type: ClusterIP
