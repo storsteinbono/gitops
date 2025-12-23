@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bentopdf
+  namespace: bentopdf
+spec:
+  rules:
+    - host: bentopdf.torsteinbo.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bentopdf
+                port:
+                  number: 80
