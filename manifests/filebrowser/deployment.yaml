@@ -13,11 +13,11 @@ spec:
   template:
     metadata:
       labels:
-        app: bentopdf
+        app: filebrowser
     spec:
       containers:
-        - name: bentopdf
-          image: bentopdf/bentopdf:latest
+        - name: filebrowser
+          image: filebrowser/filebrowser:latest
           ports:
             - containerPort: 8080
               name: http
