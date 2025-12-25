@@ -21,8 +21,6 @@ spec:
           env:
             - name: ENABLE_MJPG_STREAMER
               value: "true"
-          securityContext:
-            privileged: true          # keep if you need USB / video devices
           resources:
             requests:
               memory: 1Gi
