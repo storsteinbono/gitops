@@ -1,25 +1,27 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql
+  name: projects
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: infrastructure
+  project: default
   source:
-    repoURL: https://github.com/storsteinbono/gitops.git
+    repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: apps/postgresql/base
-
+    path: projects
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: postgresql
-
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      allowEmpty: false
     syncOptions:
       - CreateNamespace=true
     retry:
@@ -28,8 +30,7 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m
-
-  # Ignore differences in sync policy for manual debugging
+  # Allow manual sync for projects to avoid conflicts
   ignoreDifferences:
     - group: "*"
       kind: "*"
