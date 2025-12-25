@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://cloudnative-pg.github.io/charts
     chart: cloudnative-pg
-    targetRevision: 0.22.1  # Latest stable version
+    targetRevision: 0.22.2  # Includes all CRDs (Pooler, Database, etc.)
     helm:
       values: |
         # Cluster-wide operator
@@ -52,6 +52,8 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - Replace=true  # Allow replacing CRDs during upgrade
+      - ServerSideApply=true  # Use server-side apply for large CRDs
     retry:
       limit: 5
       backoff:
