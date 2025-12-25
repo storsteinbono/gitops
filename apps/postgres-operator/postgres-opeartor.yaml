@@ -1,0 +1,9 @@
+spec:
+  source:
+    repoURL: git@github.com:storsteinbono/gitops.git
+    targetRevision: HEAD
+    path: helm/postgres-operator
+    helm:
+      chart: crunchy-postgres-operator
+      valuesFiles:
+        - values.yaml

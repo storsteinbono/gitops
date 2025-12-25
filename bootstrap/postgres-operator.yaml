@@ -2,26 +2,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql
+  name: postgres-operator
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: postgresql
+  project: postgres-operator
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: postgresql
+    helm:
+      chart: crunchy-postgres-operator
+      parameters: []
     directory:
       recurse: true
+    path: helm/postgres-operator
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: postgres-operator
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: false
     syncOptions:
       - CreateNamespace=true
     retry:
@@ -30,7 +32,6 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  # Ignore differences in child applications to allow manual changes for debugging
   ignoreDifferences:
     - group: argoproj.io
       kind: Application
