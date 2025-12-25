@@ -34,4 +34,5 @@ spec:
       volumes:
         - name: octoprint
           persistentVolumeClaim:
+            storageClassName: longhorn-static
             claimName: octoprint
