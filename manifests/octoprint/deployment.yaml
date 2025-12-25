@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: octoprint
-          image: octoprint/octoprint:3.1.0
+          imagePullPolicy: IfNotPresent
           env:
             - name: ENABLE_MJPG_STREAMER
               value: "true"
