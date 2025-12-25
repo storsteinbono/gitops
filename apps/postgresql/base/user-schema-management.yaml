@@ -1,0 +1,291 @@
+# ConfigMap containing SQL scripts for user, schema, and privilege management
+# This is idempotent and matches your Ansible configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-management-sql
+  namespace: postgresql
+data:
+  manage-users-schemas-privs.sql: |
+    -- ============================================================================
+    -- PostgreSQL User, Schema, and Privilege Management
+    -- Converted from Ansible configuration to SQL
+    -- This script is idempotent and can be run multiple times
+    -- ============================================================================
+
+    \set ON_ERROR_STOP on
+
+    -- Create users if they don't exist
+    -- ============================================================================
+    DO $$
+    BEGIN
+      RAISE NOTICE 'Creating users...';
+
+      -- Terraform user
+      IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'terraform') THEN
+        CREATE ROLE terraform WITH LOGIN PASSWORD :'TERRAFORM_PASSWORD';
+        RAISE NOTICE '✓ Created user: terraform';
+      ELSE
+        -- Update password even if user exists (to sync with secrets)
+        ALTER ROLE terraform WITH PASSWORD :'TERRAFORM_PASSWORD';
+        RAISE NOTICE '✓ Updated password for user: terraform';
+      END IF;
+
+      -- Semaphore user
+      IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'semaphore') THEN
+        CREATE ROLE semaphore WITH LOGIN PASSWORD :'SEMAPHORE_PASSWORD';
+        RAISE NOTICE '✓ Created user: semaphore';
+      ELSE
+        ALTER ROLE semaphore WITH PASSWORD :'SEMAPHORE_PASSWORD';
+        RAISE NOTICE '✓ Updated password for user: semaphore';
+      END IF;
+
+      -- Immich user
+      IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'immich') THEN
+        CREATE ROLE immich WITH LOGIN PASSWORD :'IMMICH_PASSWORD';
+        RAISE NOTICE '✓ Created user: immich';
+      ELSE
+        ALTER ROLE immich WITH PASSWORD :'IMMICH_PASSWORD';
+        RAISE NOTICE '✓ Updated password for user: immich';
+      END IF;
+
+      -- Teslamate user
+      IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'teslamate') THEN
+        CREATE ROLE teslamate WITH LOGIN PASSWORD :'TESLAMATE_PASSWORD';
+        RAISE NOTICE '✓ Created user: teslamate';
+      ELSE
+        ALTER ROLE teslamate WITH PASSWORD :'TESLAMATE_PASSWORD';
+        RAISE NOTICE '✓ Updated password for user: teslamate';
+      END IF;
+    END
+    $$;
+
+    -- Create schemas in each database
+    -- ============================================================================
+    RAISE NOTICE 'Managing schemas...';
+
+    -- Semaphore UI database
+    \c semaphore_ui
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT FROM pg_namespace WHERE nspname = 'semaphore') THEN
+        CREATE SCHEMA semaphore AUTHORIZATION terraform;
+        RAISE NOTICE '✓ Created schema: semaphore (owner: terraform)';
+      ELSE
+        ALTER SCHEMA semaphore OWNER TO terraform;
+        RAISE NOTICE '✓ Updated schema owner: semaphore';
+      END IF;
+    END
+    $$;
+
+    -- Immich database
+    \c immich
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT FROM pg_namespace WHERE nspname = 'immich') THEN
+        CREATE SCHEMA immich AUTHORIZATION terraform;
+        RAISE NOTICE '✓ Created schema: immich (owner: terraform)';
+      ELSE
+        ALTER SCHEMA immich OWNER TO terraform;
+        RAISE NOTICE '✓ Updated schema owner: immich';
+      END IF;
+    END
+    $$;
+
+    -- Teslamate database
+    \c teslamate
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT FROM pg_namespace WHERE nspname = 'teslamate') THEN
+        CREATE SCHEMA teslamate AUTHORIZATION terraform;
+        RAISE NOTICE '✓ Created schema: teslamate (owner: terraform)';
+      ELSE
+        ALTER SCHEMA teslamate OWNER TO terraform;
+        RAISE NOTICE '✓ Updated schema owner: teslamate';
+      END IF;
+    END
+    $$;
+
+    -- Grant privileges
+    -- ============================================================================
+    RAISE NOTICE 'Granting privileges...';
+
+    -- Semaphore UI database privileges
+    \c semaphore_ui
+
+    -- Grant ALL on database to terraform
+    GRANT ALL PRIVILEGES ON DATABASE semaphore_ui TO terraform;
+
+    -- Grant schema privileges
+    GRANT CREATE, USAGE ON SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON SCHEMA semaphore TO terraform;
+
+    -- Grant privileges on all existing tables and sequences
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA semaphore TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA semaphore TO terraform;
+
+    -- Set default privileges for future objects
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA semaphore GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA semaphore GRANT ALL ON SEQUENCES TO terraform;
+
+    RAISE NOTICE '✓ Granted privileges on semaphore_ui to terraform';
+
+    -- Immich database privileges
+    \c immich
+
+    GRANT ALL PRIVILEGES ON DATABASE immich TO terraform;
+    GRANT CREATE, USAGE ON SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON SCHEMA immich TO terraform;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA immich TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA immich TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA immich GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA immich GRANT ALL ON SEQUENCES TO terraform;
+
+    RAISE NOTICE '✓ Granted privileges on immich to terraform';
+
+    -- Teslamate database privileges
+    \c teslamate
+
+    GRANT ALL PRIVILEGES ON DATABASE teslamate TO terraform;
+    GRANT CREATE ON DATABASE teslamate TO teslamate;  -- Special: teslamate user needs CREATE
+    GRANT CREATE, USAGE ON SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON SCHEMA teslamate TO terraform;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO terraform;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA teslamate TO terraform;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA teslamate TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA teslamate GRANT ALL ON TABLES TO terraform;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA teslamate GRANT ALL ON SEQUENCES TO terraform;
+
+    RAISE NOTICE '✓ Granted privileges on teslamate to terraform';
+    RAISE NOTICE '✓ Granted CREATE privilege on teslamate to teslamate user';
+
+    -- Summary
+    \c postgres
+    RAISE NOTICE '================================';
+    RAISE NOTICE '✅ All users, schemas, and privileges configured successfully';
+    RAISE NOTICE '================================';
+---
+# CronJob to reconcile users, schemas, and privileges
+# Runs every 15 minutes to ensure configuration matches desired state
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-reconcile
+  namespace: postgresql
+  labels:
+    app: postgres-reconcile
+spec:
+  schedule: "*/15 * * * *"  # Every 15 minutes
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid  # Don't run multiple instances
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        metadata:
+          labels:
+            app: postgres-reconcile
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: reconcile
+            image: postgres:17-alpine
+            env:
+            # Connection settings
+            - name: PGHOST
+              value: postgres-cluster-rw
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-superuser
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-superuser
+                  key: password
+
+            # User passwords from secrets
+            - name: TERRAFORM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-terraform
+                  key: password
+            - name: SEMAPHORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-semaphore
+                  key: password
+            - name: IMMICH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-immich
+                  key: password
+            - name: TESLAMATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-teslamate
+                  key: password
+
+            command:
+            - sh
+            - -c
+            - |
+              set -e
+
+              echo "🔄 PostgreSQL Configuration Reconciliation"
+              echo "=========================================="
+              echo "Started at: $(date)"
+              echo ""
+
+              echo "⏳ Waiting for PostgreSQL cluster to be ready..."
+              until pg_isready -d postgres; do
+                echo "  Waiting for database..."
+                sleep 2
+              done
+              echo "✓ PostgreSQL is ready"
+              echo ""
+
+              echo "🔧 Reconciling users, schemas, and privileges..."
+              psql -v ON_ERROR_STOP=1 \
+                   -v TERRAFORM_PASSWORD="$TERRAFORM_PASSWORD" \
+                   -v SEMAPHORE_PASSWORD="$SEMAPHORE_PASSWORD" \
+                   -v IMMICH_PASSWORD="$IMMICH_PASSWORD" \
+                   -v TESLAMATE_PASSWORD="$TESLAMATE_PASSWORD" \
+                   -d postgres \
+                   -f /sql/manage-users-schemas-privs.sql
+
+              echo ""
+              echo "=========================================="
+              echo "✅ Reconciliation completed successfully"
+              echo "Finished at: $(date)"
+
+            volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+              readOnly: true
+
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "200m"
+
+          volumes:
+          - name: sql-scripts
+            configMap:
+              name: postgres-management-sql
