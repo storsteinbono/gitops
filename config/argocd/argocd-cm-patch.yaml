@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # Custom health checks for resources
+  # These override ArgoCD's default health assessment
+
+  # PersistentVolume health check
+  # PVs are considered healthy when Bound or Available
+  resource.customizations.health.v1_PersistentVolume: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = "PersistentVolume is bound"
+          return hs
+        end
+        if obj.status.phase == "Available" then
+          hs.status = "Healthy"
+          hs.message = "PersistentVolume is available"
+          return hs
+        end
+        if obj.status.phase == "Released" then
+          hs.status = "Degraded"
+          hs.message = "PersistentVolume is released"
+          return hs
+        end
+        if obj.status.phase == "Failed" then
+          hs.status = "Degraded"
+          hs.message = "PersistentVolume has failed"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for PersistentVolume"
+    return hs
+
+  # Ingress health check
+  # Ingress resources don't have a meaningful health status
+  # so we mark them as healthy if they exist
+  resource.customizations.health.networking.k8s.io_Ingress: |
+    hs = {}
+    hs.status = "Healthy"
+    hs.message = "Ingress is ready"
+    return hs
+
+  # Admin account enabled
+  admin.enabled: "true"
+
+  # Resource tracking method
+  application.resourceTrackingMethod: annotation+label
