@@ -7,8 +7,16 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  # Custom health checks for resources
-  # These override ArgoCD's default health assessment
+  # ArgoCD Configuration
+  admin.enabled: "true"
+  application.instanceLabelKey: argocd.argoproj.io/instance
+  application.resourceTrackingMethod: annotation+label
+  application.sync.impersonation.enabled: "false"
+  exec.enabled: "false"
+
+  # ========================================================================
+  # CUSTOM HEALTH CHECKS
+  # ========================================================================
 
   # PersistentVolume health check
   # PVs are considered healthy when Bound or Available
@@ -44,15 +52,82 @@ data:
 
   # Ingress health check
   # Ingress resources don't have a meaningful health status
-  # so we mark them as healthy if they exist
   resource.customizations.health.networking.k8s.io_Ingress: |
     hs = {}
     hs.status = "Healthy"
     hs.message = "Ingress is ready"
     return hs
 
-  # Admin account enabled
-  admin.enabled: "true"
+  # ========================================================================
+  # RESOURCE UPDATE IGNORE RULES
+  # ========================================================================
 
-  # Resource tracking method
-  application.resourceTrackingMethod: annotation+label
+  resource.customizations.ignoreResourceUpdates.ConfigMap: |
+    jqPathExpressions:
+      - '.metadata.annotations."cluster-autoscaler.kubernetes.io/last-updated"'
+      - '.metadata.annotations."control-plane.alpha.kubernetes.io/leader"'
+
+  resource.customizations.ignoreResourceUpdates.Endpoints: |
+    jsonPointers:
+      - /metadata
+      - /subsets
+
+  resource.customizations.ignoreResourceUpdates.all: |
+    jsonPointers:
+      - /status
+
+  resource.customizations.ignoreResourceUpdates.apps_ReplicaSet: |
+    jqPathExpressions:
+      - '.metadata.annotations."deployment.kubernetes.io/desired-replicas"'
+      - '.metadata.annotations."deployment.kubernetes.io/max-replicas"'
+      - '.metadata.annotations."rollout.argoproj.io/desired-replicas"'
+
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Application: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+      - '.metadata.annotations."argocd.argoproj.io/refresh"'
+      - '.metadata.annotations."argocd.argoproj.io/hydrate"'
+      - '.operation'
+
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+
+  resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler: |
+    jqPathExpressions:
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
+
+  resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice: |
+    jsonPointers:
+      - /metadata
+      - /endpoints
+      - /ports
+
+  # ========================================================================
+  # RESOURCE EXCLUSIONS
+  # ========================================================================
+
+  resource.exclusions: |
+    ### Network resources created by Kubernetes control plane
+    - apiGroups:
+      - ''
+      - discovery.k8s.io
+      kinds:
+      - Endpoints
+      - EndpointSlice
+    ### Internal Kubernetes resources
+    - apiGroups:
+      - coordination.k8s.io
+      kinds:
+      - Lease
+    ### Internal Kubernetes Authz/Authn resources
+    - apiGroups:
+      - authentication.k8s.io
+      - authorization.k8s.io
+      kinds:
+      - SelfSubjectReview
+      - TokenReview
+      - LocalSubjectAccessReview
