@@ -32,9 +32,13 @@ spec:
         postgresql:
           enabled: false
 
-        # Use bundled Redis
+        # Use bundled Redis with explicit image
         redis:
           enabled: true
+          image:
+            registry: docker.io
+            repository: redis
+            tag: 7.2-alpine
 
         # Storage configuration
         immich:
