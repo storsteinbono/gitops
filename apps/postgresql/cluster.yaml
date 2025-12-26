@@ -3,6 +3,8 @@ kind: Cluster
 metadata:
   name: postgresql
   namespace: postgres
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
   instances: 3
 
