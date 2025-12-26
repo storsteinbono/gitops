@@ -40,3 +40,4 @@
       syncOptions:
         - CreateNamespace=true
         - timeout=10m
+        - ServerSideApply=true
