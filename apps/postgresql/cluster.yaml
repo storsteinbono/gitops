@@ -7,7 +7,7 @@ spec:
   instances: 3
 
   # PostgreSQL version
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.2
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
 
   # Storage
   storage:
