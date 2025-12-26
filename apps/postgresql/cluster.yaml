@@ -5,34 +5,5 @@ metadata:
   namespace: postgres
 spec:
   instances: 3
-
-  # PostgreSQL version
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
-
-  # Storage
   storage:
-    storageClass: longhorn
-    size: 10Gi
-
-  # Bootstrap
-  bootstrap:
-    initdb:
-      database: app
-      owner: app
-
-  # PostgreSQL configuration
-  postgresql:
-    parameters:
-      max_connections: "100"
-      shared_buffers: "256MB"
-    pg_hba:
-      - host all all all scram-sha-256
-
-  # Resources
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
-      cpu: "1000m"
+    size: 1Gi
