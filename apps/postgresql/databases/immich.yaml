@@ -7,6 +7,4 @@ spec:
   cluster:
     name: postgresql
   name: immich
-  owner: immich
-  # The operator will auto-create the 'immich' user with a random password
-  # and store it in secret: postgresql-immich
+  owner: immich  # This role is now managed in cluster.spec.managed.roles
