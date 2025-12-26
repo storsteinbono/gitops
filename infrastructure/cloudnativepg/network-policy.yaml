@@ -1,24 +1,11 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: allow-apiserver-to-cnpg-webhook
+  name: allow-all-to-cnpg-webhook
   namespace: cnpg-system
 spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: cloudnative-pg
   ingress:
-    - fromEntities:
-        - kube-apiserver
-        - host
-      toPorts:
-        - ports:
-            - port: "9443"
-              protocol: TCP
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-      toPorts:
-        - ports:
-            - port: "9443"
-              protocol: TCP
+    - {} # Allow all ingress temporarily to debug
