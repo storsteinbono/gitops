@@ -41,3 +41,4 @@
         - CreateNamespace=true
         - timeout=10m
         - ServerSideApply=true
+        - Replace=true
