@@ -1,44 +1,31 @@
-  apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    name: cloudnativepg-operator
-    namespace: argocd
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io
-  spec:
-    project: infrastructure
-    source:
-      repoURL: https://cloudnative-pg.github.io/charts
-      chart: cloudnative-pg
-      targetRevision: 0.27.0 
-      helm:
-        values: |
-          config:
-            clusterWide: true
-            maxConcurrentReconciles: 10
-
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-    destination:
-      server: https://kubernetes.default.svc
-      namespace: cnpg-system
-    ignoreDifferences:
-      - kind: CustomResourceDefinition
-        group: apiextensions.k8s.io
-
-        
-
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-        - CreateNamespace=true
-        - timeout=10m
-        - ServerSideApply=true
-        - Replace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnativepg-operator
+  namespace: argocd
+spec:
+  project: infrastructure
+  source:
+    repoURL: https://cloudnative-pg.github.io/charts
+    chart: cloudnative-pg
+    targetRevision: 0.27.0 
+    helm:
+      values: |
+        config:
+          clusterWide: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - Replace=true
+      - SkipDryRunOnMissingResource=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 10s
