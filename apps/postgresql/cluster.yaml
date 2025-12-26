@@ -8,8 +8,8 @@ metadata:
 spec:
   instances: 3
 
-  # Specify version to avoid auto-upgrade issues
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+  # Specify version to match current major version
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
 
   storage:
     size: 10Gi
