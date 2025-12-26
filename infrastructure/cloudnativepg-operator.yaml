@@ -27,7 +27,7 @@
     destination:
       server: https://kubernetes.default.svc
       namespace: cnpg-system
-    ignoredifferences:
+    ignoreDifferences:
       - kind: CustomResourceDefinition
         group: postgresql.cnpg.io
 
