@@ -37,11 +37,11 @@ spec:
         redis:
           enabled: true
 
-        # Storage for photos/videos - using NFS
-        persistence:
-          library:
-            enabled: true
-            existingClaim: immich-library  # Use the NFS PVC
+        # Immich configuration
+        immich:
+          persistence:
+            library:
+              existingClaim: immich-library  # Use the NFS PVC
 
         # Ingress - external access
         ingress:
