@@ -5,5 +5,9 @@ metadata:
   namespace: postgres
 spec:
   instances: 3
+
+  # Specify version to avoid auto-upgrade issues
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+
   storage:
-    size: 1Gi
+    size: 10Gi
