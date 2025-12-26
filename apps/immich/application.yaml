@@ -43,19 +43,16 @@ spec:
             enabled: true
             existingClaim: immich-library  # Use the NFS PVC
 
-        # Ingress (optional - configure if you want external access)
+        # Ingress - external access
         ingress:
           main:
-            enabled: false
-            # enabled: true
-            # hosts:
-            #   - host: immich.yourdomain.com
-            #     paths:
-            #       - path: /
-            # tls:
-            #   - secretName: immich-tls
-            #     hosts:
-            #       - immich.yourdomain.com
+            enabled: true
+            ingressClassName: traefik  # Using your Traefik ingress controller
+            hosts:
+              - host: immich.torsteinbo.net
+                paths:
+                  - path: /
+                    pathType: Prefix
 
   destination:
     server: https://kubernetes.default.svc
