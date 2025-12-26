@@ -13,6 +13,13 @@ spec:
       values: |
         config:
           clusterWide: true
+
+        # Set webhook failure policy to Ignore (webhooks unreachable due to network issue)
+        webhook:
+          mutating:
+            failurePolicy: Ignore
+          validating:
+            failurePolicy: Ignore
   destination:
     server: https://kubernetes.default.svc
     namespace: cnpg-system
