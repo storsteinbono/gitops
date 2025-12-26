@@ -30,9 +30,7 @@
     ignoredifference:
       - kind: CustomResourceDefinition
         group: postgresql.cnpg.io
-    syncOptions:
-      - syncOptions: 
-        - timeout=10m
+
         
 
     syncPolicy:
@@ -41,3 +39,4 @@
         selfHeal: true
       syncOptions:
         - CreateNamespace=true
+        - timeout=10m
