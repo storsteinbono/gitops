@@ -11,3 +11,19 @@ spec:
 
   storage:
     size: 10Gi
+
+  # PostgreSQL configuration
+  postgresql:
+    parameters:
+      max_connections: "200"
+      shared_buffers: "256MB"
+
+    # pg_hba.conf rules
+    pg_hba:
+      # Allow all authenticated connections (default - most permissive)
+      - host all all all scram-sha-256
+
+      # Or use more restrictive rules:
+      # - hostssl myapp myapp_user 10.0.0.0/8 scram-sha-256  # SSL only, specific user/db
+      # - host all readonly 10.0.0.0/8 md5                    # Read-only user from network
+      # - host all all 0.0.0.0/0 reject                       # Deny all others

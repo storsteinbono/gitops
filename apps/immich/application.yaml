@@ -1,0 +1,75 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/immich-app/immich-charts
+    targetRevision: main
+    path: charts/immich
+    helm:
+      values: |
+        # Use existing PostgreSQL cluster
+        postgresql:
+          enabled: false  # Don't deploy postgres - use existing CloudNative-PG cluster
+
+        # External PostgreSQL configuration
+        env:
+          DB_HOSTNAME: postgresql-rw.postgres.svc
+          DB_PORT: "5432"
+          DB_DATABASE_NAME: immich
+          DB_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-db-credentials
+                key: username
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-db-credentials
+                key: password
+
+        # Redis configuration (uses bundled Redis by default)
+        redis:
+          enabled: true
+
+        # Storage for photos/videos - using NFS
+        persistence:
+          library:
+            enabled: true
+            existingClaim: immich-library  # Use the NFS PVC
+
+        # Ingress (optional - configure if you want external access)
+        ingress:
+          main:
+            enabled: false
+            # enabled: true
+            # hosts:
+            #   - host: immich.yourdomain.com
+            #     paths:
+            #       - path: /
+            # tls:
+            #   - secretName: immich-tls
+            #     hosts:
+            #       - immich.yourdomain.com
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: immich
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

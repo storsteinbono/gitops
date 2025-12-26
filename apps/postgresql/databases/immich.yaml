@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: immich-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgresql
+  name: immich
+  owner: immich
+  # The operator will auto-create the 'immich' user with a random password
+  # and store it in secret: postgresql-immich
