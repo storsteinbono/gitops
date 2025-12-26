@@ -24,10 +24,13 @@
             limits:
               memory: "512Mi"
               cpu: "500m"
-
     destination:
       server: https://kubernetes.default.svc
       namespace: cnpg-system
+    ignoredifference:
+      - kind: CustomResourceDefinition
+        group: postgresql.cnpg.io
+        
 
     syncPolicy:
       automated:
