@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: immich.torsteinbo.net
+    - host: immich.storsteinbo.no
       http:
         paths:
           - path: /
