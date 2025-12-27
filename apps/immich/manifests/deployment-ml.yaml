@@ -51,6 +51,10 @@ spec:
               value: immich-redis
             - name: TRANSFORMERS_CACHE
               value: /cache
+            - name: IMMICH_HOST
+              value: immich-server.immich.svc.cluster.local
+            - name: IMMICH_PORT
+              value: "2283"
           volumeMounts:
             - name: cache
               mountPath: /cache
