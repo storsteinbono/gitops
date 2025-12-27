@@ -8,8 +8,3 @@ spec:
   owner: immich
   cluster:
     name: postgresql
-  extensions:
-    - name: vchord
-      ensure: present
-    - name: earthdistance
-      ensure: present

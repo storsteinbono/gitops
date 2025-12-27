@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: postgresql
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Default project for 3dprint applications
+
+  # Allow applications to be created in any namespace
+  sourceRepos:
+    - '*'
+
+  # Allow applications to deploy to any namespace on the local cluster
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+
+  # Allow all Kubernetes resources
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  # Allow all namespaced resources
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
