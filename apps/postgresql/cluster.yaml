@@ -10,3 +10,4 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1
   storage:
     size: 10Gi
+    
