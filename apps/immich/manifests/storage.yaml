@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-data
+  namespace: immich
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-static
+  volumeName: nfs-immich-pv
+  resources:
+    requests:
+      storage: 1Ti
