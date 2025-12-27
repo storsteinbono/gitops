@@ -1,10 +1,9 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
+apiVersion: v1
+kind: Secret
 metadata:
-  name: immich-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgresql
   name: immich
-  owner: immich  # This role is now managed in cluster.spec.managed.roles
+  namespace: postgresql
+type: kubernetes.io/basic-auth
+stringData:
+  username: immich
+  password: smallHous389
