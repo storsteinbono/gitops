@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: immich
-  namespace: postgresql
+  namespace: postgres
 type: kubernetes.io/basic-auth
 stringData:
   username: immich
