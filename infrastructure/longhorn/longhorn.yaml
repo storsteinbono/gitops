@@ -21,7 +21,7 @@ spec:
           reclaimPolicy: Retain
 
         defaultSettings:
-          backupTargetURL: "cifs://172.16.16.91/Backups"
+          backupTargetURL: "cifs://172.16.16.91/Backupstest"
           credentialSecret: "longhorn-backup-smb"
           defaultReplicaCount: 3
           defaultDataLocality: disabled
