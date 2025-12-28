@@ -21,7 +21,7 @@ spec:
           reclaimPolicy: Retain
 
         defaultSettings:
-          backupTarget: "nfs://172.16.16.91/volume/f72a1a74-f3ab-46af-8bd9-d97aaa05e733/.srv/.unifi-drive/Backups/.data"
+          backupTarget: "nfs://172.16.16.91:/volume/f72a1a74-f3ab-46af-8bd9-d97aaa05e733/.srv/.unifi-drive/Backups/.data"
           backupTargetCredentialSecret: ""
           defaultReplicaCount: 3
           defaultDataLocality: disabled
