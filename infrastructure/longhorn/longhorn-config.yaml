@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/storsteinbono/gitops.git
     targetRevision: HEAD
-    path: infrastructure/longhorn
+    path: config/longhorn
     directory:
       include: '{backup-settings.yaml,smb-secret.yaml}'
   destination:
