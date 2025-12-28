@@ -9,7 +9,7 @@ metadata:
 spec:
   project: infrastructure
   source:
-    repoURL: https://github.com/storsteinbono/gitops.git
+    repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
     path: config/longhorn
     directory:
