@@ -1,0 +1,10 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: BackupTarget
+metadata:
+  name: default
+  namespace: longhorn-system
+spec:
+  backupTargetURL: "cifs://172.16.16.91/Backups"
+  credentialSecret: "longhorn-backup-smb"
+  pollInterval: 5m0s
