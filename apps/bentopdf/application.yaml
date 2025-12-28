@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: manifests/bentopdf
+    path: apps/bentopdf/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: bentopdf

@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: manifests/filebrowser
+    path: apps/filebrowser/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: filebrowser
