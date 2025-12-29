@@ -23,3 +23,9 @@ spec:
     env: 
       - name: DARK_MODE
         value: "true"
+      - name: PUID
+        value: "1000"
+      - name: PGID
+        value: "1000"
+      - name: TZ
+        value: "Europe/Oslo"
