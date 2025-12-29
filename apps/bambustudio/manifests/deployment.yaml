@@ -15,9 +15,14 @@ spec:
       labels:
         app: bambustudio
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: bambustudio
           image: lscr.io/linuxserver/bambustudio:latest
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
           env:
             - name: DARK_MODE
               value: "true"
@@ -34,11 +39,11 @@ spec:
               name: https
           resources:
             requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
+              cpu: 250m
               memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
           volumeMounts:
             - name: bambustudio-data
               mountPath: /config
