@@ -3,9 +3,6 @@ kind: Ingress
 metadata:
   name: bambustudio
   namespace: bambustudio
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
     - host: bambustudio.torsteinbo.net
