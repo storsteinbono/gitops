@@ -38,12 +38,25 @@ spec:
             - name: SELKIES_MODE
               value: "webrtc"
 
+            # VP9 is more CPU efficient than JPEG for streaming
             - name: SELKIES_ENCODER
-              value: "jpeg"
+              value: "vp9"
 
+            # Lower framerate = less CPU load
             - name: SELKIES_FRAMERATE
-              value: "30"
+              value: "24"
 
+            # Video quality/bitrate controls
+            - name: SELKIES_VIDEO_BITRATE
+              value: "2000"
+            - name: SELKIES_JPEG_QUALITY
+              value: "80"
+
+            # Enable dynamic resolution scaling
+            - name: SELKIES_ENABLE_RESIZE
+              value: "true"
+
+            # Disable unused features
             - name: SELKIES_AUDIO_ENABLED
               value: "false"
             - name: SELKIES_MICROPHONE_ENABLED
