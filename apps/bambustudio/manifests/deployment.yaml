@@ -18,6 +18,15 @@ spec:
       containers:
         - name: bambustudio
           image: lscr.io/linuxserver/bambustudio:latest
+          env:
+            - name: DARK_MODE
+              value: "true"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Oslo"
           ports:
             - containerPort: 3000
               name: http
