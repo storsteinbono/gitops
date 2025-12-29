@@ -21,34 +21,59 @@ spec:
         - name: bambustudio
           image: lscr.io/linuxserver/bambustudio:latest
           securityContext:
-            allowPrivilegeEscalation: true
             privileged: true
+            allowPrivilegeEscalation: true
           env:
-            - name: DARK_MODE
-              value: "true"
+            # LinuxServer basics
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
             - name: TZ
               value: "Europe/Oslo"
+            - name: DARK_MODE
+              value: "true"
+
+            # ---- Selkies performance tuning (CPU-only) ----
+            - name: SELKIES_MODE
+              value: "webrtc"
+
+            - name: SELKIES_ENCODER
+              value: "jpeg"
+
+            - name: SELKIES_FRAMERATE
+              value: "30"
+
+            - name: SELKIES_AUDIO_ENABLED
+              value: "false"
+            - name: SELKIES_MICROPHONE_ENABLED
+              value: "false"
+            - name: SELKIES_GAMEPAD_ENABLED
+              value: "false"
+
+            - name: SELKIES_ENABLE_DUAL_MODE
+              value: "false"
+
           ports:
             - containerPort: 3000
               name: http
             - containerPort: 3001
               name: https
+
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: "1000m"
+              memory: "1Gi"
             limits:
-              cpu: 1000m
-              memory: 2Gi
+              cpu: "2000m"
+              memory: "3Gi"
+
           volumeMounts:
             - name: bambustudio-data
               mountPath: /config
             - name: dshm
               mountPath: /dev/shm
+
       volumes:
         - name: bambustudio-data
           persistentVolumeClaim:
