@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bambustudio
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:storsteinbono/gitops.git
+    targetRevision: HEAD
+    path: apps/bambustudio/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bambustudio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    env: 
+      - name: DARK_MODE
+        value: "true"

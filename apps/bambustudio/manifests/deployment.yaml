@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bambustudio
+  namespace: bambustudio
+  labels:
+    app: bambustudio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bambustudio
+  template:
+    metadata:
+      labels:
+        app: bambustudio
+    spec:
+      containers:
+        - name: bambustudio
+          image: lscr.io/linuxserver/bambustudio:latest
+          ports:
+            - containerPort: 3000
+              name: http
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: bambustudio-data
+              mountPath: /srv
+      volumes:
+        - name: bambustudio-data
+          persistentVolumeClaim:
+            claimName: bambustudio-data

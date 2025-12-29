@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bambustudio
+  namespace: bambustudio
+spec:
+  rules:
+    - host: bambustudio.torsteinbo.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bambustudio
+                port:
+                  number: 80
