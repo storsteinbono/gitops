@@ -30,6 +30,8 @@ spec:
           ports:
             - containerPort: 3000
               name: http
+            - containerPort: 3001
+              name: https
           resources:
             requests:
               cpu: 100m
@@ -39,8 +41,14 @@ spec:
               memory: 512Mi
           volumeMounts:
             - name: bambustudio-data
-              mountPath: /srv
+              mountPath: /config
+            - name: dshm
+              mountPath: /dev/shm
       volumes:
         - name: bambustudio-data
           persistentVolumeClaim:
             claimName: bambustudio-data
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
