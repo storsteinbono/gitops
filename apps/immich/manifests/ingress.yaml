@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: immich
   namespace: immich
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
     - host: immich.storsteinbo.no
       http:
