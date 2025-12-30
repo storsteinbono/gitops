@@ -4,7 +4,6 @@ metadata:
   name: immich
   namespace: immich
 spec:
-  ingressClassName: traefik
   rules:
     - host: immich.storsteinbo.no
       http:
