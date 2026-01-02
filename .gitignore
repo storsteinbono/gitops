@@ -27,3 +27,4 @@ charts/
 .terraform/
 *.tfstate
 *.tfstate.backup
+tmp/
