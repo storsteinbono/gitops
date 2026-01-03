@@ -2,13 +2,14 @@
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
-  name: snapshot-1
+  name: postgres-daily-backup
   namespace: longhorn-system
 spec:
-  cron: "* * * * *"
-  task: "snapshot"
+  cron: "0 2 * * *"
+  task: "backup"
   groups:
-  - default
   - postgresql
-  retain: 3
+  retain: 7
   concurrency: 2
+  labels:
+    app: postgresql
