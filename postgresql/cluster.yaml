@@ -26,15 +26,3 @@ spec:
         superuser: true
         passwordSecret:
           name: test-user
-
-    backup:
-      barmanObjectStore:
-        destinationPath: /backup/postgres
-        wal:
-          compression: gzip
-      volumes:
-        - name: nfs-backup
-          csi:
-            driver: smb.csi.k8s.io
-            volumeAttributes:
-              source: "//172.16.16.91/Backups"
