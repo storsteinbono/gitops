@@ -21,7 +21,7 @@ spec:
           name: immich-user
       
       - name: test-user
-        ensure: present
+        ensure: absent
         login: true
         superuser: true
         passwordSecret:
