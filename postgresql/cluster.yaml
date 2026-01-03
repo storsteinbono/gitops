@@ -19,6 +19,14 @@ spec:
         superuser: true
         passwordSecret:
           name: immich-user
+      
+      - name: test-user
+        ensure: present
+        login: true
+        superuser: true
+        passwordSecret:
+          name: test-user
+
     backup:
       barmanObjectStore:
         destinationPath: /backup/postgres
