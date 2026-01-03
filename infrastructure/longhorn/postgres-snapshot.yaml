@@ -1,0 +1,14 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: snapshot-1
+  namespace: longhorn-system
+spec:
+  cron: "0 */6 * * *"
+  task: "snapshot"
+  groups:
+  - default
+  - postgresql
+  retain: 3
+  concurrency: 2
