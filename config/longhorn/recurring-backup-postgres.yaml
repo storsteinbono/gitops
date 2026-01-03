@@ -1,13 +1,14 @@
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
-  name: daily-backup-to-cifs
+  name: snapshot-1
   namespace: longhorn-system
 spec:
-  cron: "0 0 * * *"
-  task: "backup"
+  cron: "* * * * *"
+  task: "snapshot"
   groups:
-    - postgresql
-  retain: 7
+  - default
+  - postgresql
+  retain: 3
   concurrency: 2
