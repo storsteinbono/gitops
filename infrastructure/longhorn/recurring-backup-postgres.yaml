@@ -9,7 +9,7 @@ spec:
   task: "backup"
   groups:
   - postgresql
-  retain: 7
+  retain: 3
   concurrency: 2
   labels:
     app: postgresql
