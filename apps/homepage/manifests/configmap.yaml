@@ -24,7 +24,7 @@ data:
     - Media:
         - Immich:
             href: https://immich.storsteinbo.no
-            description: Photo management
+            description: Photo management tool
             namespace: immich
             podSelector: app=immich-server
             icon: immich.png
