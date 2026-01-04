@@ -40,12 +40,21 @@ data:
             namespace: longhorn-system
             podSelector: app=longhorn-manager
             icon: longhorn.png
+            widget: 
+              type: longhorn
+              expanded: true
+              total: true
+              labels: true
+              nodes: true
         - Filebrowser:
             href: https://filebrowser.torsteinbo.net
             description: Filebrowser
             namespace: filebrowser
             podSelector: app=filebrowser
             icon: filebrowser.png
+            widget: 
+              type: filebrowser
+              url: http://filebrowser.filebrowser
   widgets.yaml: |
     - kubernetes:
         cluster:
@@ -68,9 +77,4 @@ data:
     - search:
         provider: google
         target: _blank
-    - longhorn:
-        expanded: true
-        total: true
-        labels: true
-        nodes: true
   docker.yaml: ""
