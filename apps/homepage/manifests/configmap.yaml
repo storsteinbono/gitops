@@ -29,19 +29,19 @@ data:
             podSelector: app=immich-server
             icon: immich.png
         - Bambustudio:
-            href: https://bambustudio.storsteinbo.no
+            href: https://bambustudio.torsteinbo.net
             description: Bambustudio
             namespace: bambustudio
             podSelector: app=bambustudio
             icon: bambustudio.png
         - Longhorn:
-            href: https://longhorn.storsteinbo.no
+            href: https://longhorn.torsteinbo.net
             description: Longhorn
             namespace: longhorn-system
             podSelector: app=longhorn-manager
             icon: longhorn.png
         - Filebrowser:
-            href: https://filebrowser.storsteinbo.no
+            href: https://filebrowser.torsteinbo.net
             description: Filebrowser
             namespace: filebrowser
             podSelector: app=filebrowser
