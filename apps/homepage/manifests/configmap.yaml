@@ -68,5 +68,9 @@ data:
     - search:
         provider: google
         target: _blank
-
+    - longhorn:
+        expanded: true
+        total: true
+        labels: true
+        nodes: true
   docker.yaml: ""
