@@ -72,19 +72,19 @@ spec:
             - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: homepage-secrets
-                  key: FILEBROWSER_USERNAME
+                  name: filebrowser-secret
+                  key: username
             - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: homepage-secrets
-                  key: FILEBROWSER_PASSWORD
+                  name: filebrowser-secret
+                  key: password
       volumes:
         - name: homepage-config
           configMap:
             name: homepage
         - name: logs
           emptyDir: {}
-        - name: homepage-secrets
+        - name: filebrowser-secret
           secret:
-            secretName: homepage-secrets
+            secretName: filebrowser-secret

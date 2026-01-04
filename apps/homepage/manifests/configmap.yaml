@@ -40,13 +40,6 @@ data:
             namespace: longhorn-system
             podSelector: app=longhorn-manager
             icon: longhorn.png
-            widget:
-              type: longhorn
-              url: http://longhorn-frontend.longhorn-system
-              expanded: true
-              total: true
-              labels: true
-              nodes: true
         - Filebrowser:
             href: https://filebrowser.torsteinbo.net
             description: Filebrowser
@@ -80,4 +73,10 @@ data:
     - search:
         provider: google
         target: _blank
+    - longhorn:
+        url: http://longhorn-frontend.longhorn-system
+        expanded: true
+        total: true
+        labels: true
+        nodes: true
   docker.yaml: ""
