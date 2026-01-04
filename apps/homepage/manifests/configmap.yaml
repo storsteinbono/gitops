@@ -49,8 +49,8 @@ data:
             widget: 
               type: filebrowser
               url: http://filebrowser.filebrowser
-              username: filebrowser
-              password: filebrowser
+              username: {{HOMEPAGE_VAR_FILEBROWSER_USERNAME}}
+              password: {{HOMEPAGE_VAR_FILEBROWSER_PASSWORD}}
   widgets.yaml: |
     - kubernetes:
         cluster:
@@ -70,9 +70,6 @@ data:
         cpu: true
         memory: true
         network: default
-    - search:
-        provider: google
-        target: _blank
     - longhorn:
         url: http://longhorn-frontend.longhorn-system
         expanded: true
