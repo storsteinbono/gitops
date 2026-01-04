@@ -3,6 +3,13 @@ kind: Service
 metadata:
   name: bambustudio
   namespace: bambustudio
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Bambustudio"
+    gethomepage.dev/description: "Bambustudio"
+    gethomepage.dev/group: "Entertainment"
+    gethomepage.dev/icon: "bambustudio.png"
+    gethomepage.dev/href: "https://bambustudio.storsteinbo.no"
 spec:
   selector:
     app: bambustudio
