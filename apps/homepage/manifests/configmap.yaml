@@ -12,7 +12,7 @@ data:
   settings.yaml: |
     providers:
       longhorn:
-        url: http://longhorn.torsteinbo.net
+        url: http://longhorn-frontend.longhorn-system
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
