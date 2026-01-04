@@ -28,6 +28,24 @@ data:
             namespace: immich
             podSelector: app=immich-server
             icon: immich.png
+        - Bambustudio:
+            href: https://bambustudio.storsteinbo.no
+            description: Bambustudio
+            namespace: bambustudio
+            podSelector: app=bambustudio
+            icon: bambustudio.png
+        - Longhorn:
+            href: https://longhorn.storsteinbo.no
+            description: Longhorn
+            namespace: longhorn-system
+            podSelector: app=longhorn-manager
+            icon: longhorn.png
+        - Filebrowser:
+            href: https://filebrowser.storsteinbo.no
+            description: Filebrowser
+            namespace: filebrowser
+            podSelector: app=filebrowser
+            icon: filebrowser.png
   widgets.yaml: |
     - kubernetes:
         cluster:
