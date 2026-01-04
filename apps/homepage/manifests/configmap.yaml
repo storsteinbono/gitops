@@ -59,7 +59,7 @@ data:
             icon: argocd.png
             widget: 
               type: argocd
-              url: http://argocd.argocd
+              url: http://argocd-server.argocd
               username: {{HOMEPAGE_VAR_ARGOCD_USERNAME}}
               key: {{HOMEPAGE_VAR_ARGOCD_KEY}}
   widgets.yaml: |
