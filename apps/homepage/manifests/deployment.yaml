@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: filebrowser-secret
                   key: password
+            - name: HOMEPAGE_VAR_ARGOCD_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-key
+                  key: key
           ports:
             - name: http
               containerPort: 3000

@@ -5,7 +5,7 @@ metadata:
   name: argocd-config
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"  # Deploy before everything else
+    argocd.argoproj.io/sync-wave: "-10"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

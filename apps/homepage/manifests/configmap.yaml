@@ -51,6 +51,16 @@ data:
               url: http://filebrowser.filebrowser
               username: {{HOMEPAGE_VAR_FILEBROWSER_USERNAME}}
               password: {{HOMEPAGE_VAR_FILEBROWSER_PASSWORD}}
+        - argocd:
+            href: https://argocd.torsteinbo.net
+            description: ArgoCD
+            namespace: argocd
+            podSelector: app=argocd-server
+            icon: argocd.png
+            widget: 
+              type: argocd
+              url: http://argocd.argocd
+              key: {{HOMEPAGE_VAR_ARGOCD_KEY}}
   widgets.yaml: |
     - kubernetes:
         cluster:
