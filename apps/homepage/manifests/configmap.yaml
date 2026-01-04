@@ -40,8 +40,9 @@ data:
             namespace: longhorn-system
             podSelector: app=longhorn-manager
             icon: longhorn.png
-            widget: 
+            widget:
               type: longhorn
+              url: http://longhorn-frontend.longhorn-system
               expanded: true
               total: true
               labels: true
