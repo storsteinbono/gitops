@@ -12,7 +12,7 @@ data:
   settings.yaml: |
     providers:
       longhorn:
-        url: https://longhorn.storsteinbo.no
+        url: http://longhorn.torsteinbo.net
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
@@ -66,6 +66,11 @@ data:
         memory: true
         network: default
     - search:
-        provider: duckduckgo
+        provider: google
         target: _blank
+    -longhorn:
+      exclude: true
+      total: true
+      label: true
+      nodes: true
   docker.yaml: ""
