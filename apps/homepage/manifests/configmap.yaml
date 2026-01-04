@@ -60,6 +60,7 @@ data:
             widget: 
               type: argocd
               url: http://argocd.argocd
+              username: {{HOMEPAGE_VAR_ARGOCD_USERNAME}}
               key: {{HOMEPAGE_VAR_ARGOCD_KEY}}
   widgets.yaml: |
     - kubernetes:
