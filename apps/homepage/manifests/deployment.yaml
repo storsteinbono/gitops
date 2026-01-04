@@ -44,12 +44,12 @@ spec:
             - name: HOMEPAGE_VAR_ARGOCD_KEY
               valueFrom:
                 secretKeyRef:
-                  name: argocd-secret
+                  name: argocd-key
                   key: key
             - name: HOMEPAGE_VAR_ARGOCD_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: argocd-secret
+                  name: argocd-key
                   key: username
           ports:
             - name: http
