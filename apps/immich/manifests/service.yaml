@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/description: "Photo management"
     gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "immich.png"
+    gethomepage.dev/href: "https://immich.storsteinbo.no"
 spec:
   type: NodePort
   selector:
