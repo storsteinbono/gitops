@@ -8,6 +8,7 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
+    showNamespaces: true
   settings.yaml: ""
   #settings.yaml: |
   #  providers:
