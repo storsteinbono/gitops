@@ -3,10 +3,7 @@ kind: Ingress
 metadata:
   name: karakeep
   namespace: karakeep
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
-  ingressClassName: traefik
   rules:
     - host: karakeep.torsteinbo.net
       http:
@@ -15,9 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: karakeep
+                name: karakeep-chart
                 port:
                   number: 3000
-  tls:
-    - hosts:
-        - karakeep.torsteinbo.net
