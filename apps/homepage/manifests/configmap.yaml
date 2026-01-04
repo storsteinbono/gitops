@@ -9,11 +9,10 @@ data:
   kubernetes.yaml: |
     mode: cluster
     showNamespaces: true
-  settings.yaml: ""
-  #settings.yaml: |
-  #  providers:
-  #    longhorn:
-  #      url: https://longhorn.my.network
+  settings.yaml: |
+    providers:
+      longhorn:
+        url: https://longhorn.storsteinbo.no
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
