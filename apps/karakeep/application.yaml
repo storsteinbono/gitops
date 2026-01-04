@@ -8,12 +8,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    chart: karakeep
-    repoURL: https://rtomik.github.io/helm-charts
-    targetRevision: 0.0.1
-    helm:
-      releaseName: karakeep-chart
+  sources:
+    - chart: karakeep
+      repoURL: https://rtomik.github.io/helm-charts
+      targetRevision: 0.0.1
+      helm:
+        releaseName: karakeep-chart
       valuesObject:
         nameOverride: ""
         fullnameOverride: ""
@@ -133,6 +133,9 @@ spec:
             size: 2Gi
         secrets:
           create: false
+    - repoURL: git@github.com:storsteinbono/gitops.git
+      targetRevision: HEAD
+      path: apps/karakeep/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: karakeep
