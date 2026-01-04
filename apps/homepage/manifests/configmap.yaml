@@ -20,14 +20,6 @@ data:
         - Github:
             - abbr: GH
               href: https://github.com/
-  services.yaml: |
-    - Media:
-        - Immich:
-            href: https://immich.storsteinbo.no
-            description: Photo management
-            namespace: immich
-            app: immich-server
-            icon: immich.png
   widgets.yaml: |
     - kubernetes:
         cluster:
