@@ -56,6 +56,8 @@ data:
             widget: 
               type: filebrowser
               url: http://filebrowser.filebrowser
+              username: filebrowser
+              password: filebrowser
   widgets.yaml: |
     - kubernetes:
         cluster:

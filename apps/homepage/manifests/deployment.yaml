@@ -69,9 +69,22 @@ spec:
               subPath: widgets.yaml
             - mountPath: /app/config/logs
               name: logs
+            - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secrets
+                  key: FILEBROWSER_USERNAME
+            - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secrets
+                  key: FILEBROWSER_PASSWORD
       volumes:
         - name: homepage-config
           configMap:
             name: homepage
         - name: logs
           emptyDir: {}
+        - name: homepage-secrets
+          secret:
+            secretName: homepage-secrets
