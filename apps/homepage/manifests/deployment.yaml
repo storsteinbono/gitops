@@ -31,6 +31,16 @@ spec:
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.torsteinbo.net
+            - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: filebrowser-secret
+                  key: username
+            - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: filebrowser-secret
+                  key: password
           ports:
             - name: http
               containerPort: 3000
@@ -69,16 +79,7 @@ spec:
               subPath: widgets.yaml
             - mountPath: /app/config/logs
               name: logs
-            - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: filebrowser-secret
-                  key: username
-            - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: filebrowser-secret
-                  key: password
+
       volumes:
         - name: homepage-config
           configMap:
