@@ -15,3 +15,17 @@ spec:
   nfs:
     server: 172.16.16.91
     path: /volume/f72a1a74-f3ab-46af-8bd9-d97aaa05e733/.srv/.unifi-drive/kubernetes/.data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-bambustudio-pvc
+  namespace: bambustudio
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-static
+  volumeName: nfs-bambustudio-pv
+  resources:
+    requests:
+      storage: 5Gi

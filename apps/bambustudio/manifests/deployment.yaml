@@ -99,4 +99,4 @@ spec:
             sizeLimit: 1Gi
         - name: bambustudio-nfs
           persistentVolumeClaim:
-            claimName: nfs-bambustudio-pv
+            claimName: nfs-bambustudio-pvc
