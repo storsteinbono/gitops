@@ -36,9 +36,40 @@ spec:
             enabled: false
           hostRoot: /sys/fs/cgroup
 
-        # eBPF optimization
+        # ==============================================================================
+        # PERFORMANCE OPTIMIZATIONS
+        # ==============================================================================
+        # Optimized for Talos Linux bare metal with kernel 6.12.57+
+
+        # Native routing: Eliminates VXLAN encapsulation overhead
+        routingMode: native
+        autoDirectNodeRoutes: true
+        ipv4NativeRoutingCIDR: 10.244.0.0/16
+
+        # Advanced eBPF features
         bpf:
           masquerade: true
+          datapathMode: netkit  # Modern datapath for kernel 6.12+
+          distributedLRU:
+            enabled: true
+          mapDynamicSizeRatio: 0.08
+
+        # eBPF clock probe for better performance
+        bpfClockProbe: true
+
+        # Bandwidth Manager with TCP BBR congestion control
+        bandwidthManager:
+          enabled: true
+          bbr: true
+
+        # IPv4 BIG TCP for higher throughput
+        ipv4:
+          enabled: true
+        enableIPv4BIGTCP: true
+
+        # IPv6 disabled
+        ipv6:
+          enabled: false
 
         # IPAM configuration
         ipam:
