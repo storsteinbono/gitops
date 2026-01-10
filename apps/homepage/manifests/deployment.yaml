@@ -34,22 +34,22 @@ spec:
             - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: filebrowser-secret
-                  key: username
+                  name: filebrowser-keyvault
+                  key: USERNAME
             - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: filebrowser-secret
-                  key: password
+                  name: filebrowser-keyvault
+                  key: PASSWORD
             - name: HOMEPAGE_VAR_ARGOCD_KEY
               valueFrom:
                 secretKeyRef:
-                  name: argocd-key
+                  name: argocd-keyvault
                   key: key
             - name: HOMEPAGE_VAR_ARGOCD_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: argocd-key
+                  name: argocd-keyvault
                   key: username
           ports:
             - name: http
@@ -96,6 +96,3 @@ spec:
             name: homepage
         - name: logs
           emptyDir: {}
-        - name: filebrowser-secret
-          secret:
-            secretName: filebrowser-secret

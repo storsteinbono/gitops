@@ -44,16 +44,16 @@ spec:
             - name: NEXTAUTH_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: karakeep-secrets
-                  key: nextauth-secret
+                  name: karakeep-keyvault
+                  key: NEXTAUTH_SECRET
             - name: NEXTAUTH_URL
               value: "https://karakeep.torsteinbo.net"
           extraEnv:
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: karakeep-secrets
-                  key: openai-api-key
+                  name: karakeep-keyvault
+                  key: OPENAI_API_KEY
           service:
             port: 3000
           resources:
