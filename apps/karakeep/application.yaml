@@ -14,125 +14,125 @@ spec:
       targetRevision: 0.0.1
       helm:
         releaseName: karakeep-chart
-      valuesObject:
-        nameOverride: ""
-        fullnameOverride: ""
-        replicaCount: 1
-        revisionHistoryLimit: 3
-        podSecurityContext:
-          runAsNonRoot: false
-          runAsUser: 0
-          fsGroup: 0
-        containerSecurityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          capabilities:
-            drop:
-              - ALL
-        karakeep:
-          image:
-            repository: ghcr.io/karakeep-app/karakeep
-            tag: "latest"
-            pullPolicy: IfNotPresent
-          env:
-            - name: DATA_DIR
-              value: "/data"
-            - name: MEILI_ADDR
-              value: "http://localhost:7700"
-            - name: BROWSER_WEB_URL
-              value: "http://localhost:9222"
-            - name: NEXTAUTH_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: karakeep-keyvault
-                  key: NEXTAUTH_SECRET
-            - name: NEXTAUTH_URL
-              value: "https://karakeep.torsteinbo.net"
-          extraEnv:
-            - name: OPENAI_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: karakeep-keyvault
-                  key: OPENAI_API_KEY
-          service:
-            port: 3000
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 256Mi
-        chrome:
-          image:
-            repository: gcr.io/zenika-hub/alpine-chrome
-            tag: "124"
-            pullPolicy: IfNotPresent
-          args:
-            - --no-sandbox
-            - --disable-gpu
-            - --disable-dev-shm-usage
-            - --remote-debugging-address=0.0.0.0
-            - --remote-debugging-port=9222
-            - --hide-scrollbars
-          service:
-            port: 9222
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-        meilisearch:
-          image:
-            repository: getmeili/meilisearch
-            tag: "v1.13.3"
-            pullPolicy: IfNotPresent
-          env:
-            - name: MEILI_NO_ANALYTICS
-              value: "true"
-            - name: MEILI_MAX_INDEXING_MEMORY
-              value: "512MiB"
-            - name: MEILI_MAX_INDEXING_THREADS
-              value: "2"
-          service:
-            port: 7700
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 256Mi
-        service:
-          type: ClusterIP
-          port: 3000
-        ingress:
-          enabled: true
-          className: "traefik"
-          annotations:
-            traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          hosts:
-            - host: karakeep.torsteinbo.net
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - karakeep.torsteinbo.net
-        persistence:
-          enabled: true
-          data:
-            storageClass: "longhorn"
-            accessMode: ReadWriteOnce
-            size: 5Gi
+        valuesObject:
+          nameOverride: ""
+          fullnameOverride: ""
+          replicaCount: 1
+          revisionHistoryLimit: 3
+          podSecurityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+            fsGroup: 0
+          containerSecurityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          karakeep:
+            image:
+              repository: ghcr.io/karakeep-app/karakeep
+              tag: "latest"
+              pullPolicy: IfNotPresent
+            env:
+              - name: DATA_DIR
+                value: "/data"
+              - name: MEILI_ADDR
+                value: "http://localhost:7700"
+              - name: BROWSER_WEB_URL
+                value: "http://localhost:9222"
+              - name: NEXTAUTH_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: karakeep-keyvault
+                    key: NEXTAUTH_SECRET
+              - name: NEXTAUTH_URL
+                value: "https://karakeep.torsteinbo.net"
+            extraEnv:
+              - name: OPENAI_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: karakeep-keyvault
+                    key: OPENAI_API_KEY
+            service:
+              port: 3000
+            resources:
+              limits:
+                cpu: 500m
+                memory: 1Gi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+          chrome:
+            image:
+              repository: gcr.io/zenika-hub/alpine-chrome
+              tag: "124"
+              pullPolicy: IfNotPresent
+            args:
+              - --no-sandbox
+              - --disable-gpu
+              - --disable-dev-shm-usage
+              - --remote-debugging-address=0.0.0.0
+              - --remote-debugging-port=9222
+              - --hide-scrollbars
+            service:
+              port: 9222
+            resources:
+              limits:
+                cpu: 500m
+                memory: 512Mi
+              requests:
+                cpu: 100m
+                memory: 128Mi
           meilisearch:
-            storageClass: "longhorn"
-            accessMode: ReadWriteOnce
-            size: 2Gi
-        secrets:
-          create: false
+            image:
+              repository: getmeili/meilisearch
+              tag: "v1.13.3"
+              pullPolicy: IfNotPresent
+            env:
+              - name: MEILI_NO_ANALYTICS
+                value: "true"
+              - name: MEILI_MAX_INDEXING_MEMORY
+                value: "512MiB"
+              - name: MEILI_MAX_INDEXING_THREADS
+                value: "2"
+            service:
+              port: 7700
+            resources:
+              limits:
+                cpu: 500m
+                memory: 1Gi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+          service:
+            type: ClusterIP
+            port: 3000
+          ingress:
+            enabled: true
+            className: "traefik"
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            hosts:
+              - host: karakeep.torsteinbo.net
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - hosts:
+                  - karakeep.torsteinbo.net
+          persistence:
+            enabled: true
+            data:
+              storageClass: "longhorn"
+              accessMode: ReadWriteOnce
+              size: 5Gi
+            meilisearch:
+              storageClass: "longhorn"
+              accessMode: ReadWriteOnce
+              size: 2Gi
+          secrets:
+            create: false
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: apps/karakeep/manifests
