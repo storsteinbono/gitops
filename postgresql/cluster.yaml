@@ -17,6 +17,13 @@ spec:
         ensure: present
         login: true
         superuser: true
-        passwordSecret:
+        passwordSecretRef:
           name: immich-user
-
+---
+      - name: mediamanager
+        ensure: present
+        login: true
+        superuser: true
+        passwordSecretRef:
+          name: mediamanager-credentials      
+        
