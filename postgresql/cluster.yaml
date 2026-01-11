@@ -19,12 +19,12 @@ spec:
         superuser: true
         passwordSecretRef:
           name: immich-user
----
+          key: PASSWORD
       - name: mediamanager
         ensure: present
         login: true
         superuser: true
         passwordSecretRef:
           name: mediamanager-credentials
-          key: password
+          key: PASSWORD
         
