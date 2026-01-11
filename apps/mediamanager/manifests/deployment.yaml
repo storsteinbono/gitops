@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediamanager
+  namespace: mediamanager
+  labels:
+    app: mediamanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediamanager
+  template:
+    metadata:
+      labels:
+        app: mediamanager
+    spec:
+      containers:
+        - name: mediamanager
+          image: ghcr.io/maxdorninger/mediamanager/mediamanager:latest
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: CONFIG_DIR
+              value: "/app/config"
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_hostname
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: password
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          volumeMounts:
+            - name: media-data
+              mountPath: /media
+            - name: config
+              mountPath: /app/config
+            - name: mediamanager-data
+              mountPath: /app/data
+      volumes:
+        - name: media-data
+          persistentVolumeClaim:
+            claimName: mediamanager-media-nfs
+        - name: config
+          configMap:
+            name: mediamanager-config
+        - name: mediamanager-data
+          persistentVolumeClaim:
+            claimName: mediamanager-data

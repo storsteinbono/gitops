@@ -1,0 +1,28 @@
+---
+# PVC for NFS media files
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mediamanager-media-nfs
+  namespace: mediamanager
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-static
+  resources:
+    requests:
+      storage: 1Ti
+---
+# PVC for application data (database files, images, etc.)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mediamanager-data
+  namespace: mediamanager
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
