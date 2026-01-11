@@ -110,9 +110,9 @@ spec:
                 paths:
                   - path: /
                     pathType: Prefix
-            tls:
-              - hosts:
-                  - karakeep.torsteinbo.net
+#            tls:
+#              - hosts:
+#                  - karakeep.torsteinbo.net
           persistence:
             enabled: true
             data:
