@@ -85,6 +85,9 @@ spec:
                 value: "512MiB"
               - name: MEILI_MAX_INDEXING_THREADS
                 value: "2"
+            envFrom:
+              - secretRef:
+                  name: karakeep-keyvault
             service:
               port: 7700
             resources:
