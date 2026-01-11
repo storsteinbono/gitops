@@ -41,19 +41,8 @@ spec:
                 value: "http://localhost:7700"
               - name: BROWSER_WEB_URL
                 value: "http://localhost:9222"
-              - name: NEXTAUTH_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: karakeep-keyvault
-                    key: NEXTAUTH_SECRET
               - name: NEXTAUTH_URL
                 value: "https://karakeep.torsteinbo.net"
-            extraEnv:
-              - name: OPENAI_API_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: karakeep-keyvault
-                    key: OPENAI_API_KEY
             service:
               port: 3000
             resources:
@@ -133,6 +122,7 @@ spec:
               size: 2Gi
           secrets:
             create: false
+            existingSecret: karakeep-keyvault
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: apps/karakeep/manifests
