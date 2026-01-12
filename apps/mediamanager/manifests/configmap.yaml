@@ -13,10 +13,10 @@ data:
     frontend_url = "https://mediamanager.torsteinbo.net"
     cors_urls = ["https://mediamanager.torsteinbo.net"]
 
-    image_directory = "/app/data/images"
+    image_directory = "/media/images"
     tv_directory = "/media/tv"
-    movie_directory = "/media/movie"
-    torrent_directory = "/app/data/torrents"
+    movie_directory = "/media/movies"
+    torrent_directory = "/media/torrents"
 
     development = false
 
@@ -27,7 +27,7 @@ data:
 
     [[misc.movie_libraries]]
     name = "Movies"
-    path = "/media/movie"
+    path = "/media/movies"
 
     [database]
     # Database connection is configured via environment variables

@@ -148,7 +148,6 @@ spec:
           volumeMounts:
             - name: nfs-storage
               mountPath: /media
-              subPath: media
             - name: nfs-storage
               mountPath: /app/data
               subPath: appdata
