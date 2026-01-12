@@ -101,18 +101,7 @@ spec:
             type: ClusterIP
             port: 3000
           ingress:
-            enabled: true
-            className: "traefik"
-            annotations:
-              traefik.ingress.kubernetes.io/router.entrypoints: websecure
-            hosts:
-              - host: karakeep.torsteinbo.net
-                paths:
-                  - path: /
-                    pathType: Prefix
-            tls:
-              - hosts:
-                  - karakeep.torsteinbo.net
+            enabled: false
           persistence:
             enabled: true
             data:
