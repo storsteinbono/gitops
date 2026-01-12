@@ -32,11 +32,7 @@ data:
     [database]
     # Database connection is configured via environment variables
     # DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
-    host = "postgresql-rw.postgres.svc"
-    port = 5432
-    user = "mediamanager"
-    password = "changeme"  # This will be overridden by env var
-    dbname = "mediamanager"
+    # Leave password empty - it will be read from DB_PASSWORD env var
 
     [auth]
     email_password_resets = false

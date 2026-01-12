@@ -16,15 +16,21 @@ spec:
       labels:
         app: mediamanager
     spec:
-      containers:
-        - name: mediamanager
-          image: ghcr.io/maxdorninger/mediamanager/mediamanager:latest
-          ports:
-            - containerPort: 8000
-              name: http
+      initContainers:
+        - name: inject-db-password
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              # Copy config to writable location
+              cp /app/config-template/config.toml /app/config-writable/config.toml
+
+              # Inject database password using sed
+              sed -i "s|^\[database\]|\[database\]\nhost = \"$DB_HOST\"\nport = $DB_PORT\nuser = \"$DB_USER\"\npassword = \"$DB_PASSWORD\"\ndbname = \"$DB_NAME\"|" /app/config-writable/config.toml
+
+              echo "Config file prepared with database credentials"
           env:
-            - name: CONFIG_DIR
-              value: "/app/config"
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
@@ -50,6 +56,20 @@ spec:
                 secretKeyRef:
                   name: mediamanager-credentials
                   key: password
+          volumeMounts:
+            - name: config-template
+              mountPath: /app/config-template
+            - name: config-writable
+              mountPath: /app/config-writable
+      containers:
+        - name: mediamanager
+          image: ghcr.io/maxdorninger/mediamanager/mediamanager:latest
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: CONFIG_DIR
+              value: "/app/config"
           resources:
             requests:
               cpu: 100m
@@ -60,7 +80,7 @@ spec:
           volumeMounts:
             - name: media-data
               mountPath: /media
-            - name: config
+            - name: config-writable
               mountPath: /app/config
             - name: mediamanager-data
               mountPath: /app/data
@@ -68,9 +88,11 @@ spec:
         - name: media-data
           persistentVolumeClaim:
             claimName: mediamanager-media-nfs
-        - name: config
+        - name: config-template
           configMap:
             name: mediamanager-config
+        - name: config-writable
+          emptyDir: {}
         - name: mediamanager-data
           persistentVolumeClaim:
             claimName: mediamanager-data
