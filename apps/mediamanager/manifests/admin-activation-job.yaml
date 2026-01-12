@@ -24,14 +24,14 @@ spec:
 
               echo "Checking for admin users to activate..."
 
-              # Update users matching admin email to be active and admin
+              # Update user matching admin email to be active and admin
               psql "postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" <<EOF
-              UPDATE users
+              UPDATE "user"
               SET is_active = true, is_admin = true
               WHERE email = '$ADMIN_EMAIL' AND (is_active = false OR is_admin = false);
 
               SELECT 'Activated user: ' || email || ' (Active: ' || is_active || ', Admin: ' || is_admin || ')'
-              FROM users
+              FROM "user"
               WHERE email = '$ADMIN_EMAIL';
               EOF
 
