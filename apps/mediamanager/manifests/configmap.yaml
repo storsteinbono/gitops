@@ -53,7 +53,7 @@ data:
     name = "Azure AD"
 
     [notifications]
-    # SMTP settings for email notifications (optional)
+    # SMTP settings for email notifications
     [notifications.smtp_config]
     smtp_host = "smtp.example.com"
     smtp_port = 587
@@ -62,9 +62,9 @@ data:
     from_email = "mediamanager@example.com"
     use_tls = true
 
-    # Email notifications (optional)
+    # Email notifications
     [notifications.email_notifications]
-    enabled = false
+    enabled = true
     emails = []
 
     # Gotify notifications (optional)

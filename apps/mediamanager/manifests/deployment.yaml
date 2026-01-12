@@ -21,7 +21,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
       initContainers:
-        - name: inject-db-password
+        - name: inject-config
           image: busybox:latest
           securityContext:
             runAsUser: 0
@@ -42,7 +42,14 @@ spec:
               # Inject admin email
               sed -i "s|admin_emails = \[\"admin@example.com\"\]|admin_emails = [\"$ADMIN_EMAIL\"]|" /app/config-writable/config.toml
 
-              echo "Config file prepared with database, OIDC credentials, and admin email"
+              # Inject SMTP configuration
+              sed -i "s|smtp_host = \"smtp.example.com\"|smtp_host = \"$SMTP_HOST\"|" /app/config-writable/config.toml
+              sed -i "s|smtp_port = 587|smtp_port = $SMTP_PORT|" /app/config-writable/config.toml
+              sed -i "s|smtp_user = \"\"|smtp_user = \"$SMTP_USER\"|" /app/config-writable/config.toml
+              sed -i "s|smtp_password = \"\"|smtp_password = \"$SMTP_PASSWORD\"|" /app/config-writable/config.toml
+              sed -i "s|from_email = \"mediamanager@example.com\"|from_email = \"$SMTP_FROM_EMAIL\"|" /app/config-writable/config.toml
+
+              echo "Config file prepared with database, OIDC, admin email, and SMTP credentials"
 
               # Create required directories with proper permissions
               mkdir -p /app/data/torrents /app/data/images
@@ -85,6 +92,31 @@ spec:
                 secretKeyRef:
                   name: mediamanager-credentials
                   key: admin_email
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: smtp_host
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: smtp_port
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: smtp_user
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: smtp_password
+            - name: SMTP_FROM_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: smtp_from_email
           volumeMounts:
             - name: config-template
               mountPath: /app/config-template
