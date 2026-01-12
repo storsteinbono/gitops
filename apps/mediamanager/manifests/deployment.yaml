@@ -39,7 +39,10 @@ spec:
               # Inject OIDC client secret
               sed -i "s|client_secret = \"\"  # Will be injected by initContainer|client_secret = \"$OIDC_CLIENT_SECRET\"|" /app/config-writable/config.toml
 
-              echo "Config file prepared with database and OIDC credentials"
+              # Inject admin email
+              sed -i "s|admin_emails = \[\"admin@example.com\"\]|admin_emails = [\"$ADMIN_EMAIL\"]|" /app/config-writable/config.toml
+
+              echo "Config file prepared with database, OIDC credentials, and admin email"
 
               # Create required directories with proper permissions
               mkdir -p /app/data/torrents /app/data/images
@@ -77,6 +80,11 @@ spec:
                 secretKeyRef:
                   name: mediamanager-credentials
                   key: oidc_client_secret
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: admin_email
           volumeMounts:
             - name: config-template
               mountPath: /app/config-template
