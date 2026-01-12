@@ -97,9 +97,11 @@ spec:
               requests:
                 cpu: 100m
                 memory: 256Mi
-          service:
-            type: ClusterIP
-            port: 3000
+          backend:
+            service:
+              name: karakeep
+              port:
+                number: 3000
           ingress:
             enabled: true
             className: "traefik"
@@ -110,12 +112,9 @@ spec:
                 paths:
                   - path: /
                     pathType: Prefix
-                    service:
-                      name: karakeep
-                      port: 3000
-#            tls:
-#              - hosts:
-#                  - karakeep.torsteinbo.net
+            tls:
+              - hosts:
+                  - karakeep.torsteinbo.net
           persistence:
             enabled: true
             data:
