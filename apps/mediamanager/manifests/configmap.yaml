@@ -15,7 +15,7 @@ data:
 
     image_directory = "/app/data/images"
     tv_directory = "/media/tv"
-    movie_directory = "/media/movies"
+    movie_directory = "/media/movie"
     torrent_directory = "/app/data/torrents"
 
     development = false
@@ -27,7 +27,7 @@ data:
 
     [[misc.movie_libraries]]
     name = "Movies"
-    path = "/media/movies"
+    path = "/media/movie"
 
     [database]
     # Database connection is configured via environment variables
