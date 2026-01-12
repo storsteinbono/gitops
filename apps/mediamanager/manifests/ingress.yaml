@@ -4,6 +4,8 @@ kind: Ingress
 metadata:
   name: mediamanager
   namespace: mediamanager
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: mediamanager-https-headers@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
