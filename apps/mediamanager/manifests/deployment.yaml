@@ -16,9 +16,16 @@ spec:
       labels:
         app: mediamanager
     spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
       initContainers:
         - name: inject-db-password
           image: busybox:latest
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           command:
             - sh
             - -c
@@ -33,8 +40,9 @@ spec:
 
               # Create required directories with proper permissions
               mkdir -p /app/data/torrents /app/data/images
-              chmod -R 777 /app/data
-              echo "Data directories created"
+              chown -R 1000:1000 /app/data
+              chmod -R 755 /app/data
+              echo "Data directories created with proper ownership"
           env:
             - name: DB_HOST
               valueFrom:
@@ -66,8 +74,9 @@ spec:
               mountPath: /app/config-template
             - name: config-writable
               mountPath: /app/config-writable
-            - name: mediamanager-data
+            - name: nfs-storage
               mountPath: /app/data
+              subPath: appdata
       containers:
         - name: mediamanager
           image: ghcr.io/maxdorninger/mediamanager/mediamanager:latest
@@ -85,14 +94,16 @@ spec:
               cpu: 1000m
               memory: 1Gi
           volumeMounts:
-            - name: media-data
+            - name: nfs-storage
               mountPath: /media
+              subPath: media
+            - name: nfs-storage
+              mountPath: /app/data
+              subPath: appdata
             - name: config-writable
               mountPath: /app/config
-            - name: mediamanager-data
-              mountPath: /app/data
       volumes:
-        - name: media-data
+        - name: nfs-storage
           persistentVolumeClaim:
             claimName: mediamanager-media-nfs
         - name: config-template
@@ -100,6 +111,3 @@ spec:
             name: mediamanager-config
         - name: config-writable
           emptyDir: {}
-        - name: mediamanager-data
-          persistentVolumeClaim:
-            claimName: mediamanager-data
