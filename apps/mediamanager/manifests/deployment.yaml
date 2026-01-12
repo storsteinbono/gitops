@@ -30,6 +30,11 @@ spec:
               sed -i "s|^\[database\]|\[database\]\nhost = \"$DB_HOST\"\nport = $DB_PORT\nuser = \"$DB_USER\"\npassword = \"$DB_PASSWORD\"\ndbname = \"$DB_NAME\"|" /app/config-writable/config.toml
 
               echo "Config file prepared with database credentials"
+
+              # Create required directories with proper permissions
+              mkdir -p /app/data/torrents /app/data/images
+              chmod -R 777 /app/data
+              echo "Data directories created"
           env:
             - name: DB_HOST
               valueFrom:
@@ -61,6 +66,8 @@ spec:
               mountPath: /app/config-template
             - name: config-writable
               mountPath: /app/config-writable
+            - name: mediamanager-data
+              mountPath: /app/data
       containers:
         - name: mediamanager
           image: ghcr.io/maxdorninger/mediamanager/mediamanager:latest
