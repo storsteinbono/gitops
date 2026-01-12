@@ -94,6 +94,10 @@ spec:
           env:
             - name: CONFIG_DIR
               value: "/app/config"
+            - name: BASE_URL
+              value: "https://mediamanager.torsteinbo.net"
+            - name: FORWARDED_ALLOW_IPS
+              value: "*"
           resources:
             requests:
               cpu: 100m
