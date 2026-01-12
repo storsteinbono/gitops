@@ -1,0 +1,69 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mediamanager-admin-activation
+  namespace: mediamanager
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: activate-admin
+          image: postgres:16
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for database to be ready..."
+              sleep 10
+
+              echo "Checking for admin users to activate..."
+
+              # Update users matching admin email to be active and admin
+              psql "postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" <<EOF
+              UPDATE users
+              SET is_active = true, is_admin = true
+              WHERE email = '$ADMIN_EMAIL' AND (is_active = false OR is_admin = false);
+
+              SELECT 'Activated user: ' || email || ' (Active: ' || is_active || ', Admin: ' || is_admin || ')'
+              FROM users
+              WHERE email = '$ADMIN_EMAIL';
+              EOF
+
+              echo "Admin activation check complete"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_hostname
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: password
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: admin_email
