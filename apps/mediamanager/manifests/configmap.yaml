@@ -126,7 +126,4 @@ data:
     api_key = ""
 
     [metadata]
-    # Metadata relay URLs (optional)
-    tmdb_relay_url = ""
-    tvdb_relay_url = ""
-    language = "en"
+    # Metadata configuration
