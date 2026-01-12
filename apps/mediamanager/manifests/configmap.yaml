@@ -44,13 +44,13 @@ data:
     # Admin users: Update with your email addresses
     admin_emails = ["admin@example.com"]
 
-    # OpenID Connect settings (optional)
+    # OpenID Connect settings - Azure AD
     [auth.openid_connect]
-    enabled = false
-    client_id = ""
-    client_secret = ""
-    configuration_endpoint = ""
-    name = "OpenID"
+    enabled = true
+    client_id = "170e7952-4431-4a79-b977-0e606dad126b"
+    client_secret = ""  # Will be injected by initContainer
+    configuration_endpoint = "https://login.microsoftonline.com/80bd2496-6210-4cee-8517-d3036473cffe/v2.0/.well-known/openid-configuration"
+    name = "Azure AD"
 
     [notifications]
     # SMTP settings for email notifications (optional)

@@ -33,10 +33,13 @@ spec:
               # Copy config to writable location
               cp /app/config-template/config.toml /app/config-writable/config.toml
 
-              # Inject database password using sed
+              # Inject database credentials using sed
               sed -i "s|^\[database\]|\[database\]\nhost = \"$DB_HOST\"\nport = $DB_PORT\nuser = \"$DB_USER\"\npassword = \"$DB_PASSWORD\"\ndbname = \"$DB_NAME\"|" /app/config-writable/config.toml
 
-              echo "Config file prepared with database credentials"
+              # Inject OIDC client secret
+              sed -i "s|client_secret = \"\"  # Will be injected by initContainer|client_secret = \"$OIDC_CLIENT_SECRET\"|" /app/config-writable/config.toml
+
+              echo "Config file prepared with database and OIDC credentials"
 
               # Create required directories with proper permissions
               mkdir -p /app/data/torrents /app/data/images
@@ -69,6 +72,11 @@ spec:
                 secretKeyRef:
                   name: mediamanager-credentials
                   key: password
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: oidc_client_secret
           volumeMounts:
             - name: config-template
               mountPath: /app/config-template
