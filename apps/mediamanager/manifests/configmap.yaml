@@ -50,7 +50,6 @@ data:
     client_id = "170e7952-4431-4a79-b977-0e606dad126b"
     client_secret = ""  # Will be injected by initContainer
     configuration_endpoint = "https://login.microsoftonline.com/80bd2496-6210-4cee-8517-d3036473cffe/v2.0/.well-known/openid-configuration"
-    redirect_uri = "https://mediamanager.torsteinbo.net/api/v1/auth/oauth/callback"
     name = "Azure AD"
 
     [notifications]
