@@ -97,11 +97,9 @@ spec:
               requests:
                 cpu: 100m
                 memory: 256Mi
-          backend:
-            service:
-              name: karakeep
-              port:
-                number: 3000
+          service:
+            type: ClusterIP
+            port: 3000
           ingress:
             enabled: true
             className: "traefik"

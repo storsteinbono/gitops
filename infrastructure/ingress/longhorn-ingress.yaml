@@ -7,8 +7,8 @@ metadata:
     # Optional: Add basic auth for additional security
     # traefik.ingress.kubernetes.io/router.middlewares: longhorn-system-auth@kubernetescrd
 spec:
+  ingressClassName: traefik
   rules:
-  - ingressClassName: traefik
   - host: longhorn.torsteinbo.net
     http:
       paths:
