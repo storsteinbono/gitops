@@ -49,7 +49,15 @@ spec:
               sed -i "s|smtp_password = \"\"|smtp_password = \"$SMTP_PASSWORD\"|" /app/config-writable/config.toml
               sed -i "s|from_email = \"mediamanager@example.com\"|from_email = \"$SMTP_FROM_EMAIL\"|" /app/config-writable/config.toml
 
-              echo "Config file prepared with database, OIDC, admin email, and SMTP credentials"
+              # Inject Prowlarr configuration
+              sed -i "s|url = \"http://localhost:9696\"|url = \"$PROWLARR_URL\"|" /app/config-writable/config.toml
+              sed -i "s|\[indexers.prowlarr\]|\[indexers.prowlarr\]|; /\[indexers.prowlarr\]/,/api_key = \"\"/ s|api_key = \"\"|api_key = \"$PROWLARR_API_KEY\"|" /app/config-writable/config.toml
+
+              # Inject SABnzbd configuration
+              sed -i "s|\[torrents.sabnzbd\]|\[torrents.sabnzbd\]|; /\[torrents.sabnzbd\]/,/host = \"http:\/\/localhost\"/ s|host = \"http://localhost\"|host = \"$SABNZBD_URL\"|" /app/config-writable/config.toml
+              sed -i "s|\[torrents.sabnzbd\]|\[torrents.sabnzbd\]|; /\[torrents.sabnzbd\]/,/api_key = \"\"/ s|api_key = \"\"|api_key = \"$SABNZBD_API_KEY\"|" /app/config-writable/config.toml
+
+              echo "Config file prepared with database, OIDC, admin email, SMTP, Prowlarr, and SABnzbd credentials"
 
               # Create required directories with proper permissions
               mkdir -p /app/data/torrents /app/data/images
@@ -117,6 +125,26 @@ spec:
                 secretKeyRef:
                   name: mediamanager-credentials
                   key: smtp_from_email
+            - name: PROWLARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: prowlarr_api_key
+            - name: PROWLARR_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: prowlarr_url
+            - name: SABNZBD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: sabnzbd_api_key
+            - name: SABNZBD_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mediamanager-credentials
+                  key: sabnzbd_url
           volumeMounts:
             - name: config-template
               mountPath: /app/config-template

@@ -103,15 +103,14 @@ data:
 
     # SABnzbd settings (optional)
     [torrents.sabnzbd]
-    enabled = false
+    enabled = true
     host = "http://localhost"
-    port = 8080
     api_key = ""
 
     [indexers]
     # Prowlarr settings (optional)
     [indexers.prowlarr]
-    enabled = false
+    enabled = true
     url = "http://localhost:9696"
     api_key = ""
 
