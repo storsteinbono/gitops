@@ -36,6 +36,7 @@ data:
 
     [auth]
     email_password_resets = false
+    require_approval = false
 
     # IMPORTANT: Generate a random token secret with "openssl rand -hex 32"
     token_secret = "CHANGE_ME_GENERATE_RANDOM_STRING"
