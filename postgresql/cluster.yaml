@@ -24,5 +24,5 @@ spec:
         login: true
         superuser: true
         passwordSecret:
-          name: mediamanager-credentials
+          name: mediamanager-user
         
