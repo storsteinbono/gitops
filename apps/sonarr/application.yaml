@@ -9,11 +9,11 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
-  project: media-stack
+  project: default
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: apps/media-stack/sonarr/manifests
+    path: apps/sonarr/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: media-stack
