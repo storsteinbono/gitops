@@ -25,19 +25,19 @@ spec:
         superuser: true
         passwordSecret:
           name: mediamanager-user
-      - name: pg_prowlarr
+      - name: prowlarr
         ensure: present
         login: true
         superuser: false
         passwordSecret:
           name: prowlarr-user
-      - name: pg_radarr
+      - name: radarr
         ensure: present
         login: true
         superuser: false
         passwordSecret:
           name: radarr-user
-      - name: pg_sonarr
+      - name: sonarr
         ensure: present
         login: true
         superuser: false
