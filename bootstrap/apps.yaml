@@ -14,7 +14,7 @@ spec:
     path: apps
     directory:
       recurse: true
-      exclude: '*/manifests/*'
+      exclude: '{*/manifests/*,media-stack/**}'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
