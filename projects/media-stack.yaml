@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: media-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Media stack applications (Plex, Radarr, Sonarr, etc.)
+
+  sourceRepos:
+    - git@github.com:storsteinbono/gitops.git
+
+  destinations:
+    - namespace: media-stack
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+
+  # Allow cluster-level resources (PersistentVolumes)
+  clusterResourceWhitelist:
+    - group: ''
+      kind: PersistentVolume
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  # Roles for media-stack project
+  roles:
+    - name: media-stack-admin
+      description: Admin privileges for media-stack applications
+      policies:
+        - p, proj:media-stack:media-stack-admin, applications, *, media-stack/*, allow
+      groups:
+        - media-stack-admins
