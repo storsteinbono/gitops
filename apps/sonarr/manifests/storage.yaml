@@ -1,14 +1,2 @@
----
-# Config storage for Sonarr
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarr-config
-  namespace: media-stack
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 5Gi
+# Sonarr uses shared media-stack-media PVC from prowlarr
+# No dedicated storage needed - config is in PostgreSQL

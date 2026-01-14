@@ -12,17 +12,3 @@ spec:
   resources:
     requests:
       storage: 8Ti
----
-# Config storage for Prowlarr
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: prowlarr-config
-  namespace: media-stack
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 5Gi

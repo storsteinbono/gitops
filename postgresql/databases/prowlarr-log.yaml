@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: prowlarr-log
+  namespace: postgres
+spec:
+  name: prowlarr-log
+  owner: pg_prowlarr
+  cluster:
+    name: postgresql

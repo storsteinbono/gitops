@@ -25,6 +25,48 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
+      initContainers:
+        - name: init-config
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              cat <<EOF > /config/config.xml
+              <Config>
+                <LogLevel>info</LogLevel>
+                <UrlBase></UrlBase>
+                <Port>8989</Port>
+                <ApiKey>${API_KEY}</ApiKey>
+                <AuthenticationMethod>External</AuthenticationMethod>
+                <PostgresUser>${DB_USER}</PostgresUser>
+                <PostgresPassword>${DB_PASSWORD}</PostgresPassword>
+                <PostgresHost>postgresql-rw.postgres.svc</PostgresHost>
+                <PostgresPort>5432</PostgresPort>
+                <PostgresMainDb>sonarr-main</PostgresMainDb>
+                <PostgresLogDb>sonarr-log</PostgresLogDb>
+              </Config>
+              EOF
+              echo "Config file created"
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-config
+                  key: db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-config
+                  key: db_password
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-config
+                  key: api_key
+          volumeMounts:
+            - name: config
+              mountPath: /config
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:latest
@@ -72,8 +114,7 @@ spec:
               subPath: downloads
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: sonarr-config
+          emptyDir: {}
         - name: media
           persistentVolumeClaim:
             claimName: media-stack-media

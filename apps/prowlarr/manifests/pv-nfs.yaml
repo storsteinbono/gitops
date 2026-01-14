@@ -1,6 +1,4 @@
 ---
-# Shared NFS PersistentVolume for media-stack
-# This PV is shared by all media-stack applications
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -9,7 +7,7 @@ metadata:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
   capacity:
-    storage: 1Ti
+    storage: 8Ti
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
