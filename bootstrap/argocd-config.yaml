@@ -25,12 +25,10 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
+      - Replace=true
     retry:
       limit: 5
       backoff:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  # Important: Use Replace strategy for ConfigMaps to ensure updates are applied
-  syncOptions:
-    - Replace=true
