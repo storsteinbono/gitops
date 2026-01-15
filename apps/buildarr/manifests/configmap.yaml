@@ -32,7 +32,7 @@ data:
                 type: newznab
                 enable: true
                 sync_profile: Standard
-                redirect: false
+                redirect: true
                 priority: 25
                 fields:
                   baseUrl: https://api.nzbgeek.info
