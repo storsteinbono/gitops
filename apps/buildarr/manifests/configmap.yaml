@@ -43,9 +43,9 @@ data:
           definitions:
             Radarr:
               type: radarr
-              prowlarr_url: http://prowlarr.media-stack.svc:9696
-              base_url: http://radarr.media-stack.svc:7878
-              api_key: ${RADARR_API_KEY}
+              prowlarr_url: "http://prowlarr.media-stack.svc:9696"
+              base_url: "http://radarr.media-stack.svc:7878"
+              api_key: "${RADARR_API_KEY}"
               sync_level: full-sync
               sync_categories:
                 - Movies/Foreign
@@ -58,23 +58,23 @@ data:
                 - Movies/DVD
                 - Movies/WEB-DL
               tags: []
-              Sonarr:
-                type: sonarr
-                prowlarr_url: http://prowlarr.media-stack.svc:9696
-                base_url: http://sonarr.media-stack.svc:8989
-                api_key: ${SONARR_API_KEY}
-                sync_level: full-sync
-                sync_categories:
-                  - TV/WEB-DL
-                  - TV/Foreign
-                  - TV/SD
-                  - TV/HD
-                  - TV/UHD
-                  - TV/Other
-                  - TV/Sport
-                  - TV/Anime
-                  - TV/Documentary
-                tags: []
+            Sonarr:
+              type: sonarr
+              prowlarr_url: "http://prowlarr.media-stack.svc:9696"
+              base_url: "http://sonarr.media-stack.svc:8989"
+              api_key: "${SONARR_API_KEY}"
+              sync_level: full-sync
+              sync_categories:
+                - TV/WEB-DL
+                - TV/Foreign
+                - TV/SD
+                - TV/HD
+                - TV/UHD
+                - TV/Other
+                - TV/Sport
+                - TV/Anime
+                - TV/Documentary
+              tags: []
 
     radarr:
       hostname: radarr.media-stack.svc
