@@ -22,22 +22,38 @@ spec:
             app: buildarr
         spec:
           restartPolicy: OnFailure
+          initContainers:
+            - name: config-init
+              image: bhgedigital/envsubst
+              command: ["/bin/sh", "-c"]
+              args:
+                - envsubst < /config-template/buildarr.yml > /config/buildarr.yml
+              envFrom:
+                - secretRef:
+                    name: buildarr-secrets
+              volumeMounts:
+                - name: config-template
+                  mountPath: /config-template
+                - name: config
+                  mountPath: /config
           containers:
             - name: buildarr
               image: callum027/buildarr:latest
               args:
                 - run
                 - /config/buildarr.yml
-              envFrom:
-                - secretRef:
-                    name: buildarr-secrets
               volumeMounts:
                 - name: config
                   mountPath: /config
           volumes:
-            - name: config
+            - name: config-template
               configMap:
                 name: buildarr-config
+                items:
+                  - key: buildarr.yml
+                    path: buildarr.yml
+            - name: config
+              emptyDir: {}
 ---
 # One-time job to run immediately for initial setup
 apiVersion: batch/v1
@@ -61,19 +77,35 @@ spec:
         app: buildarr
     spec:
       restartPolicy: OnFailure
+      initContainers:
+        - name: config-init
+          image: bhgedigital/envsubst
+          command: ["/bin/sh", "-c"]
+          args:
+            - envsubst < /config-template/buildarr.yml > /config/buildarr.yml
+          envFrom:
+            - secretRef:
+                name: buildarr-secrets
+          volumeMounts:
+            - name: config-template
+              mountPath: /config-template
+            - name: config
+              mountPath: /config
       containers:
         - name: buildarr
           image: callum027/buildarr:latest
           args:
             - run
             - /config/buildarr.yml
-          envFrom:
-            - secretRef:
-                name: buildarr-secrets
           volumeMounts:
             - name: config
               mountPath: /config
       volumes:
-        - name: config
+        - name: config-template
           configMap:
             name: buildarr-config
+            items:
+              - key: buildarr.yml
+                path: buildarr.yml
+        - name: config
+          emptyDir: {}

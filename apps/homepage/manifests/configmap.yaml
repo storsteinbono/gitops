@@ -62,6 +62,16 @@ data:
               url: http://argocd-server.argocd
               username: {{HOMEPAGE_VAR_ARGOCD_USERNAME}}
               key: {{HOMEPAGE_VAR_ARGOCD_KEY}}
+        - Buildarr:
+            href: "https://github.com/buildarr/buildarr"
+            description: Configuration Manager
+            namespace: media-stack
+            podSelector: app=buildarr
+            icon: buildarr.png
+            # widget:
+            #   type: customapi
+            #   url: http://buildarr.media-stack
+            #   method: GET
   widgets.yaml: |
     - kubernetes:
         cluster:
