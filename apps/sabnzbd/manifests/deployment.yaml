@@ -106,12 +106,18 @@ spec:
               
               # Usenet Server
               SERVER_NAME="newshost"
+              
+              # Fix incorrect double-bracket header if present from previous run
+              if grep -q "^\[\[servers\]\]" "$CONFIG"; then
+                  sed -i 's/^\[\[servers\]\]/[servers]/' "$CONFIG"
+              fi
+              
               if [ -n "$USENET_SERVER_HOST" ] && ! grep -q "\[\[$SERVER_NAME\]\]" "$CONFIG"; then
                   echo "Adding Usenet server config..."
                   # Be careful with appending logic, simplistic approach
                   {
                     echo ""
-                    echo "[[servers]]"
+                    echo "[servers]"
                     echo "[[$SERVER_NAME]]"
                     echo "name = $SERVER_NAME"
                     echo "displayname = $SERVER_NAME"
