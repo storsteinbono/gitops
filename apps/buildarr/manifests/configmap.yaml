@@ -44,20 +44,20 @@ data:
             Radarr:
               type: radarr
               prowlarr_url: http://prowlarr.media-stack.svc:9696
-                base_url: http://radarr.media-stack.svc:7878
-                api_key: ${RADARR_API_KEY}
-                sync_level: full-sync
-                sync_categories:
-                  - Movies/Foreign
-                  - Movies/Other
-                  - Movies/SD
-                  - Movies/HD
-                  - Movies/UHD
-                  - Movies/BluRay
-                  - Movies/3D
-                  - Movies/DVD
-                  - Movies/WEB-DL
-                tags: []
+              base_url: http://radarr.media-stack.svc:7878
+              api_key: ${RADARR_API_KEY}
+              sync_level: full-sync
+              sync_categories:
+                - Movies/Foreign
+                - Movies/Other
+                - Movies/SD
+                - Movies/HD
+                - Movies/UHD
+                - Movies/BluRay
+                - Movies/3D
+                - Movies/DVD
+                - Movies/WEB-DL
+              tags: []
               Sonarr:
                 type: sonarr
                 prowlarr_url: http://prowlarr.media-stack.svc:9696
