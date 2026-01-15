@@ -27,7 +27,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: config-init
-          image: alpine:latest
+          image: lscr.io/linuxserver/sabnzbd:latest
           command: ["/bin/sh", "-c"]
           env:
             - name: SABNZBD_API_KEY
