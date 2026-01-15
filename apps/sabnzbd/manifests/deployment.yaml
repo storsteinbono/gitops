@@ -28,6 +28,7 @@ spec:
       initContainers:
         - name: config-init
           image: lscr.io/linuxserver/sabnzbd:latest
+          imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           env:
             - name: SABNZBD_API_KEY
@@ -117,6 +118,7 @@ spec:
       containers:
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
               name: http
