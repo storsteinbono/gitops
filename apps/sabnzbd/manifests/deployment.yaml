@@ -25,6 +25,59 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
+      initContainers:
+        - name: config-init
+          image: alpine:latest
+          command: ["/bin/sh", "-c"]
+          env:
+            - name: SABNZBD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: buildarr-secrets
+                  key: SABNZBD_API_KEY
+          args:
+            - |
+              apk add --no-cache sed
+              CONFIG="/config/sabnzbd.ini"
+              # Ensure config exists or wait for it? 
+              # SABnzbd creates it on first run. If we run before first run, we prepopulate.
+              # If we run after, we edit.
+              
+              if [ ! -f "$CONFIG" ]; then
+                echo "Creating initial config..."
+                echo "[__general__]" > "$CONFIG"
+              fi
+              
+              # Host Whitelist
+              # We want: sabnzbd.media-stack.svc, sabnzbd.torsteinbo.net, sabnzbd, localhost, 127.0.0.1
+              TARGET_HOSTS="sabnzbd.media-stack.svc, sabnzbd.torsteinbo.net, sabnzbd, localhost, 127.0.0.1"
+              
+              if grep -q "^host_whitelist" "$CONFIG"; then
+                sed -i "s/^host_whitelist =.*/host_whitelist = $TARGET_HOSTS/" "$CONFIG"
+              else
+                # Insert comfortably under [__general__] or append
+                if grep -q "^\[__general__\]" "$CONFIG"; then
+                   sed -i "/^\[__general__\]/a host_whitelist = $TARGET_HOSTS" "$CONFIG"
+                else
+                   echo "host_whitelist = $TARGET_HOSTS" >> "$CONFIG"
+                fi
+              fi
+              
+              # API Key
+              if [ -n "$SABNZBD_API_KEY" ]; then
+                if grep -q "^api_key" "$CONFIG"; then
+                  sed -i "s/^api_key =.*/api_key = $SABNZBD_API_KEY/" "$CONFIG"
+                else
+                   if grep -q "^\[__general__\]" "$CONFIG"; then
+                      sed -i "/^\[__general__\]/a api_key = $SABNZBD_API_KEY" "$CONFIG"
+                   else
+                      echo "api_key = $SABNZBD_API_KEY" >> "$CONFIG"
+                   fi
+                fi
+              fi
+          volumeMounts:
+            - name: config
+              mountPath: /config
       containers:
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:latest
