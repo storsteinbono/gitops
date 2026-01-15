@@ -37,7 +37,6 @@ spec:
                   key: SABNZBD_API_KEY
           args:
             - |
-              apk add --no-cache sed
               CONFIG="/config/sabnzbd.ini"
               # Ensure config exists or wait for it? 
               # SABnzbd creates it on first run. If we run before first run, we prepopulate.
