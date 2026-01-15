@@ -38,7 +38,7 @@ spec:
                 <UrlBase></UrlBase>
                 <Port>8989</Port>
                 <ApiKey>${API_KEY}</ApiKey>
-                <AuthenticationMethod>External</AuthenticationMethod>
+                <AuthenticationMethod>None</AuthenticationMethod>
                 <PostgresUser>${DB_USER}</PostgresUser>
                 <PostgresPassword>${DB_PASSWORD}</PostgresPassword>
                 <PostgresHost>postgresql-rw.postgres.svc</PostgresHost>
