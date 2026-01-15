@@ -74,6 +74,21 @@ data:
                 - TV/Sport
                 - TV/Anime
                 - TV/Documentary
+                - TV/Documentary
+              tags: []
+        download_clients:
+          definitions:
+            SABnzbd:
+              type: sabnzbd
+              enable: true
+              priority: 1
+              remove_completed_downloads: true
+              remove_failed_downloads: true
+              host: sabnzbd.media-stack.svc
+              port: 8080
+              use_ssl: false
+              api_key: ${SABNZBD_API_KEY}
+              category: prowlarr
               tags: []
 
     radarr:
@@ -103,8 +118,7 @@ data:
           colon_replacement: delete
         media_management:
           root_folders:
-            definitions:
-              - /movies
+            - /movies
 
     sonarr:
       hostname: sonarr.media-stack.svc
@@ -130,5 +144,4 @@ data:
               tags: []
         media_management:
           root_folders:
-            definitions:
-              - /tv
+            - /tv
