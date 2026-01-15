@@ -26,26 +26,24 @@ data:
       api_key: ${PROWLARR_API_KEY}
       settings:
         indexers:
-          indexers:
-            definitions:
-              NZBgeek:
-                type: newznab
-                enable: true
-                sync_profile: Standard
-                redirect: true
-                priority: 25
-                fields:
-                  baseUrl: https://api.nzbgeek.info
-                  apiPath: /api
-                  apiKey: ${NZBGEEK_API_KEY}
-                  vipExpiration: ""
-                tags: []
+          definitions:
+            NZBgeek:
+              type: newznab
+              enable: true
+              sync_profile: Standard
+              redirect: true
+              priority: 25
+              fields:
+                baseUrl: https://api.nzbgeek.info
+                apiPath: /api
+                apiKey: ${NZBGEEK_API_KEY}
+                vipExpiration: ""
+              tags: []
         apps:
-          applications:
-            definitions:
-              Radarr:
-                type: radarr
-                prowlarr_url: http://prowlarr.media-stack.svc:9696
+          definitions:
+            Radarr:
+              type: radarr
+              prowlarr_url: http://prowlarr.media-stack.svc:9696
                 base_url: http://radarr.media-stack.svc:7878
                 api_key: ${RADARR_API_KEY}
                 sync_level: full-sync
