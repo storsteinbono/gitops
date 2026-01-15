@@ -90,6 +90,20 @@ spec:
                 fi
               fi
               
+              # Web UI Auth (Bypass Wizard for External Access)
+              if grep -q "^username" "$CONFIG"; then
+                 sed -i 's/^username = ""/username = admin/' "$CONFIG"
+                 sed -i 's/^password = ""/password = admin/' "$CONFIG"
+              else
+                 if grep -q "^\[misc\]" "$CONFIG"; then
+                    sed -i "/^\[misc\]/a username = admin" "$CONFIG"
+                    sed -i "/^\[misc\]/a password = admin" "$CONFIG"
+                 else
+                    echo "username = admin" >> "$CONFIG"
+                    echo "password = admin" >> "$CONFIG"
+                 fi
+              fi
+              
               # Usenet Server
               SERVER_NAME="newshost"
               if [ -n "$USENET_SERVER_HOST" ] && ! grep -q "\[\[$SERVER_NAME\]\]" "$CONFIG"; then
