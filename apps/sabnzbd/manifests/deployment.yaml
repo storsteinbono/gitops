@@ -134,6 +134,23 @@ spec:
                     echo "enable = 1"
                   } >> "$CONFIG"
               fi
+              
+              # Categories
+              if ! grep -q "\[\[prowlarr\]\]" "$CONFIG"; then
+                  echo "Adding prowlarr category..."
+                  {
+                      echo ""
+                      echo "[categories]"
+                      echo "[[prowlarr]]"
+                      echo "name = prowlarr"
+                      echo "order = 0"
+                      echo "pp = \"\""
+                      echo "script = Default"
+                      echo "dir = \"\""
+                      echo "newzbin = \"\""
+                      echo "priority = -100"
+                  } >> "$CONFIG"
+              fi
           volumeMounts:
             - name: config
               mountPath: /config
