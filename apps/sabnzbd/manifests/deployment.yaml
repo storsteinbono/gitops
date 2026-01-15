@@ -35,26 +35,40 @@ spec:
                 secretKeyRef:
                   name: buildarr-secrets
                   key: SABNZBD_API_KEY
+            - name: USENET_SERVER_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: buildarr-secrets
+                  key: USENET_SERVER_HOST
+            - name: USENET_SERVER_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: buildarr-secrets
+                  key: USENET_SERVER_PORT
+            - name: USENET_SERVER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: buildarr-secrets
+                  key: USENET_SERVER_USERNAME
+            - name: USENET_SERVER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: buildarr-secrets
+                  key: USENET_SERVER_PASSWORD
           args:
             - |
               CONFIG="/config/sabnzbd.ini"
-              # Ensure config exists or wait for it? 
-              # SABnzbd creates it on first run. If we run before first run, we prepopulate.
-              # If we run after, we edit.
-              
+              # Ensure config exists
               if [ ! -f "$CONFIG" ]; then
                 echo "Creating initial config..."
                 echo "[__general__]" > "$CONFIG"
               fi
               
               # Host Whitelist
-              # We want: sabnzbd.media-stack.svc, sabnzbd.torsteinbo.net, sabnzbd, localhost, 127.0.0.1
               TARGET_HOSTS="sabnzbd.media-stack.svc, sabnzbd.torsteinbo.net, sabnzbd, localhost, 127.0.0.1"
-              
               if grep -q "^host_whitelist" "$CONFIG"; then
                 sed -i "s/^host_whitelist =.*/host_whitelist = $TARGET_HOSTS/" "$CONFIG"
               else
-                # Insert comfortably under [__general__] or append
                 if grep -q "^\[__general__\]" "$CONFIG"; then
                    sed -i "/^\[__general__\]/a host_whitelist = $TARGET_HOSTS" "$CONFIG"
                 else
@@ -73,6 +87,29 @@ spec:
                       echo "api_key = $SABNZBD_API_KEY" >> "$CONFIG"
                    fi
                 fi
+              fi
+              
+              # Usenet Server
+              SERVER_NAME="newshost"
+              if [ -n "$USENET_SERVER_HOST" ] && ! grep -q "\[\[$SERVER_NAME\]\]" "$CONFIG"; then
+                  echo "Adding Usenet server config..."
+                  # Be careful with appending logic, simplistic approach
+                  {
+                    echo ""
+                    echo "[[servers]]"
+                    echo "[[$SERVER_NAME]]"
+                    echo "name = $SERVER_NAME"
+                    echo "displayname = $SERVER_NAME"
+                    echo "host = $USENET_SERVER_HOST"
+                    echo "port = $USENET_SERVER_PORT"
+                    echo "username = $USENET_SERVER_USERNAME"
+                    echo "password = $USENET_SERVER_PASSWORD"
+                    echo "timeout = 60"
+                    echo "connections = 8"
+                    echo "ssl = 1"
+                    echo "retention = 0"
+                    echo "enable = 1"
+                  } >> "$CONFIG"
               fi
           volumeMounts:
             - name: config
