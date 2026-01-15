@@ -119,7 +119,7 @@ data:
               priority: 1
               remove_completed_downloads: true
               remove_failed_downloads: true
-              hostname: sabnzbd.media-stack.svc
+              host: sabnzbd.media-stack.svc
               port: 8080
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
