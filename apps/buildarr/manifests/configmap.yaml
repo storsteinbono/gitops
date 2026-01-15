@@ -100,6 +100,9 @@ data:
               recent_priority: default
               older_priority: default
               tags: []
+        naming:
+          rename_movies: true
+          colon_replacement_format: delete
         media_management:
           root_folders:
             definitions:
