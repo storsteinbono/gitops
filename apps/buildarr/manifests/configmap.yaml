@@ -102,7 +102,7 @@ data:
               tags: []
         naming:
           rename_movies: true
-          colon_replacement_format: delete
+          colon_replacement: delete
         media_management:
           root_folders:
             definitions:
