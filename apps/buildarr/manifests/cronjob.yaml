@@ -38,7 +38,7 @@ spec:
                   mountPath: /config
           containers:
             - name: buildarr
-              image: storsteinboconyinur/buildarr:fixed
+              image: storsteinbo/buildarr:fixed
               imagePullPolicy: Always
               args:
                 - run
@@ -94,7 +94,7 @@ spec:
               mountPath: /config
       containers:
         - name: buildarr
-          image: storsteinboconyinur/buildarr:fixed
+          image: storsteinbo/buildarr:fixed
           imagePullPolicy: Always
           args:
             - run
