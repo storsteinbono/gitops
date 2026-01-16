@@ -166,31 +166,31 @@ spec:
               if ! grep -q "^\[\[prowlarr\]\]" "$CONFIG"; then
                   echo "Adding category: prowlarr"
                   cat >> "$CONFIG" << 'EOF'
-[[prowlarr]]
-name = prowlarr
-order = 0
-pp = ""
-script = Default
-dir = ""
-newzbin = ""
-priority = -100
-EOF
-              fi
+              [[prowlarr]]
+              name = prowlarr
+              order = 0
+              pp = ""
+              script = Default
+              dir = ""
+              newzbin = ""
+              priority = -100
+              EOF
+                            fi
 
               # Add movies category with /movies dir
               if ! grep -q "^\[\[movies\]\]" "$CONFIG"; then
                   echo "Adding category: movies"
                   cat >> "$CONFIG" << 'EOF'
-[[movies]]
-name = movies
-order = 0
-pp = ""
-script = Default
-dir = /movies
-newzbin = ""
-priority = -100
-EOF
-              fi
+              [[movies]]
+              name = movies
+              order = 0
+              pp = ""
+              script = Default
+              dir = /movies
+              newzbin = ""
+              priority = -100
+              EOF
+                            fi
 
               # Add tv category with /tv dir
               if ! grep -q "^\[\[tv\]\]" "$CONFIG"; then
