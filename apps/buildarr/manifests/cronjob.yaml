@@ -38,7 +38,8 @@ spec:
                   mountPath: /config
           containers:
             - name: buildarr
-              image: callum027/buildarr:latest
+              image: storsteinboconyinur/buildarr:fixed
+              imagePullPolicy: Always
               args:
                 - run
                 - /config/buildarr.yml
@@ -93,7 +94,8 @@ spec:
               mountPath: /config
       containers:
         - name: buildarr
-          image: callum027/buildarr:latest
+          image: storsteinboconyinur/buildarr:fixed
+          imagePullPolicy: Always
           args:
             - run
             - /config/buildarr.yml
