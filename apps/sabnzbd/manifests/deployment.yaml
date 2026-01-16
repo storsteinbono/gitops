@@ -196,15 +196,15 @@ spec:
               if ! grep -q "^\[\[tv\]\]" "$CONFIG"; then
                   echo "Adding category: tv"
                   cat >> "$CONFIG" << 'EOF'
-[[tv]]
-name = tv
-order = 0
-pp = ""
-script = Default
-dir = /tv
-newzbin = ""
-priority = -100
-EOF
+              [[tv]]
+              name = tv
+              order = 0
+              pp = ""
+              script = Default
+              dir = /tv
+              newzbin = ""
+              priority = -100
+              EOF
               fi
           volumeMounts:
             - name: config
