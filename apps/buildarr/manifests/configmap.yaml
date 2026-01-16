@@ -74,7 +74,6 @@ data:
                 - TV/Sport
                 - TV/Anime
                 - TV/Documentary
-                - TV/Documentary
               tags: []
         download_clients:
           definitions:
