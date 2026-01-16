@@ -197,7 +197,12 @@ spec:
             - name: media
               mountPath: /incomplete-downloads
               subPath: incomplete
+            - name: config
+              mountPath: /config
       volumes:
         - name: media
           persistentVolumeClaim:
             claimName: media-stack-media
+        - name: config
+          persistentVolumeClaim:
+            claimName: sabnzbd-config
