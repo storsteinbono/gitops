@@ -202,7 +202,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: media-stack-media
+            claimName: nfs-sabnzbd-pv
         - name: config
           persistentVolumeClaim:
             claimName: sabnzbd-config

@@ -11,12 +11,13 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 5Gi---
+      storage: 5Gi
+---
 # Shared NFS PVC for media-stack (shared by all apps)
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media-stack-media
+  name: nfs-sabnzbd-pv
   namespace: media-stack
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
