@@ -36,6 +36,18 @@ spec:
                   mountPath: /config-template
                 - name: config
                   mountPath: /config
+            - name: sabnzbd-categories
+              image: curlimages/curl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  for cat in prowlarr movies tv; do
+                    echo "Creating SABnzbd category: $cat"
+                    curl -s "http://sabnzbd.media-stack.svc:8080/api?mode=set_config&section=categories&keyword=*&name=$cat&apikey=$SABNZBD_API_KEY" || true
+                  done
+              envFrom:
+                - secretRef:
+                    name: buildarr-secrets
           containers:
             - name: buildarr
               image: storsteinbo/buildarr:v1-compat
@@ -92,6 +104,18 @@ spec:
               mountPath: /config-template
             - name: config
               mountPath: /config
+        - name: sabnzbd-categories
+          image: curlimages/curl:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              for cat in prowlarr movies tv; do
+                echo "Creating SABnzbd category: $cat"
+                curl -s "http://sabnzbd.media-stack.svc:8080/api?mode=set_config&section=categories&keyword=*&name=$cat&apikey=$SABNZBD_API_KEY" || true
+              done
+          envFrom:
+            - secretRef:
+                name: buildarr-secrets
       containers:
         - name: buildarr
           image: storsteinbo/buildarr:v1-compat
