@@ -201,6 +201,7 @@ spec:
               mountPath: /config
       volumes:
         - name: media
+          mountPath: /media
           persistentVolumeClaim:
             claimName: nfs-sabnzbd-pv
         - name: config
