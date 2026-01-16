@@ -135,21 +135,28 @@ spec:
                   } >> "$CONFIG"
               fi
               
-              # Categories
-              if grep -q "^\[categories\]" "$CONFIG" && ! grep -q "^\[\[prowlarr\]\]" "$CONFIG"; then
-                  echo "Injecting prowlarr category into existing [categories] block..."
-
-                  sed -i '/^\[categories\]/a \
-              [[prowlarr]]\
-              \nname = prowlarr\
-              \norder = 10\
-              \npp = ""\
-              \nscript = Default\
-              \ndir = ""\
-              \nnewzbin = ""\
-              \npriority = -100\
-              ' "$CONFIG"
+              # Categories - create prowlarr, movies, tv
+              # Ensure [categories] section exists
+              if ! grep -q "^\[categories\]" "$CONFIG"; then
+                  echo "" >> "$CONFIG"
+                  echo "[categories]" >> "$CONFIG"
               fi
+
+              for cat in prowlarr movies tv; do
+                  if ! grep -q "^\[\[$cat\]\]" "$CONFIG"; then
+                      echo "Adding category: $cat"
+                      cat >> "$CONFIG" << EOF
+              [[$cat]]
+              name = $cat
+              order = 0
+              pp = ""
+              script = Default
+              dir = ""
+              newzbin = ""
+              priority = -100
+              EOF
+                  fi
+              done
           volumeMounts:
             - name: config
               mountPath: /config
@@ -201,9 +208,8 @@ spec:
               mountPath: /config
       volumes:
         - name: media
-          mountPath: /media
           persistentVolumeClaim:
-            claimName: nfs-sabnzbd-pv
+            claimName: media-stack-media
         - name: config
           persistentVolumeClaim:
             claimName: sabnzbd-config
