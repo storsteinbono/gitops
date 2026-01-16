@@ -10,6 +10,11 @@ metadata:
     app.kubernetes.io/component: configuration
     app.kubernetes.io/part-of: media-stack
 spec:
+  template:
+    metadata:
+      labels:
+        app: buildarr
+  activeDeadlineSeconds: 3600
   schedule: "0 3 * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
