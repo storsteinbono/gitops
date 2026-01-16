@@ -91,7 +91,7 @@ spec:
                    fi
                 fi
               fi
-              
+
               # Web UI Auth (Bypass Wizard for External Access)
               if grep -q "^username" "$CONFIG"; then
                  sed -i 's/^username = ""/username = admin/' "$CONFIG"
@@ -105,7 +105,27 @@ spec:
                     echo "password = admin" >> "$CONFIG"
                  fi
               fi
-              
+
+              # Download directories
+              if grep -q "^complete_dir" "$CONFIG"; then
+                sed -i "s|^complete_dir =.*|complete_dir = /downloads|" "$CONFIG"
+              else
+                if grep -q "^\[misc\]" "$CONFIG"; then
+                   sed -i "/^\[misc\]/a complete_dir = /downloads" "$CONFIG"
+                else
+                   echo "complete_dir = /downloads" >> "$CONFIG"
+                fi
+              fi
+              if grep -q "^download_dir" "$CONFIG"; then
+                sed -i "s|^download_dir =.*|download_dir = /incomplete-downloads|" "$CONFIG"
+              else
+                if grep -q "^\[misc\]" "$CONFIG"; then
+                   sed -i "/^\[misc\]/a download_dir = /incomplete-downloads" "$CONFIG"
+                else
+                   echo "download_dir = /incomplete-downloads" >> "$CONFIG"
+                fi
+              fi
+
               # Usenet Server
               SERVER_NAME="newshost"
               
