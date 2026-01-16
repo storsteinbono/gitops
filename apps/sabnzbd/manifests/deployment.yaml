@@ -191,8 +191,6 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
           volumeMounts:
-            - name: config
-              mountPath: /config
             - name: media
               mountPath: /downloads
               subPath: downloads
