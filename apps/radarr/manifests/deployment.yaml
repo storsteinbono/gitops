@@ -117,4 +117,4 @@ spec:
           emptyDir: {}
         - name: media
           persistentVolumeClaim:
-            claimName: media-stack-media
+            claimName: radarr-media

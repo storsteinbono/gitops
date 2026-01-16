@@ -1,14 +1,13 @@
 ---
-# Shared NFS PVC for media-stack (shared by all apps)
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media-stack-media
+  name: prowlarr-media
   namespace: media-stack
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: nfs-static
+  storageClassName: nfs-prowlarr
   resources:
     requests:
       storage: 8Ti

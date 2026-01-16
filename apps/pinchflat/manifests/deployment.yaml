@@ -67,4 +67,4 @@ spec:
             claimName: pinchflat-config
         - name: media
           persistentVolumeClaim:
-            claimName: media-stack-media
+            claimName: pinchflat-media
