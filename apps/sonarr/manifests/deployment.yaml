@@ -32,7 +32,7 @@ spec:
             - sh
             - -c
             - |
-              function clean_xml() {
+              clean_xml() {
                 echo "$1" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g'
               }
 
