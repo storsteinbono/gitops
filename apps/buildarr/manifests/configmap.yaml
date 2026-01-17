@@ -25,12 +25,6 @@ data:
       protocol: http
       api_key: ${SONARR_API_KEY}
       settings:
-        general:
-          security:
-            authentication: form
-            authentication_required: enabled
-            username: ${SONARR_USERNAME}
-            password: ${SONARR_PASSWORD}
         media_management:
           root_folders:
             - /tv
@@ -57,12 +51,6 @@ data:
       protocol: http
       api_key: ${RADARR_API_KEY}
       settings:
-        general:
-          security:
-            authentication: form
-            authentication_required: enabled
-            username: ${RADARR_USERNAME}
-            password: ${RADARR_PASSWORD}
         media_management:
           root_folders:
             - /movies
@@ -89,12 +77,6 @@ data:
       protocol: http
       api_key: ${PROWLARR_API_KEY}
       settings:
-        general:
-          security:
-            authentication: form
-            authentication_required: enabled
-            username: ${PROWLARR_USERNAME}
-            password: ${PROWLARR_PASSWORD}
         indexers:
           definitions:
             NZBgeek:
