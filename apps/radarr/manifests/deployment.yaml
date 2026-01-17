@@ -32,18 +32,28 @@ spec:
             - sh
             - -c
             - |
+              function clean_xml() {
+                echo "$1" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g'
+              }
+
+              SAFE_API_KEY=$(clean_xml "${API_KEY}")
+              SAFE_USERNAME=$(clean_xml "${USERNAME}")
+              SAFE_PASSWORD=$(clean_xml "${PASSWORD}")
+              SAFE_DB_USER=$(clean_xml "${DB_USER}")
+              SAFE_DB_PASSWORD=$(clean_xml "${DB_PASSWORD}")
+
               cat <<EOF > /config/config.xml
               <Config>
                 <LogLevel>info</LogLevel>
                 <UrlBase></UrlBase>
                 <Port>7878</Port>
-                <ApiKey>${API_KEY}</ApiKey>
+                <ApiKey>${SAFE_API_KEY}</ApiKey>
                 <AuthenticationMethod>Forms</AuthenticationMethod>
                 <AuthenticationRequired>Enabled</AuthenticationRequired>
-                <Username>${USERNAME}</Username>
-                <Password>${PASSWORD}</Password>
-                <PostgresUser>${DB_USER}</PostgresUser>
-                <PostgresPassword>${DB_PASSWORD}</PostgresPassword>
+                <Username>${SAFE_USERNAME}</Username>
+                <Password>${SAFE_PASSWORD}</Password>
+                <PostgresUser>${SAFE_DB_USER}</PostgresUser>
+                <PostgresPassword>${SAFE_DB_PASSWORD}</PostgresPassword>
                 <PostgresHost>postgresql-rw.postgres.svc</PostgresHost>
                 <PostgresPort>5432</PostgresPort>
                 <PostgresMainDb>radarr-main</PostgresMainDb>
