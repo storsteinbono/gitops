@@ -36,28 +36,38 @@ spec:
             - name: SABNZBD_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: buildarr-secrets
-                  key: SABNZBD_API_KEY
+                  name: sabnzbd-config
+                  key: api_key
+            - name: SABNZBD_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: sabnzbd-config
+                  key: username
+            - name: SABNZBD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sabnzbd-config
+                  key: password
             - name: USENET_SERVER_HOST
               valueFrom:
                 secretKeyRef:
-                  name: buildarr-secrets
-                  key: USENET_SERVER_HOST
+                  name: sabnzbd-config
+                  key: usenet_server_host
             - name: USENET_SERVER_PORT
               valueFrom:
                 secretKeyRef:
-                  name: buildarr-secrets
-                  key: USENET_SERVER_PORT
+                  name: sabnzbd-config
+                  key: usenet_server_port
             - name: USENET_SERVER_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: buildarr-secrets
-                  key: USENET_SERVER_USERNAME
+                  name: sabnzbd-config
+                  key: usenet_server_username
             - name: USENET_SERVER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: buildarr-secrets
-                  key: USENET_SERVER_PASSWORD
+                  name: sabnzbd-config
+                  key: usenet_server_password
           args:
             - |
               CONFIG="/config/sabnzbd.ini"
@@ -92,18 +102,24 @@ spec:
                 fi
               fi
 
-              # Web UI Auth (Bypass Wizard for External Access)
+              # Web UI Auth
               if grep -q "^username" "$CONFIG"; then
-                 sed -i 's/^username = ""/username = admin/' "$CONFIG"
-                 sed -i 's/^password = ""/password = admin/' "$CONFIG"
+                sed -i "s/^username =.*/username = $SABNZBD_USERNAME/" "$CONFIG"
               else
-                 if grep -q "^\[misc\]" "$CONFIG"; then
-                    sed -i "/^\[misc\]/a username = admin" "$CONFIG"
-                    sed -i "/^\[misc\]/a password = admin" "$CONFIG"
-                 else
-                    echo "username = admin" >> "$CONFIG"
-                    echo "password = admin" >> "$CONFIG"
-                 fi
+                if grep -q "^\[misc\]" "$CONFIG"; then
+                  sed -i "/^\[misc\]/a username = $SABNZBD_USERNAME" "$CONFIG"
+                else
+                  echo "username = $SABNZBD_USERNAME" >> "$CONFIG"
+                fi
+              fi
+              if grep -q "^password" "$CONFIG"; then
+                sed -i "s/^password =.*/password = $SABNZBD_PASSWORD/" "$CONFIG"
+              else
+                if grep -q "^\[misc\]" "$CONFIG"; then
+                  sed -i "/^\[misc\]/a password = $SABNZBD_PASSWORD" "$CONFIG"
+                else
+                  echo "password = $SABNZBD_PASSWORD" >> "$CONFIG"
+                fi
               fi
 
               # Download directories
@@ -164,47 +180,47 @@ spec:
 
               # Add prowlarr category
               if ! grep -q "^\[\[prowlarr\]\]" "$CONFIG"; then
-                  echo "Adding category: prowlarr"
-                  cat >> "$CONFIG" << 'EOF'
-              [[prowlarr]]
-              name = prowlarr
-              order = 0
-              pp = ""
-              script = Default
-              dir = ""
-              newzbin = ""
-              priority = -100
-              EOF
-                            fi
+                echo "Adding category: prowlarr"
+                {
+                  echo "[[prowlarr]]"
+                  echo "name = prowlarr"
+                  echo "order = 0"
+                  echo "pp = "
+                  echo "script = Default"
+                  echo "dir = "
+                  echo "newzbin = "
+                  echo "priority = -100"
+                } >> "$CONFIG"
+              fi
 
               # Add movies category with /movies dir
               if ! grep -q "^\[\[movies\]\]" "$CONFIG"; then
-                  echo "Adding category: movies"
-                  cat >> "$CONFIG" << 'EOF'
-              [[movies]]
-              name = movies
-              order = 0
-              pp = ""
-              script = Default
-              dir = /movies
-              newzbin = ""
-              priority = -100
-              EOF
-                            fi
+                echo "Adding category: movies"
+                {
+                  echo "[[movies]]"
+                  echo "name = movies"
+                  echo "order = 0"
+                  echo "pp = "
+                  echo "script = Default"
+                  echo "dir = /movies"
+                  echo "newzbin = "
+                  echo "priority = -100"
+                } >> "$CONFIG"
+              fi
 
               # Add tv category with /tv dir
               if ! grep -q "^\[\[tv\]\]" "$CONFIG"; then
-                  echo "Adding category: tv"
-                  cat >> "$CONFIG" << 'EOF'
-              [[tv]]
-              name = tv
-              order = 0
-              pp = ""
-              script = Default
-              dir = /tv
-              newzbin = ""
-              priority = -100
-              EOF
+                echo "Adding category: tv"
+                {
+                  echo "[[tv]]"
+                  echo "name = tv"
+                  echo "order = 0"
+                  echo "pp = "
+                  echo "script = Default"
+                  echo "dir = /tv"
+                  echo "newzbin = "
+                  echo "priority = -100"
+                } >> "$CONFIG"
               fi
           volumeMounts:
             - name: config

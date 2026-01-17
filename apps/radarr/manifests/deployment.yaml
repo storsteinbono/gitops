@@ -38,7 +38,10 @@ spec:
                 <UrlBase></UrlBase>
                 <Port>7878</Port>
                 <ApiKey>${API_KEY}</ApiKey>
-                <AuthenticationMethod>None</AuthenticationMethod>
+                <AuthenticationMethod>Forms</AuthenticationMethod>
+                <AuthenticationRequired>Enabled</AuthenticationRequired>
+                <Username>${USERNAME}</Username>
+                <Password>${PASSWORD}</Password>
                 <PostgresUser>${DB_USER}</PostgresUser>
                 <PostgresPassword>${DB_PASSWORD}</PostgresPassword>
                 <PostgresHost>postgresql-rw.postgres.svc</PostgresHost>
@@ -64,6 +67,16 @@ spec:
                 secretKeyRef:
                   name: radarr-config
                   key: api_key
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: radarr-config
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: radarr-config
+                  key: password
           volumeMounts:
             - name: config
               mountPath: /config

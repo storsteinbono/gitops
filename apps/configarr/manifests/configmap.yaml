@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configarr-config
+  namespace: media-stack
+data:
+  config.yml: |
+    trashGuideUrl: https://github.com/TRaSH-Guides/Guides
+    recyclarrConfigUrl: https://github.com/recyclarr/config-templates
+
+    sonarr:
+      main:
+        base_url: http://sonarr.media-stack.svc:8989
+        api_key: !secret SONARR_API_KEY
+
+        root_folders:
+          - /tv
+
+        download_clients:
+          data:
+            - name: SABnzbd
+              type: sabnzbd
+              enable: true
+              priority: 1
+              removeCompletedDownloads: true
+              removeFailedDownloads: true
+              fields:
+                host: sabnzbd.media-stack.svc
+                port: 8080
+                apiKey: !secret SABNZBD_API_KEY
+                tvCategory: tv
+                recentTvPriority: -100
+                olderTvPriority: -100
+
+        quality_definition:
+          type: series
+
+        include:
+          - template: sonarr-quality-definition-series
+          - template: sonarr-v4-quality-profile-web-1080p
+          - template: sonarr-v4-custom-formats-web-1080p
+
+    radarr:
+      main:
+        base_url: http://radarr.media-stack.svc:7878
+        api_key: !secret RADARR_API_KEY
+
+        root_folders:
+          - /movies
+
+        download_clients:
+          data:
+            - name: SABnzbd
+              type: sabnzbd
+              enable: true
+              priority: 1
+              removeCompletedDownloads: true
+              removeFailedDownloads: true
+              fields:
+                host: sabnzbd.media-stack.svc
+                port: 8080
+                apiKey: !secret SABNZBD_API_KEY
+                movieCategory: movies
+                recentMoviePriority: -100
+                olderMoviePriority: -100
+
+        quality_definition:
+          type: movie
+
+        include:
+          - template: radarr-quality-definition-movie
+          - template: radarr-quality-profile-hd-bluray-web
+          - template: radarr-custom-formats-hd-bluray-web

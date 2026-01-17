@@ -1,0 +1,97 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: configarr
+  namespace: media-stack
+  labels:
+    app: configarr
+    app.kubernetes.io/name: configarr
+    app.kubernetes.io/component: configuration
+    app.kubernetes.io/part-of: media-stack
+spec:
+  schedule: "0 4 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: configarr
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: configarr
+              image: ghcr.io/raydak-labs/configarr:latest
+              env:
+                - name: TZ
+                  value: "Europe/Oslo"
+              volumeMounts:
+                - name: config
+                  mountPath: /app/config/config.yml
+                  subPath: config.yml
+                - name: secrets
+                  mountPath: /app/config/secrets.yml
+                  subPath: secrets.yml
+                - name: repos
+                  mountPath: /app/repos
+          volumes:
+            - name: config
+              configMap:
+                name: configarr-config
+            - name: secrets
+              secret:
+                secretName: configarr-secrets
+            - name: repos
+              persistentVolumeClaim:
+                claimName: configarr-repos
+---
+# One-time job to run immediately for initial setup
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configarr-init
+  namespace: media-stack
+  labels:
+    app: configarr
+    app.kubernetes.io/name: configarr
+    app.kubernetes.io/component: configuration
+    app.kubernetes.io/part-of: media-stack
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app: configarr
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: configarr
+          image: ghcr.io/raydak-labs/configarr:latest
+          env:
+            - name: TZ
+              value: "Europe/Oslo"
+          volumeMounts:
+            - name: config
+              mountPath: /app/config/config.yml
+              subPath: config.yml
+            - name: secrets
+              mountPath: /app/config/secrets.yml
+              subPath: secrets.yml
+            - name: repos
+              mountPath: /app/repos
+      volumes:
+        - name: config
+          configMap:
+            name: configarr-config
+        - name: secrets
+          secret:
+            secretName: configarr-secrets
+        - name: repos
+          persistentVolumeClaim:
+            claimName: configarr-repos
