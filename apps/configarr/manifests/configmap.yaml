@@ -14,25 +14,6 @@ data:
         base_url: http://sonarr.media-stack.svc:8989
         api_key: !secret SONARR_API_KEY
 
-        root_folders:
-          - /tv
-
-        download_clients:
-          data:
-            - name: SABnzbd
-              type: sabnzbd
-              enable: true
-              priority: 1
-              removeCompletedDownloads: true
-              removeFailedDownloads: true
-              fields:
-                host: sabnzbd.media-stack.svc
-                port: 8080
-                apiKey: !secret SABNZBD_API_KEY
-                tvCategory: tv
-                recentTvPriority: -100
-                olderTvPriority: -100
-
         quality_definition:
           type: series
 
@@ -45,25 +26,6 @@ data:
       main:
         base_url: http://radarr.media-stack.svc:7878
         api_key: !secret RADARR_API_KEY
-
-        root_folders:
-          - /movies
-
-        download_clients:
-          data:
-            - name: SABnzbd
-              type: sabnzbd
-              enable: true
-              priority: 1
-              removeCompletedDownloads: true
-              removeFailedDownloads: true
-              fields:
-                host: sabnzbd.media-stack.svc
-                port: 8080
-                apiKey: !secret SABNZBD_API_KEY
-                movieCategory: movies
-                recentMoviePriority: -100
-                olderMoviePriority: -100
 
         quality_definition:
           type: movie
