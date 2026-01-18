@@ -19,12 +19,21 @@ data:
       update_times:
         - 03:00
 
+    # Buildarr manages auth, download clients, root folders for all *arr apps
+    # Configarr manages quality profiles and custom formats (TRaSH guides)
+
     sonarr:
       hostname: sonarr.media-stack.svc
       port: 8989
       protocol: http
       api_key: ${SONARR_API_KEY}
       settings:
+        general:
+          security:
+            authentication: form
+            authentication_required: enabled
+            username: ${SONARR_USERNAME}
+            password: ${SONARR_PASSWORD}
         media_management:
           root_folders:
             - /tv
@@ -41,9 +50,6 @@ data:
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
               category: tv
-              recent_priority: default
-              older_priority: default
-              tags: []
 
     radarr:
       hostname: radarr.media-stack.svc
@@ -51,6 +57,12 @@ data:
       protocol: http
       api_key: ${RADARR_API_KEY}
       settings:
+        general:
+          security:
+            authentication: form
+            authentication_required: enabled
+            username: ${RADARR_USERNAME}
+            password: ${RADARR_PASSWORD}
         media_management:
           root_folders:
             - /movies
@@ -62,14 +74,11 @@ data:
               priority: 1
               remove_completed_downloads: true
               remove_failed_downloads: true
-              hostname: sabnzbd.media-stack.svc
+              host: sabnzbd.media-stack.svc
               port: 8080
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
               category: movies
-              recent_priority: default
-              older_priority: default
-              tags: []
 
     prowlarr:
       hostname: prowlarr.media-stack.svc
@@ -77,6 +86,12 @@ data:
       protocol: http
       api_key: ${PROWLARR_API_KEY}
       settings:
+        general:
+          security:
+            authentication: form
+            authentication_required: enabled
+            username: ${PROWLARR_USERNAME}
+            password: ${PROWLARR_PASSWORD}
         indexers:
           definitions:
             NZBgeek:
