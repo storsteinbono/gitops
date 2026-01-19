@@ -22,6 +22,61 @@ data:
     # Buildarr manages auth, download clients, root folders for all *arr apps
     # Configarr manages quality profiles and custom formats (TRaSH guides)
 
+    deluge:
+      hostname: deluge.media-stack.svc
+      port: 8112
+      protocol: http
+      password: ${DELUGE_PASSWORD}
+      settings:
+        # Downloads - use /downloads for hardlinks support
+        download_location: /downloads
+        move_completed: false
+        copy_torrent_file: false
+        del_copy_torrent_file: false
+        pre_allocate_storage: true
+        # Queue settings
+        queue_new_to_top: false
+        max_active_limit: 8
+        max_active_downloading: 5
+        max_active_seeding: -1
+        share_ratio_limit: 2.0
+        seed_time_ratio_limit: 7.0
+        seed_time_limit: 10080
+        stop_seed_at_ratio: false
+        remove_seed_at_ratio: false
+        # Bandwidth - no limits, let network handle it
+        max_connections_global: 200
+        max_upload_slots_global: -1
+        max_half_open_connections: 50
+        max_connections_per_second: 50
+        max_connections_per_torrent: -1
+        max_upload_slots_per_torrent: -1
+        max_download_speed: -1
+        max_upload_speed: -1
+        max_download_speed_per_torrent: -1
+        max_upload_speed_per_torrent: -1
+        # Network
+        listen_ports:
+          - 6881
+          - 6891
+        random_port: false
+        listen_interface: ""
+        outgoing_interface: ""
+        listen_use_sys_port: false
+        # Encryption (full stream, enabled)
+        enc_in_policy: 1
+        enc_out_policy: 1
+        enc_level: 2
+        # Disable UPnP/NAT-PMP for security
+        upnp: false
+        natpmp: false
+        utpex: true
+        lsd: true
+        dht: true
+        # Daemon
+        daemon_port: 58846
+        allow_remote: true
+
     sonarr:
       hostname: sonarr.media-stack.svc
       port: 8989
@@ -49,6 +104,17 @@ data:
               port: 8080
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
+              category: tv
+            Deluge:
+              type: deluge
+              enable: true
+              priority: 2
+              remove_completed_downloads: true
+              remove_failed_downloads: true
+              host: deluge.media-stack.svc
+              port: 8112
+              use_ssl: false
+              password: ${DELUGE_PASSWORD}
               category: tv
 
     radarr:
@@ -78,6 +144,17 @@ data:
               port: 8080
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
+              category: movies
+            Deluge:
+              type: deluge
+              enable: true
+              priority: 2
+              remove_completed_downloads: true
+              remove_failed_downloads: true
+              host: deluge.media-stack.svc
+              port: 8112
+              use_ssl: false
+              password: ${DELUGE_PASSWORD}
               category: movies
 
     prowlarr:
@@ -155,4 +232,16 @@ data:
               use_ssl: false
               api_key: ${SABNZBD_API_KEY}
               category: prowlarr
+              tags: []
+            Deluge:
+              type: deluge
+              enable: true
+              priority: 2
+              remove_completed_downloads: true
+              remove_failed_downloads: true
+              host: deluge.media-stack.svc
+              port: 8112
+              use_ssl: false
+              password: ${DELUGE_PASSWORD}
+              category: ""
               tags: []

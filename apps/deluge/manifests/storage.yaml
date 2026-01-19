@@ -1,0 +1,14 @@
+---
+# Config storage for Deluge
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deluge-config
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi

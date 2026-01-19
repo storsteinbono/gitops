@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: deluge
+  namespace: media-stack
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: media-stack-https-headers@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: deluge.torsteinbo.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: deluge
+                port:
+                  number: 8112
