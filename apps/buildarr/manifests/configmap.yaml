@@ -111,7 +111,7 @@ data:
               priority: 2
               remove_completed_downloads: true
               remove_failed_downloads: true
-              host: deluge.media-stack.svc
+              hostname: deluge.media-stack.svc
               port: 8112
               use_ssl: false
               password: ${DELUGE_PASSWORD}
@@ -239,7 +239,7 @@ data:
               priority: 2
               remove_completed_downloads: true
               remove_failed_downloads: true
-              host: deluge.media-stack.svc
+              hostname: deluge.media-stack.svc
               port: 8112
               use_ssl: false
               password: ${DELUGE_PASSWORD}
