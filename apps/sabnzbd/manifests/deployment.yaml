@@ -193,7 +193,7 @@ spec:
                 } >> "$CONFIG"
               fi
 
-              # Add movies category with /movies dir
+              # Add movies category (uses complete_dir/movies automatically)
               if ! grep -q "^\[\[movies\]\]" "$CONFIG"; then
                 echo "Adding category: movies"
                 {
@@ -202,13 +202,13 @@ spec:
                   echo "order = 0"
                   echo "pp = "
                   echo "script = Default"
-                  echo "dir = /movies"
+                  echo "dir = "
                   echo "newzbin = "
                   echo "priority = -100"
                 } >> "$CONFIG"
               fi
 
-              # Add tv category with /tv dir
+              # Add tv category (uses complete_dir/tv automatically)
               if ! grep -q "^\[\[tv\]\]" "$CONFIG"; then
                 echo "Adding category: tv"
                 {
@@ -217,7 +217,7 @@ spec:
                   echo "order = 0"
                   echo "pp = "
                   echo "script = Default"
-                  echo "dir = /tv"
+                  echo "dir = "
                   echo "newzbin = "
                   echo "priority = -100"
                 } >> "$CONFIG"
