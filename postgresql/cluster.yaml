@@ -43,4 +43,10 @@ spec:
         superuser: false
         passwordSecret:
           name: sonarr-user
-        
+      - name: authentik
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: authentik-user
+

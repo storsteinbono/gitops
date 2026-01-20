@@ -1,0 +1,124 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"  # Deploy after external-secrets and PostgreSQL
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.goauthentik.io
+      chart: authentik
+      targetRevision: 2025.2.2
+      helm:
+        releaseName: authentik
+        valuesObject:
+          authentik:
+            secret_key: ""  # Will be set via env from secret
+            error_reporting:
+              enabled: false
+
+          global:
+            env:
+              - name: AUTHENTIK_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-config
+                    key: secret_key
+              - name: AUTHENTIK_POSTGRESQL__HOST
+                value: "postgresql-rw.postgres.svc.cluster.local"
+              - name: AUTHENTIK_POSTGRESQL__PORT
+                value: "5432"
+              - name: AUTHENTIK_POSTGRESQL__NAME
+                value: "authentik"
+              - name: AUTHENTIK_POSTGRESQL__USER
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-config
+                    key: db_user
+              - name: AUTHENTIK_POSTGRESQL__PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-config
+                    key: db_password
+              - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-config
+                    key: bootstrap_password
+              - name: AUTHENTIK_BOOTSTRAP_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-config
+                    key: bootstrap_token
+              - name: AUTHENTIK_BOOTSTRAP_EMAIL
+                value: "admin@torsteinbo.net"
+
+          server:
+            replicas: 1
+            ingress:
+              enabled: false  # Using Traefik IngressRoute instead
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: 1000m
+                memory: 1Gi
+
+          worker:
+            replicas: 1
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: 500m
+                memory: 512Mi
+
+          # Disable bundled PostgreSQL - using external CloudNative-PG
+          postgresql:
+            enabled: false
+
+          # Use bundled Redis
+          redis:
+            enabled: true
+            architecture: standalone
+            auth:
+              enabled: false
+            master:
+              persistence:
+                enabled: true
+                size: 1Gi
+
+    - repoURL: git@github.com:storsteinbono/gitops.git
+      targetRevision: HEAD
+      path: infrastructure/authentik/manifests
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: authentik
+
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/audit: baseline
+        pod-security.kubernetes.io/warn: baseline
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
