@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/instance: authentik
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: redis
@@ -22,6 +24,12 @@ spec:
       containers:
         - name: redis
           image: docker.io/library/redis:7-alpine
+          args:
+            - redis-server
+            - --appendonly
+            - "yes"
+            - --dir
+            - /data
           ports:
             - containerPort: 6379
               name: redis
@@ -42,6 +50,28 @@ spec:
               port: redis
             initialDelaySeconds: 5
             periodSeconds: 5
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: authentik-redis-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: authentik-redis-data
+  namespace: authentik
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: authentik
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
