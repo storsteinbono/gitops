@@ -66,22 +66,6 @@ spec:
                     key: bootstrap_token
               - name: AUTHENTIK_BOOTSTRAP_EMAIL
                 value: "admin@torsteinbo.net"
-              # Entra ID OIDC configuration
-              - name: ENTRA_CLIENT_ID
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: entra_client_id
-              - name: ENTRA_CLIENT_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: entra_client_secret
-              - name: ENTRA_TENANT_ID
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: entra_tenant_id
 
           server:
             replicas: 1
@@ -94,13 +78,6 @@ spec:
               limits:
                 cpu: 1000m
                 memory: 1Gi
-            volumes:
-              - name: blueprints
-                configMap:
-                  name: authentik-blueprints
-            volumeMounts:
-              - name: blueprints
-                mountPath: /blueprints/custom
 
           worker:
             replicas: 1
@@ -111,13 +88,6 @@ spec:
               limits:
                 cpu: 500m
                 memory: 512Mi
-            volumes:
-              - name: blueprints
-                configMap:
-                  name: authentik-blueprints
-            volumeMounts:
-              - name: blueprints
-                mountPath: /blueprints/custom
 
           # Disable bundled PostgreSQL - using external CloudNative-PG
           postgresql:
