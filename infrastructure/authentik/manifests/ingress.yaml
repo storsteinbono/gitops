@@ -6,10 +6,10 @@ metadata:
   namespace: authentik
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
-    - match: Host(`auth.torsteinbo.net`) || Host(`authentik.torsteinbo.net`)
+    - match: Host(`auth.torsteinbo.net`)
       kind: Rule
       services:
         - name: authentik-server
-          port: 80
+          port: 9000
