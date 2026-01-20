@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`auth.torsteinbo.net`)
+    - match: Host(`auth.torsteinbo.net`) || Host(`authentik.torsteinbo.net`)
       kind: Rule
       services:
         - name: authentik-server
