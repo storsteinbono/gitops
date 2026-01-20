@@ -21,6 +21,9 @@ spec:
             secret_key: ""  # Will be set via env from secret
             error_reporting:
               enabled: false
+            redis:
+              host: authentik-redis-master
+              port: 6379
 
           global:
             env:
@@ -83,21 +86,6 @@ spec:
           # Disable bundled PostgreSQL - using external CloudNative-PG
           postgresql:
             enabled: false
-
-          # Use bundled Redis
-          redis:
-            enabled: true
-            architecture: standalone
-            auth:
-              enabled: false
-            image:
-              registry: docker.io
-              repository: library/redis
-              tag: 7-alpine
-            master:
-              persistence:
-                enabled: true
-                size: 1Gi
 
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
