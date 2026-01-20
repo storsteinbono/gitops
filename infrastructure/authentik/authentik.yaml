@@ -34,6 +34,10 @@ spec:
                     key: secret_key
               - name: AUTHENTIK_HOST
                 value: "auth.torsteinbo.net"
+              - name: AUTHENTIK_REVERSE_PROXY
+                value: "true"
+              - name: AUTHENTIK_LISTEN__TRUSTED_PROXIES
+                value: "0.0.0.0/0"
               - name: AUTHENTIK_POSTGRESQL__HOST
                 value: "postgresql-rw.postgres.svc.cluster.local"
               - name: AUTHENTIK_POSTGRESQL__PORT
