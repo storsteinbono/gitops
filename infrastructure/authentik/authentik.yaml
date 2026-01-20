@@ -32,6 +32,8 @@ spec:
                   secretKeyRef:
                     name: authentik-config
                     key: secret_key
+              - name: AUTHENTIK_HOST
+                value: "auth.torsteinbo.net"
               - name: AUTHENTIK_POSTGRESQL__HOST
                 value: "postgresql-rw.postgres.svc.cluster.local"
               - name: AUTHENTIK_POSTGRESQL__PORT
