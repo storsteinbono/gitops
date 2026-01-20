@@ -33,7 +33,7 @@ spec:
                     name: authentik-config
                     key: secret_key
               - name: AUTHENTIK_HOST
-                value: "auth.torsteinbo.net"
+                value: "https://auth.torsteinbo.net"
               - name: AUTHENTIK_REVERSE_PROXY
                 value: "true"
               - name: AUTHENTIK_LISTEN__TRUSTED_PROXIES
