@@ -2,19 +2,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: authentik
-  namespace: authentik
+  name: longhorn
+  namespace: longhorn
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: auth.torsteinbo.net
+    - host: longhorn.torsteinbo.net
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: authentik-server
+                name: longhorn-frontend
                 port:
                   number: 80
