@@ -49,3 +49,15 @@ data:
           access_token_url: !Format ["https://login.microsoftonline.com/%s/oauth2/v2.0/token", !Env ENTRA_TENANT_ID]
           profile_url: https://graph.microsoft.com/v1.0/me
           oidc_jwks_url: !Format ["https://login.microsoftonline.com/%s/discovery/v2.0/keys", !Env ENTRA_TENANT_ID]
+      
+      - model: authentik_stages_identification.identificationstage
+        identifiers:
+          name: default-authentication-identification
+        id: default-authentication-identification
+        attrs:
+          user_fields:
+            - email
+            - username
+          sources:
+            - !Find [authentik_sources_oauth.oauthsource, [slug, entra-id]]
+
