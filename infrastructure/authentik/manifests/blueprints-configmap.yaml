@@ -50,7 +50,7 @@ data:
           profile_url: https://graph.microsoft.com/oidc/userinfo
           oidc_well_known_url: !Format ["https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration", !Env ENTRA_TENANT_ID]
           oidc_jwks_url: !Format ["https://login.microsoftonline.com/%s/discovery/v2.0/keys", !Env ENTRA_TENANT_ID]
-          additional_scopes: "openid profile email User.Read"
+          additional_scopes: "openid profile email"
       
       - model: authentik_stages_identification.identificationstage
         identifiers:
