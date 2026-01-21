@@ -56,12 +56,12 @@ spec:
               - secretRef:
                   name: authentik-config  # includes secrets + Entra env vars + bootstrap
 
-            extraVolumes:
+            volumes:
               - name: authentik-blueprints
                 configMap:
                   name: authentik-blueprints
 
-            extraVolumeMounts:
+            volumeMounts:
               - name: authentik-blueprints
                 mountPath: /blueprints
                 readOnly: true
@@ -91,12 +91,12 @@ spec:
               - secretRef:
                   name: authentik-config
 
-            extraVolumes:
+            volumes:
               - name: authentik-blueprints
                 configMap:
                   name: authentik-blueprints
 
-            extraVolumeMounts:
+            volumeMounts:
               - name: authentik-blueprints
                 mountPath: /blueprints
                 readOnly: true
