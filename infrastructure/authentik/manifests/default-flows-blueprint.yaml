@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentik-default-flows
+  namespace: authentik
+  labels:
+    app.kubernetes.io/name: authentik
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+data:
+  default-flows.yaml: |
+    version: 1
+    metadata:
+      name: Default Flows
+      labels:
+        blueprints.goauthentik.io/description: "Default authentication and enrollment flows"
+    entries:
+      - model: authentik_flows.flow
+        identifiers:
+          slug: default-source-authentication
+        attrs:
+          name: Default Authentication Flow
+      - model: authentik_flows.flow
+        identifiers:
+          slug: default-source-enrollment
+        attrs:
+          name: Default Enrollment Flow
