@@ -2,11 +2,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: longhorn
-  namespace: longhorn
+  name: longhorn-ui
+  namespace: longhorn-system
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
     - host: longhorn.torsteinbo.net
       http:
