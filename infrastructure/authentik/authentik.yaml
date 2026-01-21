@@ -1,4 +1,3 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,7 +9,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "-3"  # Deploy after external-secrets and PostgreSQL
 spec:
   project: default
+
   sources:
+    # --- Authentik Helm chart ---
     - repoURL: https://charts.goauthentik.io
       chart: authentik
       targetRevision: 2025.12.1
@@ -18,7 +19,7 @@ spec:
         releaseName: authentik
         valuesObject:
           authentik:
-            secret_key: ""  # Will be set via env from secret
+            secret_key: ""  # managed via external secret
             error_reporting:
               enabled: false
             redis:
@@ -26,12 +27,8 @@ spec:
               port: 6379
 
           global:
+            # Static config only
             env:
-              - name: AUTHENTIK_SECRET_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: secret_key
               - name: AUTHENTIK_HOST
                 value: "https://auth.torsteinbo.net"
               - name: AUTHENTIK_REVERSE_PROXY
@@ -44,33 +41,34 @@ spec:
                 value: "5432"
               - name: AUTHENTIK_POSTGRESQL__NAME
                 value: "authentik"
-              - name: AUTHENTIK_POSTGRESQL__USER
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: db_user
-              - name: AUTHENTIK_POSTGRESQL__PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: db_password
-              - name: AUTHENTIK_BOOTSTRAP_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: bootstrap_password
-              - name: AUTHENTIK_BOOTSTRAP_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-config
-                    key: bootstrap_token
-              - name: AUTHENTIK_BOOTSTRAP_EMAIL
-                value: "admin@torsteinbo.net"
 
+          # ---------------------------
+          # Authentik Server
+          # ---------------------------
           server:
             replicas: 1
+
+            env:
+              - name: AUTHENTIK_BLUEPRINTS_DIR
+                value: /blueprints
+
+            envFrom:
+              - secretRef:
+                  name: authentik-config  # includes secrets + Entra env vars + bootstrap
+
+            extraVolumes:
+              - name: authentik-blueprints
+                configMap:
+                  name: authentik-blueprints
+
+            extraVolumeMounts:
+              - name: authentik-blueprints
+                mountPath: /blueprints
+                readOnly: true
+
             ingress:
-              enabled: false  # Using Traefik IngressRoute instead
+              enabled: false
+
             resources:
               requests:
                 cpu: 100m
@@ -79,8 +77,30 @@ spec:
                 cpu: 1000m
                 memory: 1Gi
 
+          # ---------------------------
+          # Authentik Worker
+          # ---------------------------
           worker:
             replicas: 1
+
+            env:
+              - name: AUTHENTIK_BLUEPRINTS_DIR
+                value: /blueprints
+
+            envFrom:
+              - secretRef:
+                  name: authentik-config
+
+            extraVolumes:
+              - name: authentik-blueprints
+                configMap:
+                  name: authentik-blueprints
+
+            extraVolumeMounts:
+              - name: authentik-blueprints
+                mountPath: /blueprints
+                readOnly: true
+
             resources:
               requests:
                 cpu: 100m
@@ -89,10 +109,11 @@ spec:
                 cpu: 500m
                 memory: 512Mi
 
-          # Disable bundled PostgreSQL - using external CloudNative-PG
+          # Disable bundled PostgreSQL - using external
           postgresql:
             enabled: false
 
+    # --- Raw Kubernetes manifests (blueprints, ingress, redis, secrets) ---
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: infrastructure/authentik/manifests
