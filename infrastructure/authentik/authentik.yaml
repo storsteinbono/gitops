@@ -63,7 +63,7 @@ spec:
 
             volumeMounts:
               - name: authentik-blueprints
-                mountPath: /blueprints
+                mountPath: /blueprints/custom
                 readOnly: true
 
             ingress:
@@ -98,7 +98,7 @@ spec:
 
             volumeMounts:
               - name: authentik-blueprints
-                mountPath: /blueprints
+                mountPath: /blueprints/custom
                 readOnly: true
 
             resources:
