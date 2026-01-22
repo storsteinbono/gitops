@@ -60,7 +60,7 @@ spec:
               mountPath: /config
             - name: media
               mountPath: /downloads
-              subPath: downloads
+              subPath: pinchflat
       volumes:
         - name: config
           persistentVolumeClaim:
