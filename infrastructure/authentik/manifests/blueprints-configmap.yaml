@@ -32,6 +32,7 @@ data:
                 "email": email,
                 "username": email,
                 "name": info.get("name") or info.get("displayName") or email.split("@")[0],
+                "type": "internal",
             }
 
       # 2. Create the OAuth Source
