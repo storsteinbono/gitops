@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,35 +22,51 @@ spec:
       containers:
         - name: management
           image: netbirdio/management:latest
-          ports:
-            - containerPort: 443
-              name: https
-              protocol: TCP
-            - containerPort: 33073
-              name: grpc
-              protocol: TCP
+          imagePullPolicy: IfNotPresent
+
           command: ["/go/bin/netbird-mgmt"]
-          args: ["management", "--config", "/var/lib/netbird/management.json", "--log-file", "console"]
+          args:
+            - management
+            - "--log-file"
+            - "console"
+
+          ports:
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: grpc
+              containerPort: 33073
+              protocol: TCP
+
           env:
+            # Core
             - name: NETBIRD_DOMAIN
               value: "netbird.torsteinbo.net"
-            - name: NETBIRD_AUTH_OIDC_CONFIGURATION_ENDPOINT
-              value: "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
-            - name: NETBIRD_AUTH_AUDIENCE
-              value: "netbird"
-            - name: NETBIRD_USE_AUTH0
-              value: "false"
             - name: NETBIRD_DISABLE_SINGLE_ACCOUNT_MODE
               value: "false"
+
+            # Signal
             - name: NETBIRD_SIGNAL_PROTOCOL
               value: "https"
             - name: NETBIRD_SIGNAL_ENDPOINT
               value: "netbird.torsteinbo.net:443"
+
+            # TURN
             - name: NETBIRD_TURN_DOMAIN
               value: "netbird.torsteinbo.net"
             - name: NETBIRD_TURN_PORT
               value: "3478"
-            # OIDC Configuration
+            - name: NETBIRD_TURN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_TURN_SECRET
+
+            # OIDC / Auth
+            - name: NETBIRD_AUTH_OIDC_CONFIGURATION_ENDPOINT
+              value: "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
+            - name: NETBIRD_AUTH_AUDIENCE
+              value: "netbird"
             - name: NETBIRD_AUTH_SUPPORTED_SCOPES
               value: "openid profile email"
             - name: NETBIRD_AUTH_REDIRECT_URL
@@ -60,17 +75,17 @@ spec:
               value: "https://netbird.torsteinbo.net/silent-auth"
             - name: NETBIRD_IDP_SIGN_KEY_REFRESH_ENABLED
               value: "true"
-            # Secrets from Azure Key Vault
+
             - name: NETBIRD_AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_AUTH_CLIENT_ID
-            - name: NETBIRD_TURN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_TURN_SECRET
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/netbird
+
           resources:
             requests:
               cpu: 100m
@@ -78,27 +93,27 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/netbird
+
           livenessProbe:
             httpGet:
               path: /api/health
-              port: 443
+              port: https
               scheme: HTTPS
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
+
           readinessProbe:
             httpGet:
               path: /api/health
-              port: 443
+              port: https
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 3
+
       volumes:
         - name: data
           persistentVolumeClaim:
