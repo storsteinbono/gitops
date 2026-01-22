@@ -8,24 +8,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-4"
 data:
-  default-flows.yaml: |
-    version: 1
-    metadata:
-      name: Default Flows
-      labels:
-        blueprints.goauthentik.io/description: "Default authentication and enrollment flows"
-    entries:
-      - model: authentik_flows.flow
-        identifiers:
-          slug: default-source-authentication
-        attrs:
-          name: Default Authentication Flow
-      - model: authentik_flows.flow
-        identifiers:
-          slug: default-source-enrollment
-        attrs:
-          name: Default Enrollment Flow
-
   entra-id.yaml: |
     version: 1
     metadata:
@@ -51,15 +33,4 @@ data:
           oidc_well_known_url: !Format ["https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration", !Env ENTRA_TENANT_ID]
           oidc_jwks_url: !Format ["https://login.microsoftonline.com/%s/discovery/v2.0/keys", !Env ENTRA_TENANT_ID]
           additional_scopes: "openid profile email"
-      
-      - model: authentik_stages_identification.identificationstage
-        identifiers:
-          name: default-authentication-identification
-        id: default-authentication-identification
-        attrs:
-          user_fields:
-            - email
-            - username
-          sources:
-            - !Find [authentik_sources_oauth.oauthsource, [slug, entra-id]]
 
