@@ -19,27 +19,6 @@ spec:
         app.kubernetes.io/name: netbird
         app.kubernetes.io/component: management
     spec:
-      initContainers:
-        - name: init-config
-          image: busybox:latest
-          command:
-            - sh
-            - -c
-            - |
-              if [ ! -f /etc/netbird/management.json ]; then
-                echo '{
-                  "Domain": "netbird.torsteinbo.net",
-                  "HttpConfig": {},
-                  "Signal": {},
-                  "Grpc": {},
-                  "Log": {"Level":"info","File":"console"}
-                }' > /etc/netbird/management.json
-              fi
-          volumeMounts:
-            - name: config
-              mountPath: /etc/netbird
-            - name: data
-              mountPath: /var/lib/netbird
       containers:
         - name: management
           image: netbirdio/management:latest
@@ -48,8 +27,6 @@ spec:
           command: ["/go/bin/netbird-mgmt"]
           args:
             - management
-            - "--config"
-            - "/etc/netbird/management.json"
             - "--log-file"
             - "console"
 
@@ -105,8 +82,6 @@ spec:
                   key: NETBIRD_AUTH_CLIENT_ID
 
           volumeMounts:
-            - name: config
-              mountPath: /etc/netbird
             - name: data
               mountPath: /var/lib/netbird
 
@@ -139,9 +114,6 @@ spec:
             failureThreshold: 3
 
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: netbird-management-data
         - name: data
           persistentVolumeClaim:
             claimName: netbird-management-data
