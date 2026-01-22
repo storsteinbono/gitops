@@ -47,6 +47,7 @@ data:
         }
       },
       "Datadir": "/var/lib/netbird",
+      "DataStoreEncryptionKey": "will-be-overridden-by-env-var",
       "Signal": {},
       "Grpc": {},
       "Log": {
