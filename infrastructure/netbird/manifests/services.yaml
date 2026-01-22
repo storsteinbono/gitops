@@ -1,0 +1,74 @@
+---
+# Management Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: netbird-management
+  namespace: netbird
+  labels:
+    app: netbird-management
+spec:
+  type: ClusterIP
+  ports:
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+    - port: 33073
+      targetPort: 33073
+      protocol: TCP
+      name: grpc
+  selector:
+    app: netbird-management
+---
+# Signal Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: netbird-signal
+  namespace: netbird
+  labels:
+    app: netbird-signal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+    - port: 10000
+      targetPort: 10000
+      protocol: TCP
+      name: grpc
+  selector:
+    app: netbird-signal
+---
+# Coturn TURN/STUN Service (LoadBalancer for UDP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: netbird-coturn
+  namespace: netbird
+  labels:
+    app: netbird-coturn
+  annotations:
+    # Uncomment if using MetalLB or specific load balancer
+    # metallb.universe.tf/allow-shared-ip: "netbird"
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+    - port: 3478
+      targetPort: 3478
+      protocol: UDP
+      name: turn-udp
+    - port: 3478
+      targetPort: 3478
+      protocol: TCP
+      name: turn-tcp
+    - port: 5349
+      targetPort: 5349
+      protocol: TCP
+      name: turns
+  selector:
+    app: netbird-coturn

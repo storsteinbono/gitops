@@ -1,0 +1,126 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coturn-config
+  namespace: netbird
+data:
+  turnserver.conf: |
+    listening-port=3478
+    tls-listening-port=5349
+    
+    # Relay configuration
+    min-port=49152
+    max-port=65535
+    
+    # Realm
+    realm=netbird.torsteinbo.net
+    server-name=netbird.torsteinbo.net
+    
+    # Authentication
+    use-auth-secret
+    static-auth-secret=__TURN_SECRET__
+    
+    # Logging
+    verbose
+    log-file=stdout
+    
+    # Performance
+    no-multicast-peers
+    no-cli
+    
+    # Security
+    fingerprint
+    lt-cred-mech
+    
+    # Network
+    external-ip=__EXTERNAL_IP__
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbird-coturn
+  namespace: netbird
+  labels:
+    app: netbird-coturn
+    app.kubernetes.io/name: netbird
+    app.kubernetes.io/component: turn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netbird-coturn
+  template:
+    metadata:
+      labels:
+        app: netbird-coturn
+        app.kubernetes.io/name: netbird
+        app.kubernetes.io/component: turn
+    spec:
+      initContainers:
+        - name: config-init
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              TURN_SECRET=$(cat /secrets/NETBIRD_TURN_SECRET)
+              sed "s/__TURN_SECRET__/$TURN_SECRET/g" /config-template/turnserver.conf > /config/turnserver.conf
+              # External IP will be auto-detected by coturn
+              sed -i "s/__EXTERNAL_IP__//g" /config/turnserver.conf
+          volumeMounts:
+            - name: config-template
+              mountPath: /config-template
+            - name: config
+              mountPath: /config
+            - name: secrets
+              mountPath: /secrets
+      containers:
+        - name: coturn
+          image: coturn/coturn:latest
+          ports:
+            - containerPort: 3478
+              name: turn-udp
+              protocol: UDP
+            - containerPort: 3478
+              name: turn-tcp
+              protocol: TCP
+            - containerPort: 5349
+              name: turns
+              protocol: TCP
+          args:
+            - "-c"
+            - "/etc/coturn/turnserver.conf"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/coturn
+          livenessProbe:
+            tcpSocket:
+              port: 3478
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 3478
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: config-template
+          configMap:
+            name: coturn-config
+        - name: config
+          emptyDir: {}
+        - name: secrets
+          secret:
+            secretName: netbird-secrets

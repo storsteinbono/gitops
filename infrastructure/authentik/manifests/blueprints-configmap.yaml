@@ -74,3 +74,40 @@ data:
           show_source_labels: true
           show_matched_user: true
 
+  terraform-service-account.yaml: |
+    version: 1
+    metadata:
+      name: Terraform Service Account
+      labels:
+        blueprints.goauthentik.io/description: "Service account for Terraform automation"
+    entries:
+      # 1. Create a service account user for Terraform
+      - model: authentik_core.user
+        id: terraform-service-account
+        identifiers:
+          username: terraform-automation
+        attrs:
+          name: "Terraform Automation"
+          email: "terraform@torsteinbo.net"
+          is_active: true
+          type: service_account
+          path: "goauthentik.io/service-accounts"
+
+      # 2. Add service account to superuser group for full API access
+      - model: authentik_core.group
+        identifiers:
+          name: authentik Admins
+        attrs:
+          users:
+            - !KeyOf terraform-service-account
+
+      # 3. Create an API token for the service account
+      - model: authentik_core.token
+        id: terraform-api-token
+        identifiers:
+          identifier: terraform-api-token
+        attrs:
+          user: !KeyOf terraform-service-account
+          intent: api
+          expiring: false
+          description: "API token for Terraform provider authentication"

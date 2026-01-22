@@ -1,0 +1,28 @@
+---
+# Storage for Netbird Management service
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: netbird-management-data
+  namespace: netbird
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Storage for Netbird Signal service
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: netbird-signal-data
+  namespace: netbird
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
