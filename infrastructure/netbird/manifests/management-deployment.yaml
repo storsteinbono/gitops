@@ -30,6 +30,8 @@ spec:
             - containerPort: 33073
               name: grpc
               protocol: TCP
+          command: ["/go/bin/netbird-mgmt"]
+          args: ["management", "--config", "/var/lib/netbird/management.json", "--log-file", "console"]
           env:
             - name: NETBIRD_DOMAIN
               value: "netbird.torsteinbo.net"
