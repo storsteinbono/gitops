@@ -19,6 +19,27 @@ spec:
         app.kubernetes.io/name: netbird
         app.kubernetes.io/component: management
     spec:
+      initContainers:
+        - name: init-config
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /etc/netbird/management.json ]; then
+                echo '{
+                  "Domain": "netbird.torsteinbo.net",
+                  "HttpConfig": {},
+                  "Signal": {},
+                  "Grpc": {},
+                  "Log": {"Level":"info","File":"console"}
+                }' > /etc/netbird/management.json
+              fi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/netbird
+            - name: data
+              mountPath: /var/lib/netbird
       containers:
         - name: management
           image: netbirdio/management:latest
@@ -27,6 +48,8 @@ spec:
           command: ["/go/bin/netbird-mgmt"]
           args:
             - management
+            - "--config"
+            - "/etc/netbird/management.json"
             - "--log-file"
             - "console"
 
@@ -75,7 +98,6 @@ spec:
               value: "https://netbird.torsteinbo.net/silent-auth"
             - name: NETBIRD_IDP_SIGN_KEY_REFRESH_ENABLED
               value: "true"
-
             - name: NETBIRD_AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -84,9 +106,7 @@ spec:
 
           volumeMounts:
             - name: config
-              mountPath: /etc/netbird/management.json
-              subPath: management.json
-
+              mountPath: /etc/netbird
             - name: data
               mountPath: /var/lib/netbird
 
@@ -120,9 +140,8 @@ spec:
 
       volumes:
         - name: config
-          configMap:
-            name: netbird-management-config
-
+          persistentVolumeClaim:
+            claimName: netbird-management-data
         - name: data
           persistentVolumeClaim:
             claimName: netbird-management-data
