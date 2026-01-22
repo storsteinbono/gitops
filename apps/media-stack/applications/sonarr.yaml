@@ -2,18 +2,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: plex
+  name: sonarr
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: apps/plex/manifests
+    path: apps/media-stack/sonarr/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: media-stack

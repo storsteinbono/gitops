@@ -28,10 +28,13 @@ data:
             if not email:
                 email = info.get("sub", "") + "@torsteinbo.net"
 
+            # Extract username (part before @)
+            username = email.split("@")[0] if "@" in email else email
+
             return {
                 "email": email,
-                "username": email,
-                "name": info.get("name") or info.get("displayName") or email.split("@")[0],
+                "username": username,
+                "name": info.get("name") or info.get("displayName") or username,
                 "type": "internal",
             }
 

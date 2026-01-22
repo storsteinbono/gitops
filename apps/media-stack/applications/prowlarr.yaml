@@ -2,18 +2,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: deluge
+  name: prowlarr
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: apps/deluge/manifests
+    path: apps/media-stack/prowlarr/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: media-stack

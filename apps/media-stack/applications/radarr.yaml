@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pinchflat
+  name: radarr
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: apps/pinchflat/manifests
+    path: apps/media-stack/radarr/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: media-stack
