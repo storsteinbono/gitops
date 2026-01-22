@@ -15,7 +15,26 @@ data:
       labels:
         blueprints.goauthentik.io/description: "Microsoft Entra ID OIDC authentication source"
     entries:
-      # 1. Create the OAuth Source
+      # 1. Create property mapping to extract user info from Entra ID
+      - model: authentik_sources_oauth.oauthsourcepropertymapping
+        id: entra-id-user-mapping
+        identifiers:
+          name: "Entra ID - User Mapping"
+        attrs:
+          expression: |
+            # Extract user info from Entra ID OIDC response
+            email = info.get("preferred_username") or info.get("email") or info.get("upn")
+
+            if not email:
+                email = info.get("sub", "") + "@torsteinbo.net"
+
+            return {
+                "email": email,
+                "username": email,
+                "name": info.get("name") or info.get("displayName") or email.split("@")[0],
+            }
+
+      # 2. Create the OAuth Source
       - model: authentik_sources_oauth.oauthsource
         id: entra-id-source
         identifiers:
@@ -35,8 +54,10 @@ data:
           oidc_well_known_url: !Format ["https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration", !Env ENTRA_TENANT_ID]
           oidc_jwks_url: !Format ["https://login.microsoftonline.com/%s/discovery/v2.0/keys", !Env ENTRA_TENANT_ID]
           additional_scopes: "openid profile email"
+          user_property_mappings:
+            - !KeyOf entra-id-user-mapping
 
-      # 2. Update default identification stage to include the OAuth source
+      # 3. Update default identification stage to include the OAuth source
       - model: authentik_stages_identification.identificationstage
         identifiers:
           name: default-authentication-identification
