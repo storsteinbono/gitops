@@ -6,5 +6,12 @@ metadata:
 data:
   management.json: |
     {
-      "Domain": "netbird.torsteinbo.net"
+      "Domain": "netbird.torsteinbo.net",
+      "HttpConfig": {},
+      "Signal": {},
+      "Grpc": {},
+      "Log": {
+        "Level": "info",
+        "File": "console"
+      }
     }
