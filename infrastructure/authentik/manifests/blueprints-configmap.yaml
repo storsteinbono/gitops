@@ -15,7 +15,9 @@ data:
       labels:
         blueprints.goauthentik.io/description: "Microsoft Entra ID OIDC authentication source"
     entries:
+      # 1. Create the OAuth Source
       - model: authentik_sources_oauth.oauthsource
+        id: entra-id-source
         identifiers:
           slug: entra-id
         attrs:
@@ -33,4 +35,17 @@ data:
           oidc_well_known_url: !Format ["https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration", !Env ENTRA_TENANT_ID]
           oidc_jwks_url: !Format ["https://login.microsoftonline.com/%s/discovery/v2.0/keys", !Env ENTRA_TENANT_ID]
           additional_scopes: "openid profile email"
+
+      # 2. Update default identification stage to include the OAuth source
+      - model: authentik_stages_identification.identificationstage
+        identifiers:
+          name: default-authentication-identification
+        attrs:
+          user_fields:
+            - email
+            - username
+          sources:
+            - !KeyOf entra-id-source
+          show_source_labels: true
+          show_matched_user: true
 
