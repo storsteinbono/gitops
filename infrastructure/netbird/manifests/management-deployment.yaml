@@ -83,6 +83,10 @@ spec:
                   key: NETBIRD_AUTH_CLIENT_ID
 
           volumeMounts:
+            - name: config
+              mountPath: /etc/netbird/management.json
+              subPath: management.json
+
             - name: data
               mountPath: /var/lib/netbird
 
@@ -115,6 +119,10 @@ spec:
             failureThreshold: 3
 
       volumes:
+        - name: config
+          configMap:
+            name: netbird-management-config
+
         - name: data
           persistentVolumeClaim:
             claimName: netbird-management-data
