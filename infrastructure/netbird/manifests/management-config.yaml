@@ -46,6 +46,7 @@ data:
           "Scope": "openid profile email offline_access"
         }
       },
+      "Datadir": "/var/lib/netbird",
       "Signal": {},
       "Grpc": {},
       "Log": {
