@@ -65,12 +65,12 @@ spec:
                   name: netbird-secrets
                   key: NETBIRD_TURN_SECRET
 
-            # Datastore Encryption
-            - name: NB_DATASTORE_ENCRYPTION_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NB_FIELD_ENCRYPTION_KEY
+#            # Datastore Encryption
+#            - name: NB_DATASTORE_ENCRYPTION_KEY
+#              valueFrom:
+#                secretKeyRef:
+#                  name: netbird-secrets
+#                  key: NB_FIELD_ENCRYPTION_KEY
 
             # OIDC / Auth
             - name: NETBIRD_AUTH_OIDC_CONFIGURATION_ENDPOINT
