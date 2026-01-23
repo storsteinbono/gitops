@@ -66,7 +66,7 @@ spec:
                   key: NETBIRD_TURN_SECRET
 
             # Datastore Encryption
-            - name: NB_DATASTORE_ENCRYPTION_KEY
+            - name: NETBIRD_DATASTORE_ENC_KEY
               valueFrom:
                 secretKeyRef:
                   name: netbird-secrets
