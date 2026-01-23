@@ -45,7 +45,7 @@ spec:
             # Core
             - name: NETBIRD_DOMAIN
               value: "netbird.torsteinbo.net"
-            - name: NETBIRD_DISABLE_SINGLE_ACCOUNT_MODE
+            - name: NB_DISABLE_SINGLE_ACCOUNT_MODE
               value: "false"
 
             # Signal
@@ -83,7 +83,7 @@ spec:
               value: "https://netbird.torsteinbo.net/auth/callback"
             - name: NETBIRD_AUTH_SILENT_REDIRECT_URL
               value: "https://netbird.torsteinbo.net/silent-auth"
-            - name: NETBIRD_IDP_SIGN_KEY_REFRESH_ENABLED
+            - name: NB_IDP_SIGN_KEY_REFRESH_ENABLED
               value: "true"
             - name: NETBIRD_AUTH_CLIENT_ID
               valueFrom:
