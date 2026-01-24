@@ -63,16 +63,6 @@ spec:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_AUTH_CLIENT_SECRET
-            - name: NETBIRD_IDP_SERVICE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_IDP_SERVICE_USER
-            - name: NETBIRD_IDP_SERVICE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_IDP_SERVICE_PASSWORD
 
           volumeMounts:
             - name: config
