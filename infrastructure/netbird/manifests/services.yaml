@@ -10,10 +10,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 443
-      targetPort: 443
+    - port: 80
+      targetPort: 80
       protocol: TCP
-      name: https
+      name: http
     - port: 33073
       targetPort: 33073
       protocol: TCP
