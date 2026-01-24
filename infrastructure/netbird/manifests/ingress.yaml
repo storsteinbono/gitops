@@ -1,4 +1,23 @@
 ---
+# Dashboard UI
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: netbird-dashboard
+  namespace: netbird
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`netbird.torsteinbo.net`) && !PathPrefix(`/api`) && !PathPrefix(`/management.`) && !PathPrefix(`/signalexchange.`)
+      services:
+        - name: netbird-dashboard
+          port: 80
+  tls:
+    certResolver: letsencrypt
+---
+# Management API
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -9,13 +28,14 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`netbird.torsteinbo.net`)
+      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/api`)
       services:
         - name: netbird-management
           port: 80
   tls:
     certResolver: letsencrypt
 ---
+# Management gRPC
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -26,7 +46,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/management.ManagementService`)
+      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/management.`)
       services:
         - name: netbird-management
           port: 33073
@@ -34,6 +54,7 @@ spec:
   tls:
     certResolver: letsencrypt
 ---
+# Signal gRPC
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -44,10 +65,28 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/signalexchange.SignalExchange`)
+      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/signalexchange.`)
       services:
         - name: netbird-signal
           port: 10000
           scheme: h2c
+  tls:
+    certResolver: letsencrypt
+---
+# OAuth2 endpoints (embedded IdP)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: netbird-oauth
+  namespace: netbird
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`netbird.torsteinbo.net`) && PathPrefix(`/oauth2`)
+      services:
+        - name: netbird-management
+          port: 80
   tls:
     certResolver: letsencrypt
