@@ -34,6 +34,7 @@ data:
       "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
       "EmbeddedIdP": {
         "Enabled": true,
+        "Issuer": "https://netbird.torsteinbo.net",
         "DataDir": "/var/lib/netbird/idp"
       },
       "Grpc": {},
