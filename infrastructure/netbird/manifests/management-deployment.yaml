@@ -42,49 +42,17 @@ spec:
               protocol: TCP
 
           env:
-            # Core
-            - name: NETBIRD_DOMAIN
-              value: "netbird.torsteinbo.net"
-            - name: NB_DISABLE_SINGLE_ACCOUNT_MODE
-              value: "false"
-
-            # Signal
-            - name: NETBIRD_SIGNAL_PROTOCOL
-              value: "https"
-            - name: NETBIRD_SIGNAL_ENDPOINT
-              value: "netbird.torsteinbo.net:443"
-
-            # TURN
-            - name: NETBIRD_TURN_DOMAIN
-              value: "netbird.torsteinbo.net"
-            - name: NETBIRD_TURN_PORT
-              value: "3478"
+            # Secrets for JSON config substitution
             - name: NETBIRD_TURN_SECRET
               valueFrom:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_TURN_SECRET
-
-            # Datastore Encryption
             - name: NETBIRD_DATASTORE_ENC_KEY
               valueFrom:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_DATASTORE_ENC_KEY
-
-            # OIDC / Auth
-            - name: NETBIRD_AUTH_OIDC_CONFIGURATION_ENDPOINT
-              value: "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
-            - name: NETBIRD_AUTH_AUDIENCE
-              value: "netbird"
-            - name: NETBIRD_AUTH_SUPPORTED_SCOPES
-              value: "openid profile email"
-            - name: NETBIRD_AUTH_REDIRECT_URL
-              value: "https://netbird.torsteinbo.net/auth/callback"
-            - name: NETBIRD_AUTH_SILENT_REDIRECT_URL
-              value: "https://netbird.torsteinbo.net/silent-auth"
-            - name: NB_IDP_SIGN_KEY_REFRESH_ENABLED
-              value: "true"
             - name: NETBIRD_AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:

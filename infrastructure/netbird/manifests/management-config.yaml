@@ -7,6 +7,29 @@ data:
   management.json: |
     {
       "Domain": "netbird.torsteinbo.net",
+      "Stuns": [
+        {
+          "Proto": "udp",
+          "URI": "stun:netbird.torsteinbo.net:3478"
+        }
+      ],
+      "TURNConfig": {
+        "TimeBasedCredentials": false,
+        "CredentialsTTL": "12h0m0s",
+        "Secret": "{{ .NETBIRD_TURN_SECRET }}",
+        "Turns": [
+          {
+            "Proto": "udp",
+            "URI": "turn:netbird.torsteinbo.net:3478",
+            "Username": "netbird",
+            "Password": "{{ .NETBIRD_TURN_SECRET }}"
+          }
+        ]
+      },
+      "Signal": {
+        "Proto": "https",
+        "URI": "netbird.torsteinbo.net:443"
+      },
       "HttpConfig": {
         "AuthAudience": "netbird",
         "AuthIssuer": "https://auth.torsteinbo.net/application/o/netbird/",
@@ -18,15 +41,15 @@ data:
         "ClientConfig": {
           "Issuer": "https://auth.torsteinbo.net/application/o/netbird/",
           "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-          "ClientID": "netbird",
-          "ClientSecret": "",
+          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
+          "ClientSecret": "{{ .NETBIRD_AUTH_CLIENT_SECRET }}",
           "GrantType": "client_credentials"
         }
       },
       "PKCEAuthorizationFlow": {
         "ProviderConfig": {
-          "ClientID": "netbird",
-          "ClientSecret": "",
+          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
+          "ClientSecret": "{{ .NETBIRD_AUTH_CLIENT_SECRET }}",
           "Domain": "https://auth.torsteinbo.net/application/o/netbird/",
           "Audience": "netbird",
           "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
@@ -38,7 +61,7 @@ data:
       "DeviceAuthorizationFlow": {
         "Provider": "hosted",
         "ProviderConfig": {
-          "ClientID": "netbird",
+          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
           "Domain": "auth.torsteinbo.net",
           "Audience": "netbird",
           "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
@@ -47,7 +70,7 @@ data:
         }
       },
       "Datadir": "/var/lib/netbird",
-      "Signal": {},
+      "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
       "Grpc": {},
       "Log": {
         "Level": "info",
