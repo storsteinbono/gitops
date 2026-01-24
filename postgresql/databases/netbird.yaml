@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: netbird
+  namespace: postgres
+spec:
+  name: netbird
+  owner: netbird
+  cluster:
+    name: postgresql

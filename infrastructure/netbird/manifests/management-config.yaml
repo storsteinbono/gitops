@@ -32,6 +32,9 @@ data:
       },
       "Datadir": "/var/lib/netbird",
       "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
+      "StoreConfig": {
+        "Engine": "postgres"
+      },
       "EmbeddedIdP": {
         "Enabled": true,
         "Issuer": "https://netbird.torsteinbo.net",

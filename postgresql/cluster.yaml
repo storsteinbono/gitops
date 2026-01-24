@@ -49,4 +49,10 @@ spec:
         superuser: false
         passwordSecret:
           name: authentik-user
+      - name: netbird
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: netbird-user
 

@@ -52,6 +52,14 @@ spec:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_DATASTORE_ENC_KEY
+            # PostgreSQL connection
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: POSTGRES_PASSWORD
+            - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+              value: "host=postgresql-rw.postgres.svc.cluster.local user=netbird password=$(POSTGRES_PASSWORD) dbname=netbird port=5432"
 
           volumeMounts:
             - name: config
