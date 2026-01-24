@@ -32,6 +32,10 @@ data:
       },
       "Datadir": "/var/lib/netbird",
       "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
+      "EmbeddedIdP": {
+        "Enabled": true,
+        "DataDir": "/var/lib/netbird/idp"
+      },
       "Grpc": {},
       "Log": {
         "Level": "info",
