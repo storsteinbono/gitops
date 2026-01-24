@@ -30,45 +30,6 @@ data:
         "Proto": "https",
         "URI": "netbird.torsteinbo.net:443"
       },
-      "HttpConfig": {
-        "AuthAudience": "netbird",
-        "AuthIssuer": "https://auth.torsteinbo.net/application/o/netbird/",
-        "AuthKeysLocation": "https://auth.torsteinbo.net/application/o/netbird/jwks/",
-        "OIDCConfigEndpoint": "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
-      },
-      "IdpManagerConfig": {
-        "ManagerType": "authentik",
-        "ClientConfig": {
-          "Issuer": "https://auth.torsteinbo.net/application/o/netbird/",
-          "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
-          "ClientSecret": "{{ .NETBIRD_AUTH_CLIENT_SECRET }}",
-          "GrantType": "client_credentials"
-        }
-      },
-      "PKCEAuthorizationFlow": {
-        "ProviderConfig": {
-          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
-          "ClientSecret": "{{ .NETBIRD_AUTH_CLIENT_SECRET }}",
-          "Domain": "https://auth.torsteinbo.net/application/o/netbird/",
-          "Audience": "netbird",
-          "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-          "AuthorizationEndpoint": "https://auth.torsteinbo.net/application/o/authorize/",
-          "Scope": "openid profile email offline_access",
-          "RedirectURLs": ["http://localhost:53000"]
-        }
-      },
-      "DeviceAuthorizationFlow": {
-        "Provider": "hosted",
-        "ProviderConfig": {
-          "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
-          "Domain": "auth.torsteinbo.net",
-          "Audience": "netbird",
-          "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-          "DeviceAuthEndpoint": "https://auth.torsteinbo.net/application/o/device/",
-          "Scope": "openid profile email offline_access"
-        }
-      },
       "Datadir": "/var/lib/netbird",
       "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
       "Grpc": {},

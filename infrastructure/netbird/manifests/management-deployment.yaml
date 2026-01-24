@@ -31,7 +31,6 @@ spec:
             - "/etc/netbird/management.json"
             - "--log-file"
             - "console"
-            - "--idp-sign-key-refresh-enabled"
 
           ports:
             - name: http
@@ -53,16 +52,6 @@ spec:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_DATASTORE_ENC_KEY
-            - name: NETBIRD_AUTH_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_AUTH_CLIENT_ID
-            - name: NETBIRD_AUTH_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_AUTH_CLIENT_SECRET
 
           volumeMounts:
             - name: config
