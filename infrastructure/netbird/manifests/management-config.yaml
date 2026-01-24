@@ -44,6 +44,10 @@ data:
           "ClientID": "{{ .NETBIRD_AUTH_CLIENT_ID }}",
           "ClientSecret": "{{ .NETBIRD_AUTH_CLIENT_SECRET }}",
           "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+          "Username": "{{ .NETBIRD_IDP_SERVICE_USER }}",
+          "Password": "{{ .NETBIRD_IDP_SERVICE_PASSWORD }}"
         }
       },
       "PKCEAuthorizationFlow": {
