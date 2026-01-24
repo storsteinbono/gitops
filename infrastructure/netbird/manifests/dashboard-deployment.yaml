@@ -38,12 +38,16 @@ spec:
               value: "https://netbird.torsteinbo.net"
             - name: AUTH_CLIENT_ID
               value: "netbird-dashboard"
+            - name: AUTH_AUDIENCE
+              value: "netbird-dashboard"
             - name: USE_AUTH0
               value: "false"
             - name: AUTH_SUPPORTED_SCOPES
               value: "openid profile email"
             - name: NETBIRD_TOKEN_SOURCE
               value: "idToken"
+            - name: NGINX_SSL_PORT
+              value: "443"
 
           resources:
             requests:
