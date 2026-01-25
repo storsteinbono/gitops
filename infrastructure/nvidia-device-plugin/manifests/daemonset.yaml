@@ -25,16 +25,22 @@ spec:
         - name: nvidia-device-plugin
           image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0
           securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: ["ALL"]
+            privileged: true
+          env:
+            - name: DEVICE_DISCOVERY_STRATEGY
+              value: "nvml"
           volumeMounts:
             - name: device-plugin
               mountPath: /var/lib/kubelet/device-plugins
+            - name: dev
+              mountPath: /dev
       volumes:
         - name: device-plugin
           hostPath:
             path: /var/lib/kubelet/device-plugins
+        - name: dev
+          hostPath:
+            path: /dev
       nodeSelector:
         # Only run on GPU node
         kubernetes.io/hostname: prd-talos-worker-03
