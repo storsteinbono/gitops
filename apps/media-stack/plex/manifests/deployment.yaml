@@ -72,6 +72,9 @@ spec:
               mountPath: /tv
               subPath: tv
               readOnly: true
+            - name: pinchflat
+              mountPath: /pinchflat
+              subPath: pinchflat
       volumes:
         - name: config
           persistentVolumeClaim:
