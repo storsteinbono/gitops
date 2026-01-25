@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nvidia-device-plugin
+  name: nvidia-runtime
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: infrastructure/nvidia-device-plugin/manifests
+    path: infrastructure/nvidia-runtime/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
