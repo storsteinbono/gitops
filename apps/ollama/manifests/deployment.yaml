@@ -31,11 +31,11 @@ spec:
             - name: ollama-data
               mountPath: /root/.ollama
           resources:
-            limits:
-              nvidia.com/gpu: "1"
             requests:
               cpu: 500m
               memory: 4Gi
+            limits:
+              memory: 16Gi
           livenessProbe:
             httpGet:
               path: /
