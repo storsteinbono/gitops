@@ -21,7 +21,6 @@ spec:
           operator: Exists
           effect: NoSchedule
       priorityClassName: system-node-critical
-      runtimeClassName: nvidia
       containers:
         - name: nvidia-device-plugin
           image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0
@@ -37,12 +36,5 @@ spec:
           hostPath:
             path: /var/lib/kubelet/device-plugins
       nodeSelector:
-        # Only run on nodes with GPUs
-        kubernetes.io/arch: amd64
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node.kubernetes.io/instance-type
-                    operator: DoesNotExist
+        # Only run on GPU node
+        kubernetes.io/hostname: prd-talos-worker-03
