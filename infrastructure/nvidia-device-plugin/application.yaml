@@ -8,27 +8,57 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://nvidia.github.io/k8s-device-plugin
-    chart: nvidia-device-plugin
-    targetRevision: 0.17.0
+    repoURL: https://nvidia.github.io/gpu-operator
+    chart: gpu-operator
+    targetRevision: v24.9.2
     helm:
       values: |
-        runtimeClassName: nvidia
-        nodeSelector:
-          kubernetes.io/hostname: prd-talos-worker-03
-        tolerations:
-          - key: nvidia.com/gpu
-            operator: Exists
-            effect: NoSchedule
+        operator:
+          defaultRuntime: containerd
+        driver:
+          # Drivers are provided by Talos extension
+          enabled: false
+        toolkit:
+          # Toolkit is provided by Talos extension
+          enabled: false
+        devicePlugin:
+          enabled: true
+        dcgm:
+          enabled: false
+        dcgmExporter:
+          enabled: false
+        gfd:
+          enabled: true
+        migManager:
+          enabled: false
+        nodeStatusExporter:
+          enabled: false
+        mig:
+          strategy: single
+        validator:
+          driver:
+            env:
+              - name: DISABLE_DEV_CHAR_SYMLINK_CREATION
+                value: "true"
+        node-feature-discovery:
+          worker:
+            tolerations:
+              - key: "node-role.kubernetes.io/master"
+                operator: "Equal"
+                value: ""
+                effect: "NoSchedule"
+              - key: nvidia.com/gpu
+                operator: Exists
+                effect: NoSchedule
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: gpu-operator
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=false
+      - CreateNamespace=true
     retry:
       limit: 5
       backoff:
