@@ -72,7 +72,7 @@ spec:
               mountPath: /tv
               subPath: tv
               readOnly: true
-            - name: pinchflat
+            - name: media
               mountPath: /pinchflat
               subPath: pinchflat
       volumes:
