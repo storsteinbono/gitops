@@ -37,7 +37,7 @@ data:
       },
       "EmbeddedIdP": {
         "Enabled": true,
-        "Issuer": "https://netbird.torsteinbo.net",
+        "Issuer": "https://netbird.torsteinbo.net/oauth2",
         "LocalAddress": "127.0.0.1:80",
         "DataDir": "/var/lib/netbird/idp"
       },
