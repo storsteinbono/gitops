@@ -8,9 +8,18 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:storsteinbono/gitops.git
-    targetRevision: HEAD
-    path: infrastructure/nvidia-device-plugin/manifests
+    repoURL: https://nvidia.github.io/k8s-device-plugin
+    chart: nvidia-device-plugin
+    targetRevision: 0.17.0
+    helm:
+      values: |
+        runtimeClassName: nvidia
+        nodeSelector:
+          kubernetes.io/hostname: prd-talos-worker-03
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
