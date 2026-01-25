@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: netbirdio/dashboard:v2.11.0
+          image: netbirdio/dashboard:v2.28.0
           imagePullPolicy: IfNotPresent
 
           ports:

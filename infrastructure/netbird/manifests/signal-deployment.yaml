@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: signal
-          image: netbirdio/signal:v0.64.1
+          image: netbirdio/signal:0.64.1
           ports:
             - containerPort: 443
               name: https
