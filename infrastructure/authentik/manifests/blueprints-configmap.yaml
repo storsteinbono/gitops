@@ -101,12 +101,14 @@ data:
           users:
             - !KeyOf terraform-service-account
 
-      # 3. Create an API token for the service account
+      # 3. Create an API token with known key value from environment
+      # This allows Terraform to use the same token value from Key Vault
       - model: authentik_core.token
         id: terraform-api-token
         identifiers:
           identifier: terraform-api-token
         attrs:
+          key: !Env TERRAFORM_API_TOKEN
           user: !KeyOf terraform-service-account
           intent: api
           expiring: false
