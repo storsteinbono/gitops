@@ -35,15 +35,24 @@ spec:
             - name: NETBIRD_MGMT_GRPC_API_ENDPOINT
               value: "https://netbird.torsteinbo.net"
             - name: AUTH_AUTHORITY
-              value: "https://netbird.torsteinbo.net/oauth2"
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: AUTH_AUTHORITY
             - name: AUTH_CLIENT_ID
-              value: "netbird-dashboard"
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: AUTH_CLIENT_ID
             - name: AUTH_AUDIENCE
-              value: "netbird-dashboard"
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: AUTH_AUDIENCE
             - name: USE_AUTH0
               value: "false"
             - name: AUTH_SUPPORTED_SCOPES
-              value: "openid profile email"
+              value: "openid profile email offline_access"
             - name: NETBIRD_TOKEN_SOURCE
               value: "idToken"
             - name: NGINX_SSL_PORT

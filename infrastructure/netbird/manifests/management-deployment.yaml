@@ -60,6 +60,32 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
               value: "host=postgresql-rw.postgres.svc.cluster.local user=netbird password=$(POSTGRES_PASSWORD) dbname=netbird port=5432"
+            # Authentik IDP configuration (for JSON config substitution)
+            - name: NETBIRD_IDP_MGMT_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_IDP_MGMT_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_SECRET
+            - name: NETBIRD_IDP_MGMT_EXTRA_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_EXTRA_ISSUER
+            - name: NETBIRD_IDP_MGMT_EXTRA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_EXTRA_USERNAME
+            - name: NETBIRD_IDP_MGMT_EXTRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_EXTRA_PASSWORD
 
           volumeMounts:
             - name: config
