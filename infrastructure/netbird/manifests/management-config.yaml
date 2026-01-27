@@ -35,18 +35,6 @@ data:
       "StoreConfig": {
         "Engine": "postgres"
       },
-      "IdpManagerConfig": {
-        "ManagerType": "authentik",
-        "ClientID": "{{ .NETBIRD_IDP_MGMT_CLIENT_ID }}",
-        "ClientSecret": "{{ .NETBIRD_IDP_MGMT_CLIENT_SECRET }}",
-        "Issuer": "{{ .NETBIRD_IDP_MGMT_EXTRA_ISSUER }}",
-        "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-        "GrantType": "client_credentials",
-        "ExtraConfig": {
-          "Username": "{{ .NETBIRD_IDP_MGMT_EXTRA_USERNAME }}",
-          "Password": "{{ .NETBIRD_IDP_MGMT_EXTRA_PASSWORD }}"
-        }
-      },
       "Grpc": {},
       "Log": {
         "Level": "info",

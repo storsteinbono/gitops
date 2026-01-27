@@ -60,22 +60,43 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
               value: "host=postgresql-rw.postgres.svc.cluster.local user=netbird password=$(POSTGRES_PASSWORD) dbname=netbird port=5432"
-            # Authentik IDP configuration (for JSON config substitution)
+            # Authentik OIDC Authentication
+            - name: NETBIRD_AUTH_OIDC_CONFIGURATION_ENDPOINT
+              value: "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
+            - name: NETBIRD_USE_AUTH0
+              value: "false"
+            - name: NETBIRD_AUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_AUTH_SUPPORTED_SCOPES
+              value: "openid profile email offline_access api"
+            - name: NETBIRD_AUTH_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_AUTH_DEVICE_AUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_AUTH_DEVICE_AUTH_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: netbird-secrets
+                  key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_AUTH_PKCE_DISABLE_PROMPT_LOGIN
+              value: "true"
+            # Authentik IDP Manager (for user sync)
+            - name: NETBIRD_MGMT_IDP
+              value: "authentik"
             - name: NETBIRD_IDP_MGMT_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_IDP_MGMT_CLIENT_ID
-            - name: NETBIRD_IDP_MGMT_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_IDP_MGMT_CLIENT_SECRET
-            - name: NETBIRD_IDP_MGMT_EXTRA_ISSUER
-              valueFrom:
-                secretKeyRef:
-                  name: netbird-secrets
-                  key: NETBIRD_IDP_MGMT_EXTRA_ISSUER
             - name: NETBIRD_IDP_MGMT_EXTRA_USERNAME
               valueFrom:
                 secretKeyRef:
