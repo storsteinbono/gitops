@@ -37,20 +37,20 @@ data:
       },
       "HttpConfig": {
         "Address": "0.0.0.0:80",
-        "AuthAudience": "",
-        "AuthUserIDClaim": "",
-        "OIDCConfigEndpoint": ""
+        "AuthAudience": "{{ .NETBIRD_IDP_MGMT_CLIENT_ID }}",
+        "AuthUserIDClaim": "sub",
+        "OIDCConfigEndpoint": "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration"
       },
       "DeviceAuthorizationFlow": {
         "Provider": "hosted"
       },
       "PKCEAuthorizationFlow": {
         "ProviderConfig": {
-          "Audience": "",
-          "ClientID": "",
+          "Audience": "{{ .NETBIRD_IDP_MGMT_CLIENT_ID }}",
+          "ClientID": "{{ .NETBIRD_IDP_MGMT_CLIENT_ID }}",
           "ClientSecret": "",
-          "AuthorizationEndpoint": "",
-          "TokenEndpoint": "",
+          "AuthorizationEndpoint": "https://auth.torsteinbo.net/application/o/authorize/",
+          "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
           "Scope": "openid profile email offline_access api",
           "RedirectURLs": ["https://netbird.torsteinbo.net/auth", "https://netbird.torsteinbo.net/silent-auth"],
           "UseIDToken": true
