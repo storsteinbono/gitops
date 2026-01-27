@@ -35,6 +35,27 @@ data:
       "StoreConfig": {
         "Engine": "postgres"
       },
+      "HttpConfig": {
+        "Address": "0.0.0.0:80",
+        "AuthAudience": "",
+        "AuthUserIDClaim": "",
+        "OIDCConfigEndpoint": ""
+      },
+      "DeviceAuthorizationFlow": {
+        "Provider": "hosted"
+      },
+      "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+          "Audience": "",
+          "ClientID": "",
+          "ClientSecret": "",
+          "AuthorizationEndpoint": "",
+          "TokenEndpoint": "",
+          "Scope": "openid profile email offline_access api",
+          "RedirectURLs": ["https://netbird.torsteinbo.net/auth", "https://netbird.torsteinbo.net/silent-auth"],
+          "UseIDToken": true
+        }
+      },
       "Grpc": {},
       "Log": {
         "Level": "info",

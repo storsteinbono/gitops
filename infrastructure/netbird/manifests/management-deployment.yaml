@@ -87,8 +87,16 @@ spec:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_IDP_MGMT_CLIENT_ID
+            - name: NETBIRD_AUTH_DEVICE_AUTH_PROVIDER
+              value: "hosted"
             - name: NETBIRD_AUTH_PKCE_DISABLE_PROMPT_LOGIN
               value: "true"
+            - name: NETBIRD_AUTH_REDIRECT_URI
+              value: "/auth"
+            - name: NETBIRD_AUTH_SILENT_REDIRECT_URI
+              value: "/silent-auth"
+            - name: NETBIRD_TOKEN_SOURCE
+              value: "idToken"
             # Authentik IDP Manager (for user sync)
             - name: NETBIRD_MGMT_IDP
               value: "authentik"
