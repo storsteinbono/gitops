@@ -99,6 +99,7 @@ data:
           name: authentik Admins
         attrs:
           users:
+            - !Find [authentik_core.user, [username, akadmin]]
             - !KeyOf terraform-service-account
 
       # 3. Create an API token with known key value from environment

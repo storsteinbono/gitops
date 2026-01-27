@@ -54,7 +54,7 @@ spec:
 
             envFrom:
               - secretRef:
-                  name: authentik-config  # includes secrets + Entra env vars + bootstrap
+                  name: authentik-config
 
             volumes:
               - name: authentik-blueprints
@@ -113,7 +113,6 @@ spec:
           postgresql:
             enabled: false
 
-    # --- Raw Kubernetes manifests (blueprints, ingress, redis, secrets) ---
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: infrastructure/authentik/manifests
