@@ -36,7 +36,7 @@ data:
         "Engine": "postgres"
       },
       "HttpConfig": {
-        "Address": "0.0.0.0:80",
+        "Address": "0.0.0.0:443",
         "AuthAudience": "{{ .NETBIRD_IDP_MGMT_CLIENT_ID }}",
         "AuthUserIDClaim": "sub",
         "OIDCConfigEndpoint": "https://auth.torsteinbo.net/application/o/netbird/.well-known/openid-configuration",
