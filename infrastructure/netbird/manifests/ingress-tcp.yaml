@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: netbird-grpc
+  namespace: netbird
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`api-netbird.torsteinbo.net`)
+      services:
+        - name: netbird-management
+          port: 33073
+    - match: HostSNI(`api-netbird.torsteinbo.net`)
+      services:
+        - name: netbird-signal
+          port: 10000
+  tls:
+    passthrough: true
