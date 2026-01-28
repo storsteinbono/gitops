@@ -4,26 +4,26 @@ metadata:
   name: netbird-grpc-ingress
   namespace: netbird
   annotations:
+    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/service.protocol: h2c
 spec:
-  ingressClassName: traefik
   rules:
-    - host: api-netbird.torsteinbo.net
-      http:
-        paths:
-          - path: /management.ManagementService
-            pathType: Prefix
-            backend:
-              service:
-                name: netbird-management
-                port:
-                  number: 33073
-          - path: /signalexchange.SignalExchange
-            pathType: Prefix
-            backend:
-              service:
-                name: netbird-signal
-                port:
-                  number: 10000
+  - host: api-netbird.torsteinbo.net
+    http:
+      paths:
+      - path: /management.ManagementService
+        pathType: Prefix
+        backend:
+          service:
+            name: netbird-management
+            port:
+              number: 33073
+      - path: /signalexchange.SignalExchange
+        pathType: Prefix
+        backend:
+          service:
+            name: netbird-signal
+            port:
+              number: 10000
