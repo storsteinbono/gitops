@@ -1,12 +1,10 @@
 ---
-# Management Service
+# Management Service (gRPC)
 apiVersion: v1
 kind: Service
 metadata:
   name: netbird-management
   namespace: netbird
-  labels:
-    app: netbird-management
 spec:
   type: ClusterIP
   ports:
@@ -21,14 +19,12 @@ spec:
   selector:
     app: netbird-management
 ---
-# Signal Service
+# Signal Service (gRPC)
 apiVersion: v1
 kind: Service
 metadata:
   name: netbird-signal
   namespace: netbird
-  labels:
-    app: netbird-signal
 spec:
   type: ClusterIP
   ports:
@@ -43,14 +39,12 @@ spec:
   selector:
     app: netbird-signal
 ---
-# Dashboard Service
+# Dashboard / REST Service (HTTP)
 apiVersion: v1
 kind: Service
 metadata:
   name: netbird-dashboard
   namespace: netbird
-  labels:
-    app: netbird-dashboard
 spec:
   type: ClusterIP
   ports:
@@ -61,17 +55,12 @@ spec:
   selector:
     app: netbird-dashboard
 ---
-# Coturn TURN/STUN Service (LoadBalancer for UDP)
+# Coturn TURN/STUN (already external)
 apiVersion: v1
 kind: Service
 metadata:
   name: netbird-coturn
   namespace: netbird
-  labels:
-    app: netbird-coturn
-  annotations:
-    # Uncomment if using MetalLB or specific load balancer
-    # metallb.universe.tf/allow-shared-ip: "netbird"
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
