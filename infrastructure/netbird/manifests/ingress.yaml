@@ -3,13 +3,17 @@ kind: Ingress
 metadata:
   name: netbird-ingress
   namespace: netbird
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
+  ingressClassName: nginx
   rules:
     - host: netbird.torsteinbo.net
       http:
         paths:
-          # API (Management)
+          # API (Management REST)
           - path: /api
             pathType: Prefix
             backend:
@@ -17,22 +21,6 @@ spec:
                 name: netbird-management
                 port:
                   number: 80
-          # gRPC (Management)
-          - path: /management.
-            pathType: Prefix
-            backend:
-              service:
-                name: netbird-management
-                port:
-                  number: 33073
-          # gRPC (Signal)
-          - path: /signalexchange.
-            pathType: Prefix
-            backend:
-              service:
-                name: netbird-signal
-                port:
-                  number: 10000
           # OAuth (Management)
           - path: /oauth2
             pathType: Prefix
@@ -49,6 +37,43 @@ spec:
                 name: netbird-dashboard
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - netbird.torsteinbo.net
+---
+# Separate ingress for gRPC services (requires HTTP/2 backend protocol)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: netbird-grpc-ingress
+  namespace: netbird
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: netbird.torsteinbo.net
+      http:
+        paths:
+          # gRPC (Management)
+          - path: /management.ManagementService
+            pathType: Prefix
+            backend:
+              service:
+                name: netbird-management
+                port:
+                  number: 33073
+          # gRPC (Signal)
+          - path: /signalexchange.SignalExchange
+            pathType: Prefix
+            backend:
+              service:
+                name: netbird-signal
+                port:
+                  number: 10000
   tls:
     - hosts:
         - netbird.torsteinbo.net

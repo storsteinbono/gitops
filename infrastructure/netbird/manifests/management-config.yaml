@@ -52,7 +52,7 @@ data:
           "ClientSecret": "",
           "AuthorizationEndpoint": "https://auth.torsteinbo.net/application/o/authorize/",
           "TokenEndpoint": "https://auth.torsteinbo.net/application/o/token/",
-          "Scope": "openid profile email offline_access api",
+          "Scope": "openid profile email offline_access api groups",
           "RedirectURLs": ["https://netbird.torsteinbo.net/auth", "https://netbird.torsteinbo.net/silent-auth"],
           "UseIDToken": true
         }
