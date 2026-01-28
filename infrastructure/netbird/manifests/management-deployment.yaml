@@ -31,6 +31,8 @@ spec:
             - "/etc/netbird/management.json"
             - "--log-file"
             - "console"
+            - "--letsencrypt-domain"
+            - "api-netbird.torsteinbo.net"
 
           ports:
             - name: http
