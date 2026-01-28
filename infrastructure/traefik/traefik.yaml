@@ -23,7 +23,9 @@ spec:
 
         # Service configuration - ClusterIP (accessed via Cloudflare Tunnel)
         service:
-          type: ClusterIP
+          type: NodePort
+          nodePort: 30000
+          websecure: 30443
 
         # Ports configuration
         ports:
