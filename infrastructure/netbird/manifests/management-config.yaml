@@ -28,7 +28,7 @@ data:
       },
       "Signal": {
         "Proto": "https",
-        "URI": "netbird.torsteinbo.net:443"
+        "URI": "api-netbird.torsteinbo.net:443"
       },
       "Datadir": "/var/lib/netbird",
       "DataStoreEncryptionKey": "{{ .NETBIRD_DATASTORE_ENC_KEY }}",
