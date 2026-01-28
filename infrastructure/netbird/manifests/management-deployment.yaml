@@ -36,6 +36,9 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
             - name: grpc
               containerPort: 33073
               protocol: TCP
@@ -115,6 +118,11 @@ spec:
                 secretKeyRef:
                   name: netbird-secrets
                   key: NETBIRD_IDP_MGMT_EXTRA_PASSWORD
+            # Let's Encrypt for TLS (when exposed via LoadBalancer)
+            - name: NETBIRD_LETSENCRYPT_DOMAIN
+              value: "api-netbird.torsteinbo.net"
+            - name: NETBIRD_LETSENCRYPT_EMAIL
+              value: "steffen@storsteinbo.no"
 
           volumeMounts:
             - name: config
