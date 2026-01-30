@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openhands
+  namespace: openhands
+  labels:
+    app: openhands
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openhands
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openhands
+    spec:
+      containers:
+        - name: openhands
+          image: docker.openhands.dev/openhands/openhands:latest
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: LLM_BASE_URL
+              value: "http://ollama.ollama.svc.cluster.local:11434"
+            - name: LLM_MODEL
+              value: "ollama/qwen2.5-coder:latest"
+            - name: WORKSPACE_BASE
+              value: "/opt/workspace_base"
+            - name: SANDBOX_USER_ID
+              value: "0"
+          volumeMounts:
+            - name: workspace
+              mountPath: /opt/workspace_base
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              memory: 4Gi
+              cpu: 2
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: openhands-workspace
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock

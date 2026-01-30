@@ -10,6 +10,8 @@ metadata:
     app.kubernetes.io/component: signal
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: netbird-signal
@@ -32,7 +34,7 @@ spec:
               protocol: TCP
           env:
             - name: NETBIRD_SIGNAL_LETSENCRYPT_DOMAIN
-              value: "netbird.torsteinbo.net"
+              value: "api-netbird.torsteinbo.net"
           resources:
             requests:
               cpu: 50m
