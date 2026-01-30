@@ -22,7 +22,6 @@ spec:
       # This toleration is deprecated. Kept here for backward compatibility
       # See https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
       priorityClassName: "system-node-critical"
-      runtimeClassName: nvidia
       nodeSelector:
         # Only run on nodes with GPU
         kubernetes.io/hostname: prd-talos-worker-03
@@ -37,7 +36,7 @@ spec:
         - name: PASS_DEVICE_SPECS
           value: "true"
         - name: DEVICE_LIST_STRATEGY
-          value: envvar
+          value: nvml
         - name: DEVICE_ID_STRATEGY
           value: uuid
         - name: NVIDIA_VISIBLE_DEVICES
