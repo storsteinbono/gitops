@@ -6,10 +6,10 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: Replace=true
 spec:
-  instances: 3
+  instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1
   storage:
-    size: 15Gi
+    size: 25Gi
 
   managed:
     roles:

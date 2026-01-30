@@ -17,18 +17,18 @@ spec:
       values: |
         persistence:
           defaultClass: true
-          defaultClassReplicaCount: 3
+          defaultClassReplicaCount: 2
           reclaimPolicy: Retain
 
         defaultSettings:
           backupTargetURL: "cifs://172.16.16.91/Backupstest"
           credentialSecret: "longhorn-backup-smb"
-          defaultReplicaCount: 3
+          defaultReplicaCount: 2
           defaultDataLocality: disabled
           replicaSoftAntiAffinity: false
           replicaAutoBalance: disabled
           storageOverProvisioningPercentage: 200
-          storageMinimalAvailablePercentage: 25
+          storageMinimalAvailablePercentage: 15
           upgradeChecker: true
           defaultLonghornStaticStorageClass: longhorn-static
           nodeDownPodDeletionPolicy: do-nothing
