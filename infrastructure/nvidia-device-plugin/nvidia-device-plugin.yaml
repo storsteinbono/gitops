@@ -36,7 +36,7 @@ spec:
         - name: PASS_DEVICE_SPECS
           value: "true"
         - name: DEVICE_LIST_STRATEGY
-          value: volume-mounts
+          value: envvar
         - name: DEVICE_ID_STRATEGY
           value: uuid
         - name: NVIDIA_VISIBLE_DEVICES
