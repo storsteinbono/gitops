@@ -33,8 +33,10 @@ spec:
             requests:
               cpu: 500m
               memory: 4Gi
+              nvidia.com/gpu: 1
             limits:
               memory: 16Gi
+              nvidia.com/gpu: 1
           livenessProbe:
             httpGet:
               path: /
@@ -51,5 +53,6 @@ spec:
         - name: ollama-data
           persistentVolumeClaim:
             claimName: ollama-data
+      runtimeClassName: nvidia
       nodeSelector:
         kubernetes.io/hostname: prd-talos-worker-03
