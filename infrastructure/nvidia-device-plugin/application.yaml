@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/storsteinbo/gitops.git
+    repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: main
     path: infrastructure/nvidia-device-plugin
   destination:
