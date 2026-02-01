@@ -5,7 +5,6 @@ kind: Kustomization
 # This serves as the foundation that overlays can build upon
 
 resources:
-  - ../bootstrap/root.yaml
   - ../bootstrap/argocd-config.yaml
   - ../bootstrap/projects.yaml
 
