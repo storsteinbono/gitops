@@ -1,0 +1,37 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Production overlay - controls which apps are deployed
+# To enable/disable apps, comment/uncomment components below
+
+resources:
+  - ../../base
+
+# Components - Enable/disable by commenting out
+# Core Infrastructure (always enabled)
+components:
+  - ../../components/infrastructure/core
+
+  # Optional Infrastructure
+  - ../../components/infrastructure/gpu
+  - ../../components/infrastructure/harbor
+
+  # Database Layer
+  - ../../components/postgresql
+
+  # Applications - Enable what you need
+  # ../../components/apps/homepage
+  # ../../components/apps/immich
+  # ../../components/apps/filebrowser
+  # ../../components/apps/media-stack  # Uncomment to enable media apps
+  # ../../components/apps/ai-stack     # Uncomment to enable AI apps
+  # ../../components/apps/bambustudio
+  # ../../components/apps/karakeep
+  # ../../components/apps/bentopdf
+  # ../../components/apps/openhands
+
+commonAnnotations:
+  environment: production
+
+commonLabels:
+  overlay: production

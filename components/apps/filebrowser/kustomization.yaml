@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+# Filebrowser file management application
+
+resources:
+  - ../../../apps/filebrowser.yaml
+
+labels:
+  - pairs:
+      app-category: utility
+      app: filebrowser
