@@ -5,8 +5,8 @@ kind: Component
 # Requires GPU components to be enabled
 
 resources:
-  - ../../../apps/ollama.yaml
-  - ../../../apps/open-webui.yaml
+  - ../../../apps/ollama/application.yaml
+  - ../../../apps/open-webui/application.yaml
 
 labels:
   - pairs:

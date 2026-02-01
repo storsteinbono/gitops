@@ -5,15 +5,15 @@ kind: Component
 
 resources:
   - ../../../bootstrap/infrastructure.yaml
-  - ../../../infrastructure/cilium.yaml
-  - ../../../infrastructure/traefik.yaml
-  - ../../../infrastructure/external-secrets.yaml
-  - ../../../infrastructure/authentik.yaml
-  - ../../../infrastructure/cloudnativepg.yaml
-  - ../../../infrastructure/longhorn.yaml
-  - ../../../infrastructure/reloader.yaml
-  - ../../../infrastructure/metrics-server.yaml
-  - ../../../infrastructure/netbird.yaml
+  - ../../../infrastructure/cilium/cilium.yaml
+  - ../../../infrastructure/traefik/traefik.yaml
+  - ../../../infrastructure/external-secrets/external-secrets.yaml
+  - ../../../infrastructure/authentik/authentik.yaml
+  - ../../../infrastructure/cloudnativepg/operator.yaml
+  - ../../../infrastructure/longhorn/longhorn.yaml
+  - ../../../infrastructure/reloader/reloader.yaml
+  - ../../../infrastructure/metrics-server/metrics-server.yaml
+  - ../../../infrastructure/netbird/netbird.yaml
 
 labels:
   - pairs:

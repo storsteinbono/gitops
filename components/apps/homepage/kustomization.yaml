@@ -4,7 +4,7 @@ kind: Component
 # Homepage dashboard application
 
 resources:
-  - ../../../apps/homepage.yaml
+  - ../../../apps/homepage/application.yaml
 
 labels:
   - pairs:

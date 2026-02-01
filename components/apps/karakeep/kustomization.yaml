@@ -4,7 +4,7 @@ kind: Component
 # Karakeep application
 
 resources:
-  - ../../../apps/karakeep.yaml
+  - ../../../apps/karakeep/application.yaml
 
 labels:
   - pairs:

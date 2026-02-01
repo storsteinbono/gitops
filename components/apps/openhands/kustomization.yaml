@@ -4,7 +4,7 @@ kind: Component
 # OpenHands AI agent platform
 
 resources:
-  - ../../../apps/openhands.yaml
+  - ../../../apps/openhands/application.yaml
 
 labels:
   - pairs:

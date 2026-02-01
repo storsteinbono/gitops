@@ -5,7 +5,7 @@ kind: Component
 # Includes all media management and download applications
 
 resources:
-  - ../../../apps/media-stack.yaml
+  - ../../../apps/media-stack/application.yaml
 
 labels:
   - pairs:

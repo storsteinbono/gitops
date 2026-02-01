@@ -4,7 +4,7 @@ kind: Component
 # Filebrowser file management application
 
 resources:
-  - ../../../apps/filebrowser.yaml
+  - ../../../apps/filebrowser/application.yaml
 
 labels:
   - pairs:

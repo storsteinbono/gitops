@@ -4,8 +4,8 @@ kind: Component
 # GPU support components - for NVIDIA GPU workloads
 
 resources:
-  - ../../../infrastructure/nvidia-device-plugin.yaml
-  - ../../../infrastructure/nvidia-runtime.yaml
+  - ../../../infrastructure/nvidia-device-plugin/nvidia-device-plugin.yaml
+  - ../../../infrastructure/nvidia-runtime/application.yaml
 
 labels:
   - pairs:

@@ -4,7 +4,7 @@ kind: Component
 # BambuStudio 3D printing application
 
 resources:
-  - ../../../apps/bambustudio.yaml
+  - ../../../apps/bambustudio/application.yaml
 
 labels:
   - pairs:

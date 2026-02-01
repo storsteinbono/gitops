@@ -4,7 +4,7 @@ kind: Component
 # BentoPDF application
 
 resources:
-  - ../../../apps/bentopdf.yaml
+  - ../../../apps/bentopdf/application.yaml
 
 labels:
   - pairs:
