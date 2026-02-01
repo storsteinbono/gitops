@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/component: downloader
     app.kubernetes.io/part-of: media-stack
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: pinchflat
