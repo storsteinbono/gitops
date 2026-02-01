@@ -4,7 +4,6 @@ kind: Component
 # Core infrastructure components - always required
 
 resources:
-  - ../../../bootstrap/infrastructure.yaml
   - ../../../infrastructure/cilium/cilium.yaml
   - ../../../infrastructure/traefik/traefik.yaml
   - ../../../infrastructure/external-secrets/external-secrets.yaml

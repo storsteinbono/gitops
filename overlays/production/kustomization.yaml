@@ -4,8 +4,8 @@ kind: Kustomization
 # Production overlay - controls which apps are deployed
 # To enable/disable apps, comment/uncomment components below
 
-resources:
-  - ../../base
+# Note: bootstrap files (argocd-config, projects) are managed outside Kustomize
+# by the bootstrap/infrastructure.yaml, bootstrap/projects.yaml Applications
 
 # Components - Enable/disable by commenting out
 # Core Infrastructure (always enabled)

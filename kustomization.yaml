@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Production Kustomize configuration at repo root
+# This allows referencing all files within the repo
+
+resources:
+  # Bootstrap configurations (always included)
+  - bootstrap/argocd-config.yaml
+  - bootstrap/projects.yaml
+  - bootstrap/postgresql.yaml
+
+  # Core Infrastructure (always included)
+  - infrastructure/cilium/cilium.yaml
+  - infrastructure/traefik/traefik.yaml
+  - infrastructure/external-secrets/external-secrets.yaml
+  - infrastructure/authentik/authentik.yaml
+  - infrastructure/cloudnativepg/operator.yaml
+  - infrastructure/longhorn/longhorn.yaml
+  - infrastructure/reloader/reloader.yaml
+  - infrastructure/metrics-server/metrics-server.yaml
+  - infrastructure/netbird/netbird.yaml
+
+  # GPU Support (comment out to disable)
+  - infrastructure/nvidia-device-plugin/nvidia-device-plugin.yaml
+  - infrastructure/nvidia-runtime/application.yaml
+
+  # Applications (comment out to disable)
+  # - apps/homepage/application.yaml
+  # - apps/immich/application.yaml
+  # - apps/filebrowser/application.yaml
+  # - apps/bambustudio/application.yaml
+  # - apps/karakeep/application.yaml
+  # - apps/bentopdf/application.yaml
+  # - apps/openhands/application.yaml
+  # - apps/buildarr/application.yaml
+  # - apps/media-stack/application.yaml  # Media stack parent app
+  # - apps/ollama/application.yaml
+  # - apps/open-webui/application.yaml
+
+commonLabels:
+  managed-by: argocd
+  gitops-repo: gitops
+  environment: production

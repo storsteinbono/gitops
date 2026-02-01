@@ -3,8 +3,9 @@ kind: Component
 
 # PostgreSQL database cluster and provisioned databases
 
-resources:
-  - ../../bootstrap/postgresql.yaml
+# Note: bootstrap/postgresql.yaml is managed directly by root app, not through Kustomize
+# This component is a placeholder for future PostgreSQL-specific patches or resources
+resources: []
 
 labels:
   - pairs:
