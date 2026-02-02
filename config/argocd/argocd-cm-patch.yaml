@@ -20,8 +20,8 @@ data:
   # OIDC Configuration (Azure AD / Entra ID)
   oidc.config: |
     name: Azure
-    issuer: https://login.microsoftonline.com/$oidc.azure.tenantId/v2.0
-    clientID: $oidc.azure.clientId
+    issuer: https://login.microsoftonline.com/80bd2496-6210-4cee-8517-d3036473cffe/v2.0
+    clientID: 170e7952-4431-4a79-b977-0e606dad126b
     clientSecret: $oidc.azure.clientSecret
     requestedScopes:
       - openid
