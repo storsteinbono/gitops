@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:storsteinbono/gitops.git
     targetRevision: HEAD
-    path: overlays/production  # Now pointing to Kustomize overlay
+    path: overlays/production
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

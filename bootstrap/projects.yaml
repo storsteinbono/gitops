@@ -30,7 +30,7 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  # Allow manual sync for projects to avoid conflicts
+
   ignoreDifferences:
     - group: "*"
       kind: "*"

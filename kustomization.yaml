@@ -13,8 +13,7 @@ resources:
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
   - infrastructure/traefik/traefik.yaml
-  - infrastructure/external-secrets/crds.yaml  # CRDs first (sync-wave -10)
-  - infrastructure/external-secrets/external-secrets.yaml  # Operator (sync-wave -5)
+  - infrastructure/external-secrets/external-secrets.yaml  # Helm chart installs CRDs
   - infrastructure/authentik/authentik.yaml
   - infrastructure/cloudnativepg/operator.yaml
   - infrastructure/longhorn/longhorn.yaml
