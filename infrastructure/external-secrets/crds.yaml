@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-secrets-crds
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"  # Install before operator
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://charts.external-secrets.io
+    chart: external-secrets
+    targetRevision: 0.10.6  # Use a stable version
+    helm:
+      skipCrds: false
+      includeCrds: true
+      # Only install CRDs, not the operator
+      parameters:
+        - name: installCRDs
+          value: "true"
+        - name: webhook.create
+          value: "false"
+        - name: certController.create
+          value: "false"
+        - name: crds.createClusterSecretStore
+          value: "false"
+        - name: crds.createClusterExternalSecret
+          value: "false"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets
+  syncPolicy:
+    automated:
+      prune: false  # Don't auto-prune CRDs
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
