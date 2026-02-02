@@ -13,6 +13,7 @@ resources:
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
   - infrastructure/traefik/traefik.yaml
+  - infrastructure/external-secrets/crds.yaml  # Install CRDs first
   - infrastructure/external-secrets/external-secrets.yaml
   - infrastructure/authentik/authentik.yaml
   - infrastructure/cloudnativepg/operator.yaml
