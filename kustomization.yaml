@@ -16,7 +16,7 @@ resources:
   - infrastructure/external-secrets/external-secrets.yaml
   - infrastructure/authentik/authentik.yaml
   - infrastructure/cloudnativepg/operator.yaml
-  # - infrastructure/longhorn/longhorn.yaml  # Temporarily disabled - manually managed
+  - infrastructure/longhorn/longhorn.yaml
   - infrastructure/reloader/reloader.yaml
   - infrastructure/metrics-server/metrics-server.yaml
   - infrastructure/netbird/netbird.yaml
