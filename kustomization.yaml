@@ -36,8 +36,8 @@ resources:
   # - apps/openhands/application.yaml
   # - apps/buildarr/application.yaml
   # - apps/media-stack/application.yaml  # Media stack parent app
-  # - apps/ollama/application.yaml
-  # - apps/open-webui/application.yaml
+  - apps/ollama/application.yaml
+  - apps/open-webui/application.yaml
 
 commonLabels:
   managed-by: argocd
