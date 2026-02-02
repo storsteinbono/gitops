@@ -28,7 +28,7 @@ resources:
 
   # Applications (comment out to disable)
   # - apps/homepage/application.yaml
-  # - apps/immich/application.yaml
+  - apps/immich/application.yaml
   # - apps/filebrowser/application.yaml
   # - apps/bambustudio/application.yaml
   # - apps/karakeep/application.yaml
