@@ -23,8 +23,8 @@ components:
   # ../../components/apps/homepage
   # ../../components/apps/immich
   # ../../components/apps/filebrowser
-  # ../../components/apps/media-stack  # Uncomment to enable media apps
-  # ../../components/apps/ai-stack     # Uncomment to enable AI apps
+  # ../../components/apps/media-stack
+  # ../../components/apps/ai-stack
   # ../../components/apps/bambustudio
   # ../../components/apps/karakeep
   # ../../components/apps/bentopdf
