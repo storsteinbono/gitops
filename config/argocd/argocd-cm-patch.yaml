@@ -17,10 +17,6 @@ data:
   # ArgoCD URL
   url: "https://argocd.torsteinbo.net"
 
-  # OIDC Configuration (Azure AD / Entra ID)
-  # Full config is templated from Azure Key Vault via ExternalSecret
-  oidc.config: $oidc.config
-
   # ========================================================================
   # CUSTOM HEALTH CHECKS
   # ========================================================================
