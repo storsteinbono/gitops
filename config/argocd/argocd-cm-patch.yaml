@@ -18,20 +18,8 @@ data:
   url: "https://argocd.torsteinbo.net"
 
   # OIDC Configuration (Azure AD / Entra ID)
-  oidc.config: |
-    name: Azure
-    issuer: https://login.microsoftonline.com/80bd2496-6210-4cee-8517-d3036473cffe/v2.0
-    clientID: 170e7952-4431-4a79-b977-0e606dad126b
-    clientSecret: $oidc.azure.clientSecret
-    requestedScopes:
-      - openid
-      - profile
-      - email
-      - https://graph.microsoft.com/User.Read
-      - https://graph.microsoft.com/Group.Read.All
-    requestedIDTokenClaims:
-      groups:
-        essential: true
+  # Full config is templated from Azure Key Vault via ExternalSecret
+  oidc.config: $oidc.config
 
   # ========================================================================
   # CUSTOM HEALTH CHECKS
