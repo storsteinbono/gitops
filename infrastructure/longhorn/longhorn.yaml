@@ -83,6 +83,7 @@ spec:
       allowEmpty: false
     syncOptions:
       - CreateNamespace=true
+      - SkipHooks=true
     retry:
       limit: 5
       backoff:
