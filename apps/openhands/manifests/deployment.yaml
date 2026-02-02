@@ -41,7 +41,7 @@ spec:
           volumeMounts:
             - name: workspace
               mountPath: /opt/workspace_base
-            - name: docker-sock
+            - name: dind-sock
               mountPath: /run/dind
           resources:
             requests:
@@ -78,13 +78,13 @@ spec:
           volumeMounts:
             - name: workspace
               mountPath: /opt/workspace_base
-            - name: docker-sock
+            - name: dind-sock
               mountPath: /var/run
       volumes:
         - name: workspace
           persistentVolumeClaim:
             claimName: openhands-workspace
-        - name: docker-sock
+        - name: dind-sock
           emptyDir: {}
       runtimeClassName: nvidia
       nodeSelector:
