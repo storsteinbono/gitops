@@ -34,7 +34,8 @@ spec:
               cpu: 500m
               memory: 4Gi
             limits:
-              nvidia.com/gpu: 1
+              cpu: "2"
+              nvidia.com/gpu: "1"
               memory: 16Gi
           livenessProbe:
             httpGet:
