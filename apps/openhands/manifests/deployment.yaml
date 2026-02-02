@@ -30,15 +30,19 @@ spec:
               value: "http://ollama.ollama.svc.cluster.local:11434"
             - name: LLM_MODEL
               value: "ollama/qwen2.5-coder:latest"
+            - name: LLM_API_KEY
+              value: "ollama"
             - name: WORKSPACE_BASE
               value: "/opt/workspace_base"
             - name: SANDBOX_USER_ID
               value: "0"
+            - name: DOCKER_HOST
+              value: "unix:///run/dind/docker.sock"
           volumeMounts:
             - name: workspace
               mountPath: /opt/workspace_base
             - name: docker-sock
-              mountPath: /var/run/docker.sock
+              mountPath: /run/dind
           resources:
             requests:
               cpu: 500m
@@ -56,10 +60,32 @@ spec:
               port: 3000
             initialDelaySeconds: 30
             periodSeconds: 10
+        - name: dind
+          image: docker:dind
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          args: ["--group", "0"]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+          volumeMounts:
+            - name: workspace
+              mountPath: /opt/workspace_base
+            - name: docker-sock
+              mountPath: /var/run
       volumes:
         - name: workspace
           persistentVolumeClaim:
             claimName: openhands-workspace
         - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
+          emptyDir: {}
+      runtimeClassName: nvidia
+      nodeSelector:
+        kubernetes.io/hostname: prd-talos-worker-02
