@@ -24,7 +24,7 @@ components:
   # ../../components/apps/immich
   # ../../components/apps/filebrowser
   # ../../components/apps/media-stack
-  # ../../components/apps/ai-stack
+  - ../../components/apps/ai-stack
   # ../../components/apps/bambustudio
   # ../../components/apps/karakeep
   # ../../components/apps/bentopdf
