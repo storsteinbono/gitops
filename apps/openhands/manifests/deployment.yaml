@@ -17,6 +17,9 @@ spec:
       labels:
         app: openhands
     spec:
+      runtimeClassName: nvidia
+      nodeSelector:
+        kubernetes.io/hostname: prd-talos-worker-02
       containers:
         - name: openhands
           image: docker.openhands.dev/openhands/openhands:latest
@@ -29,7 +32,7 @@ spec:
             - name: LLM_BASE_URL
               value: "http://ollama.ollama.svc.cluster.local:11434"
             - name: LLM_MODEL
-              value: "ollama/qwen2.5-coder:latest"
+              value: "ollama/qwen2.5-coder:7b"
             - name: LLM_API_KEY
               value: "ollama"
             - name: WORKSPACE_BASE
@@ -37,19 +40,21 @@ spec:
             - name: SANDBOX_USER_ID
               value: "0"
             - name: DOCKER_HOST
-              value: "unix:///run/dind/docker.sock"
+              value: "unix:///var/run/docker.sock"
+            - name: OPENHANDS_SANDBOX_HOST
+              value: "unix:///var/run/docker.sock"
           volumeMounts:
             - name: workspace
               mountPath: /opt/workspace_base
             - name: dind-sock
-              mountPath: /run/dind
+              mountPath: /var/run
           resources:
             requests:
               cpu: 500m
               memory: 1Gi
             limits:
-              memory: 4Gi
               cpu: "2"
+              memory: 4Gi
           livenessProbe:
             tcpSocket:
               port: 3000
@@ -60,14 +65,14 @@ spec:
               port: 3000
             initialDelaySeconds: 30
             periodSeconds: 10
+
         - name: dind
-          image: docker:dind
+          image: docker:27-dind
           securityContext:
             privileged: true
           env:
             - name: DOCKER_TLS_CERTDIR
               value: ""
-          args: ["--group", "0"]
           resources:
             requests:
               cpu: 100m
@@ -76,16 +81,14 @@ spec:
               cpu: "1"
               memory: 2Gi
           volumeMounts:
-            - name: workspace
-              mountPath: /opt/workspace_base
             - name: dind-sock
               mountPath: /var/run
+            - name: workspace
+              mountPath: /opt/workspace_base
+
       volumes:
         - name: workspace
           persistentVolumeClaim:
             claimName: openhands-workspace
         - name: dind-sock
           emptyDir: {}
-      runtimeClassName: nvidia
-      nodeSelector:
-        kubernetes.io/hostname: prd-talos-worker-02
