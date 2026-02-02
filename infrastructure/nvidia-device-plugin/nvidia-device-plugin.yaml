@@ -24,7 +24,7 @@ spec:
       priorityClassName: "system-node-critical"
       nodeSelector:
         # Only run on nodes with GPU
-        kubernetes.io/hostname: prd-talos-worker-03
+        kubernetes.io/hostname: prd-talos-worker-02
       containers:
       - name: nvidia-device-plugin-ctr
         image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0
