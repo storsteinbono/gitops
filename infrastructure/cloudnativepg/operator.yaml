@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: cloudnativepg-operator
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"  # Deploy after external-secrets, before apps needing PostgreSQL
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: infrastructure
   source:

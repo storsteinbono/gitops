@@ -39,7 +39,12 @@ resources:
   - apps/ollama/application.yaml
   - apps/open-webui/application.yaml
 
-commonLabels:
-  managed-by: argocd
-  gitops-repo: gitops
-  environment: production
+# Labels configuration
+# Note: Using includeSelectors: false to avoid modifying existing selector labels
+# which could cause issues with existing deployments
+labels:
+  - includeSelectors: false  # Only add to metadata.labels, not selectors
+    pairs:
+      managed-by: argocd
+      gitops-repo: gitops
+      environment: production

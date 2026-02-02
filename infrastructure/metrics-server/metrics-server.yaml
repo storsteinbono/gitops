@@ -3,6 +3,8 @@
   metadata:
     name: metrics-server
     namespace: argocd
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"  # Deploy with other utilities
     finalizers:
       - resources-finalizer.argocd.argoproj.io
   spec:

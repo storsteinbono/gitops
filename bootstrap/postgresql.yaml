@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: postgresql
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"  # Deploy after CloudNative-PG operator
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
