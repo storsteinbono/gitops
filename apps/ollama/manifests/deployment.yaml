@@ -53,4 +53,4 @@ spec:
             claimName: ollama-data
       runtimeClassName: nvidia
       nodeSelector:
-        kubernetes.io/hostname: prd-talos-worker-03
+        kubernetes.io/hostname: prd-talos-worker-02
