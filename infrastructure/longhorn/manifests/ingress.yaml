@@ -20,7 +20,3 @@ spec:
             name: longhorn-frontend
             port:
               number: 80
-  tls:
-  - hosts:
-    - longhorn.torsteinbo.net
-    secretName: longhorn-tls
