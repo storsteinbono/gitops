@@ -23,7 +23,7 @@ resources:
   # - infrastructure/netbird/netbird.yaml
 
   # GPU Support (comment out to disable)
-  - infrastructure/nvidia-device-plugin/nvidia-device-plugin.yaml
+  # - infrastructure/nvidia-device-plugin/nvidia-device-plugin.yaml  # Disabled: targets deleted node prd-talos-worker-03
   - infrastructure/nvidia-runtime/application.yaml
 
   # Applications (comment out to disable)
