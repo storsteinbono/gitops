@@ -14,6 +14,25 @@ data:
   application.sync.impersonation.enabled: "false"
   exec.enabled: "false"
 
+  # ArgoCD URL
+  url: "https://argocd.torsteinbo.net"
+
+  # OIDC Configuration (Azure AD / Entra ID)
+  oidc.config: |
+    name: Azure
+    issuer: https://login.microsoftonline.com/$oidc.azure.tenantId/v2.0
+    clientID: $oidc.azure.clientId
+    clientSecret: $oidc.azure.clientSecret
+    requestedScopes:
+      - openid
+      - profile
+      - email
+      - https://graph.microsoft.com/User.Read
+      - https://graph.microsoft.com/Group.Read.All
+    requestedIDTokenClaims:
+      groups:
+        essential: true
+
   # ========================================================================
   # CUSTOM HEALTH CHECKS
   # ========================================================================
