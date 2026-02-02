@@ -13,7 +13,7 @@ resources:
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
   - infrastructure/traefik/traefik.yaml
-  - infrastructure/external-secrets/external-secrets.yaml  # Helm chart installs CRDs
+  # - infrastructure/external-secrets/external-secrets.yaml  # Enable when needed for Azure Key Vault
   - infrastructure/authentik/authentik.yaml
   - infrastructure/cloudnativepg/operator.yaml
   - infrastructure/longhorn/longhorn.yaml
