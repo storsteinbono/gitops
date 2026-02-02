@@ -13,7 +13,7 @@ resources:
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
   - infrastructure/traefik/traefik.yaml
-  # - infrastructure/external-secrets/external-secrets.yaml  # Disabled - secrets managed by Terraform
+  - infrastructure/external-secrets/external-secrets.yaml
   - infrastructure/authentik/authentik.yaml
   - infrastructure/cloudnativepg/operator.yaml
   - infrastructure/longhorn/longhorn.yaml
