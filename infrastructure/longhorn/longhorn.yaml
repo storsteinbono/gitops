@@ -15,6 +15,12 @@ spec:
     helm:
       releaseName: longhorn
       values: |
+        # Disable pre-upgrade hook for ArgoCD compatibility
+        # The pre-upgrade checker job fails with ArgoCD because ArgoCD treats
+        # both pre-install and pre-upgrade Helm hooks as PreSync hooks
+        preUpgradeChecker:
+          jobEnabled: false
+
         persistence:
           defaultClass: true
           defaultClassReplicaCount: 2
@@ -83,7 +89,6 @@ spec:
       allowEmpty: false
     syncOptions:
       - CreateNamespace=true
-      - SkipHooks=true
     retry:
       limit: 5
       backoff:
