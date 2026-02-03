@@ -118,6 +118,7 @@ spec:
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: apps/karakeep/manifests
+      recursive: true
   destination:
     server: https://kubernetes.default.svc
     namespace: karakeep
