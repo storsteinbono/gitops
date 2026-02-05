@@ -52,7 +52,10 @@ spec:
           datapathMode: netkit  # Modern datapath for kernel 6.12+
           distributedLRU:
             enabled: true
-          mapDynamicSizeRatio: 0.08
+          mapDynamicSizeRatio: 0.0025  # Reduced from 0.08 to prevent BPF map OOM
+          # Explicit CT table sizes to prevent memory issues
+          ctTcpMax: 262144      # Reduced from default 524288
+          ctAnyMax: 131072      # Reduced from default 262144
 
         # eBPF clock probe for better performance
         bpfClockProbe: true
