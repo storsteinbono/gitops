@@ -89,21 +89,21 @@ spec:
             enabled: true
           resources:
             limits:
-              cpu: 500m
-              memory: 256Mi
+              cpu: 1000m
+              memory: 1Gi  # Increased for stability
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 100m
+              memory: 512Mi
 
         # Agent configuration
         rollOutCiliumPods: true
         resources:
           limits:
-            cpu: 1000m
-            memory: 1Gi
+            cpu: 2000m
+            memory: 4Gi  # Increased for Hubble + BGP + Gateway API + advanced features
           requests:
-            cpu: 200m
-            memory: 512Mi
+            cpu: 500m
+            memory: 2Gi   # Increased to ensure adequate baseline
 
         k8sClientRateLimit:
           qps: 20
