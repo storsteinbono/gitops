@@ -18,6 +18,27 @@ data:
   url: "https://argocd.torsteinbo.net"
 
   # ========================================================================
+  # OIDC AUTHENTICATION - Authentik
+  # ========================================================================
+
+  dex.config: |
+    connectors:
+      - type: oidc
+        id: authentik
+        name: Authentik
+        config:
+          issuer: https://auth.torsteinbo.net/application/o/argocd/
+          clientID: argocd
+          clientSecret: $dex.authentik.clientSecret
+          insecureEnableGroups: true
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+          getUserInfo: true
+
+  # ========================================================================
   # CUSTOM HEALTH CHECKS
   # ========================================================================
 

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # ========================================================================
+  # RBAC POLICY - Authentik Group Mappings
+  # ========================================================================
+
+  # Default policy for authenticated users
+  policy.default: role:readonly
+
+  # RBAC Policy CSV
+  # Maps Authentik groups to ArgoCD roles
+  policy.csv: |
+    # Owners have full admin access
+    g, argocd_owner, role:admin
+
+    # Admins have full admin access
+    g, argocd_admin, role:admin
+
+    # Users have read-only access
+    g, argocd_users, role:readonly
+
+  # Use group claims from OIDC token
+  scopes: '[groups, email]'
