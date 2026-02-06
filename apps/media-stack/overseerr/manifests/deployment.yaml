@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/component: request-management
     app.kubernetes.io/part-of: media-stack
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: overseerr
