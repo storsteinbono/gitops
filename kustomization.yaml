@@ -34,7 +34,7 @@ resources:
   - apps/karakeep/application.yaml
   # - apps/bentopdf/application.yaml
   - apps/openhands/application.yaml
-  # - apps/buildarr/application.yaml
+  - apps/buildarr/application.yaml
   - apps/media-stack/application.yaml  # Media stack parent app
   - apps/ollama/application.yaml
   - apps/open-webui/application.yaml
