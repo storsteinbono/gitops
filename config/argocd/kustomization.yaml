@@ -5,15 +5,9 @@ namespace: argocd
 
 resources:
   - argocd-authentik-secret.yaml
+  - argocd-cm-patch.yaml
+  - argocd-rbac-cm-patch.yaml
 
-# Strategic merge patches for ArgoCD ConfigMaps
-# These merge with the existing argocd-cm and argocd-rbac-cm ConfigMaps
-patches:
-  - path: argocd-cm-patch.yaml
-    target:
-      kind: ConfigMap
-      name: argocd-cm
-  - path: argocd-rbac-cm-patch.yaml
-    target:
-      kind: ConfigMap
-      name: argocd-rbac-cm
+# Use server-side apply to merge with existing ConfigMaps
+commonAnnotations:
+  argocd.argoproj.io/sync-options: ServerSideApply=true
