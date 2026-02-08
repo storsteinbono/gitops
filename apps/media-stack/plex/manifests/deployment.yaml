@@ -38,6 +38,8 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: PLEX_CLAIM
+              value: "claim-_JuW5YgbUXK5uHKyC2Nt"
           resources:
             requests:
               cpu: 100m

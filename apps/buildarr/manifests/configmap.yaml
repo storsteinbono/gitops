@@ -85,7 +85,7 @@ data:
       settings:
         general:
           security:
-            authentication: form
+            authentication: basic
             authentication_required: enabled
             username: ${SONARR_USERNAME}
             password: ${SONARR_PASSWORD}
@@ -125,7 +125,7 @@ data:
       settings:
         general:
           security:
-            authentication: form
+            authentication: basic
             authentication_required: enabled
             username: ${RADARR_USERNAME}
             password: ${RADARR_PASSWORD}
@@ -165,7 +165,7 @@ data:
       settings:
         general:
           security:
-            authentication: form
+            authentication: basic
             authentication_required: enabled
             username: ${PROWLARR_USERNAME}
             password: ${PROWLARR_PASSWORD}
