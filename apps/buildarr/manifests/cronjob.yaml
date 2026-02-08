@@ -39,7 +39,7 @@ spec:
                   mountPath: /config
           containers:
             - name: buildarr
-              image: storsteinbo/buildarr:v1-compat
+              image: storsteinbo/buildarr:fixed
               imagePullPolicy: Always
               args:
                 - run
