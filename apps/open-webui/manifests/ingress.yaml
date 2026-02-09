@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: open-webui
   namespace: open-webui
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - chat.torsteinbo.net
+      secretName: open-webui-tls
   rules:
     - host: chat.torsteinbo.net
       http:
