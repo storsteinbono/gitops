@@ -61,6 +61,8 @@ kind: Service
 metadata:
   name: netbird-coturn
   namespace: netbird
+  annotations:
+    io.cilium/lb-ipam-ips: "172.16.17.211"
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
