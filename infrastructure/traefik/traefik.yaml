@@ -21,11 +21,11 @@ spec:
         deployment:
           replicas: 2
 
-        # Service configuration - ClusterIP (accessed via Cloudflare Tunnel)
+        # Service configuration - LoadBalancer via Cilium LB IPAM
         service:
-          type: NodePort
-          nodePort: 30000
-          websecure: 30443
+          type: LoadBalancer
+          spec:
+            loadBalancerIP: 172.16.17.210
 
         # Ports configuration
         ports:

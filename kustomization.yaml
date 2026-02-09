@@ -12,6 +12,7 @@ resources:
 
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
+  - infrastructure/cilium/cilium-lb-config.yaml
   - infrastructure/traefik/traefik.yaml
   - infrastructure/external-secrets/crds-application.yaml
   - infrastructure/external-secrets/external-secrets.yaml
