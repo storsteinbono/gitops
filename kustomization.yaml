@@ -14,6 +14,7 @@ resources:
   - infrastructure/cilium/cilium.yaml
   - infrastructure/cilium/cilium-lb-config.yaml
   - infrastructure/traefik/traefik.yaml
+  - infrastructure/cert-manager/cert-manager.yaml
   - infrastructure/external-secrets/crds-application.yaml
   - infrastructure/external-secrets/external-secrets.yaml
   - infrastructure/authentik/authentik.yaml

@@ -35,9 +35,8 @@ spec:
           websecure:
             port: 443
             exposedPort: 443
-            # TLS is handled by Cloudflare
             tls:
-              enabled: false
+              enabled: true
           traefik:
             port: 9000
             exposedPort: 9000
