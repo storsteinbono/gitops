@@ -24,8 +24,8 @@ spec:
         # Service configuration - LoadBalancer via Cilium LB IPAM
         service:
           type: LoadBalancer
-          spec:
-            loadBalancerIP: 172.16.17.210
+          annotations:
+            io.cilium/lb-ipam-ips: "172.16.17.210"
 
         # Ports configuration
         ports:
