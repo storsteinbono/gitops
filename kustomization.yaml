@@ -33,7 +33,7 @@ resources:
   - apps/immich/application.yaml
   # - apps/filebrowser/application.yaml
   # - apps/bambustudio/application.yaml
-  - apps/karakeep/application.yaml
+  # - apps/karakeep/application.yaml
   # - apps/bentopdf/application.yaml
   - apps/openhands/application.yaml
   - apps/buildarr/application.yaml
