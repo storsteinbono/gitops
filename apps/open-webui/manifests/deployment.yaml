@@ -45,7 +45,7 @@ spec:
             - name: ENABLE_OAUTH_SIGNUP
               value: "true"
             - name: ENABLE_LOGIN_FORM
-              value: "false"
+              value: "true"
             - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
               value: "true"
             - name: OAUTH_SCOPES
