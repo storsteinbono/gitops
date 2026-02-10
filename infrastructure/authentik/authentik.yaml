@@ -46,7 +46,7 @@ spec:
           # Authentik Server
           # ---------------------------
           server:
-            replicas: 1
+            replicas: 2
 
             env:
               - name: AUTHENTIK_BLUEPRINTS_DIR
