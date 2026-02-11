@@ -1,31 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ollama-api
+  name: ollama
   namespace: ollama
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: ollama-api-strip@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
     - host: ollama.torsteinbo.net
       http:
         paths:
-          - path: /api
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: ollama
                 port:
                   number: 11434
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: ollama-api-strip
-  namespace: ollama
-spec:
-  stripPrefix:
-    prefixes:
-      - /api
