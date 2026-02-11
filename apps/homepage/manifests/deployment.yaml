@@ -31,16 +31,16 @@ spec:
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.torsteinbo.net
-            - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: filebrowser-keyvault
-                  key: USERNAME
-            - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: filebrowser-keyvault
-                  key: PASSWORD
+            # - name: HOMEPAGE_VAR_FILEBROWSER_USERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: filebrowser-keyvault
+            #       key: USERNAME
+            # - name: HOMEPAGE_VAR_FILEBROWSER_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: filebrowser-keyvault
+            #       key: PASSWORD
             - name: HOMEPAGE_VAR_ARGOCD_KEY
               valueFrom:
                 secretKeyRef:
