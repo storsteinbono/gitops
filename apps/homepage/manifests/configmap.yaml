@@ -40,17 +40,17 @@ data:
             namespace: longhorn-system
             podSelector: app=longhorn-manager
             icon: longhorn.png
-        - Filebrowser:
-            href: https://filebrowser.torsteinbo.net
-            description: Filebrowser
-            namespace: filebrowser
-            podSelector: app=filebrowser
-            icon: filebrowser.png
-            widget: 
-              type: filebrowser
-              url: http://filebrowser.filebrowser
-              username: {{HOMEPAGE_VAR_FILEBROWSER_USERNAME}}
-              password: {{HOMEPAGE_VAR_FILEBROWSER_PASSWORD}}
+        # - Filebrowser:
+        #     href: https://filebrowser.torsteinbo.net
+        #     description: Filebrowser
+        #     namespace: filebrowser
+        #     podSelector: app=filebrowser
+        #     icon: filebrowser.png
+        #     widget: 
+        #       type: filebrowser
+        #       url: http://filebrowser.filebrowser
+        #       username: {{HOMEPAGE_VAR_FILEBROWSER_USERNAME}}
+        #       password: {{HOMEPAGE_VAR_FILEBROWSER_PASSWORD}}
         - argocd:
             href: https://argocd.torsteinbo.net
             description: ArgoCD
