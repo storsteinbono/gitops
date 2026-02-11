@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: karakeep
   namespace: karakeep
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - karakeep.torsteinbo.net
+      secretName: karakeep-tls
   rules:
     - host: karakeep.torsteinbo.net
       http:
