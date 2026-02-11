@@ -6,8 +6,13 @@ metadata:
   namespace: media-stack
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: media-stack-https-headers@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - deluge.torsteinbo.net
+      secretName: deluge-tls
   rules:
     - host: deluge.torsteinbo.net
       http:

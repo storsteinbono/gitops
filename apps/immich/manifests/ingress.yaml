@@ -3,7 +3,14 @@ kind: Ingress
 metadata:
   name: immich
   namespace: immich
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - immich.storsteinbo.no
+      secretName: immich-tls
   rules:
     - host: immich.storsteinbo.no
       http:

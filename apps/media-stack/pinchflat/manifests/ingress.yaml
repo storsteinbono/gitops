@@ -6,8 +6,13 @@ metadata:
   namespace: media-stack
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: media-stack-https-headers@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - pinchflat.torsteinbo.net
+      secretName: pinchflat-tls
   rules:
     - host: pinchflat.torsteinbo.net
       http:

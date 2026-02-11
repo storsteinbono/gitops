@@ -3,7 +3,14 @@ kind: Ingress
 metadata:
   name: bentopdf
   namespace: bentopdf
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - bentopdf.torsteinbo.net
+      secretName: bentopdf-tls
   rules:
     - host: bentopdf.torsteinbo.net
       http:

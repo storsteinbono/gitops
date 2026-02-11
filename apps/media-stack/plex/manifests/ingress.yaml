@@ -6,7 +6,12 @@ metadata:
   namespace: media-stack
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: media-stack-https-headers@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  tls:
+    - hosts:
+        - plex.torsteinbo.net
+      secretName: plex-tls
   ingressClassName: traefik
   rules:
     - host: plex.torsteinbo.net

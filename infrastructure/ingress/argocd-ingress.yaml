@@ -16,10 +16,7 @@ metadata:
   name: argocd-server
   namespace: argocd
   annotations:
-    # Optional: Add Traefik-specific annotations here
-    # traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  # ingressClassName not needed - Traefik is default
   rules:
   - host: argocd.torsteinbo.net
     http:

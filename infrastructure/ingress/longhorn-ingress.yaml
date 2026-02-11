@@ -6,8 +6,13 @@ metadata:
   namespace: longhorn-system
   annotations:
     kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - longhorn.torsteinbo.net
+      secretName: longhorn-tls
   rules:
     - host: longhorn.torsteinbo.net
       http:
