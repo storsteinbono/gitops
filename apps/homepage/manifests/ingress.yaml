@@ -11,12 +11,18 @@ metadata:
     gethomepage.dev/group: Cluster Management
     gethomepage.dev/icon: homepage.png
     gethomepage.dev/name: Homepage
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - homepage.torsteinbo.net
+      secretName: homepage-tls
   rules:
-    - host: "homepage.torsteinbo.net"
+    - host: homepage.torsteinbo.net
       http:
         paths:
-          - path: "/"
+          - path: /
             pathType: Prefix
             backend:
               service:
