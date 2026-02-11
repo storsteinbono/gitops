@@ -7,7 +7,10 @@ resources:
   - argocd-authentik-secret.yaml
   - argocd-cm-patch.yaml
   - argocd-rbac-cm-patch.yaml
+  - ingress.yaml
 
 # Use server-side apply to merge with existing ConfigMaps
 commonAnnotations:
   argocd.argoproj.io/sync-options: ServerSideApply=true
+  cert-manager.io/cluster-issuer: letsencrypt-prod
+
