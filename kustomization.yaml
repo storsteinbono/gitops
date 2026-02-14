@@ -13,6 +13,7 @@ resources:
   # Core Infrastructure (always included)
   - infrastructure/cilium/cilium.yaml
   - infrastructure/cilium/cilium-lb-config.yaml
+  - infrastructure/coredns/coredns.yaml
   - infrastructure/traefik/traefik.yaml
   - infrastructure/cert-manager/cert-manager.yaml
   - infrastructure/external-secrets/crds-application.yaml
