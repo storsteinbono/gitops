@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: openhands
   namespace: openhands
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - openhands.torsteinbo.net
+      secretName: openhands-tls
   rules:
     - host: openhands.torsteinbo.net
       http:

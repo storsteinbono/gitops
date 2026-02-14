@@ -3,7 +3,14 @@ kind: Ingress
 metadata:
   name: bambustudio
   namespace: bambustudio
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - bambustudio.torsteinbo.net
+      secretName: bambustudio-tls
   rules:
     - host: bambustudio.torsteinbo.net
       http:

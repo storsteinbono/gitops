@@ -1,30 +1,26 @@
 ---
-# Example: Expose ArgoCD via Cloudflare Tunnel → Traefik
-#
-# This Ingress resource makes ArgoCD accessible at argocd.torsteinbo.net
-# Traffic flow: Internet → Cloudflare → Tunnel → Traefik → ArgoCD
-#
-# To use for other apps, copy this file and change:
-# - metadata.name
-# - metadata.namespace
-# - spec.rules[].host
-# - spec.rules[].http.paths[].backend.service.name/port
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argocd-server
   namespace: argocd
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - argocd.torsteinbo.net
+      secretName: argocd-tls
   rules:
-  - host: argocd.torsteinbo.net
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-server
-            port:
-              number: 80
+    - host: argocd.torsteinbo.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 443

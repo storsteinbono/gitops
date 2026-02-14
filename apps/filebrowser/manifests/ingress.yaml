@@ -3,7 +3,14 @@ kind: Ingress
 metadata:
   name: filebrowser
   namespace: filebrowser
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - filebrowser.torsteinbo.net
+      secretName: filebrowser-tls
   rules:
     - host: filebrowser.torsteinbo.net
       http:
