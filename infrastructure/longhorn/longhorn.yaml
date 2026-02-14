@@ -10,72 +10,75 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    chart: longhorn
-    repoURL: https://charts.longhorn.io
-    targetRevision: 1.10.1
-    helm:
-      releaseName: longhorn
-      values: |
-        # Disable pre-upgrade hook for ArgoCD compatibility
-        # The pre-upgrade checker job fails with ArgoCD because ArgoCD treats
-        # both pre-install and pre-upgrade Helm hooks as PreSync hooks
-        preUpgradeChecker:
-          jobEnabled: false
+  sources:
+    - chart: longhorn
+      repoURL: https://charts.longhorn.io
+      targetRevision: 1.10.1
+      helm:
+        releaseName: longhorn
+        values: |
+          # Disable pre-upgrade hook for ArgoCD compatibility
+          # The pre-upgrade checker job fails with ArgoCD because ArgoCD treats
+          # both pre-install and pre-upgrade Helm hooks as PreSync hooks
+          preUpgradeChecker:
+            jobEnabled: false
 
-        persistence:
-          defaultClass: true
-          defaultClassReplicaCount: 2
-          reclaimPolicy: Retain
+          persistence:
+            defaultClass: true
+            defaultClassReplicaCount: 2
+            reclaimPolicy: Retain
 
-        defaultSettings:
-          backupTargetURL: "cifs://172.16.16.91/Backupstest"
-          credentialSecret: "longhorn-backup-smb"
-          defaultReplicaCount: 2
-          defaultDataLocality: disabled
-          replicaSoftAntiAffinity: false
-          replicaAutoBalance: disabled
-          storageOverProvisioningPercentage: 200
-          storageMinimalAvailablePercentage: 15
-          upgradeChecker: true
-          defaultLonghornStaticStorageClass: longhorn-static
-          nodeDownPodDeletionPolicy: do-nothing
-          allowNodeDrainWithLastHealthyReplica: false
-          mkfsExt4Parameters: ""
-          guaranteedInstanceManagerCpu: 12
-          priorityClass: ""
-          autoSalvage: true
-          autoDeletePodWhenVolumeDetachedUnexpectedly: true
-          disableSchedulingOnCordonedNode: true
-          replicaZoneSoftAntiAffinity: true
-          volumeAttachmentRecoveryPolicy: wait
-          nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-          allowVolumeCreationWithDegradedAvailability: true
-          autoCleanupSystemGeneratedSnapshot: true
-          concurrentAutomaticEngineUpgradePerNodeLimit: 0
-          backingImageCleanupWaitInterval: 60
-          guaranteedEngineManagerCpu: 12
-          guaranteedReplicaManagerCpu: 12
+          defaultSettings:
+            backupTargetURL: "cifs://172.16.16.91/Backupstest"
+            credentialSecret: "longhorn-backup-smb"
+            defaultReplicaCount: 2
+            defaultDataLocality: disabled
+            replicaSoftAntiAffinity: false
+            replicaAutoBalance: disabled
+            storageOverProvisioningPercentage: 200
+            storageMinimalAvailablePercentage: 15
+            upgradeChecker: true
+            defaultLonghornStaticStorageClass: longhorn-static
+            nodeDownPodDeletionPolicy: do-nothing
+            allowNodeDrainWithLastHealthyReplica: false
+            mkfsExt4Parameters: ""
+            guaranteedInstanceManagerCpu: 12
+            priorityClass: ""
+            autoSalvage: true
+            autoDeletePodWhenVolumeDetachedUnexpectedly: true
+            disableSchedulingOnCordonedNode: true
+            replicaZoneSoftAntiAffinity: true
+            volumeAttachmentRecoveryPolicy: wait
+            nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+            allowVolumeCreationWithDegradedAvailability: true
+            autoCleanupSystemGeneratedSnapshot: true
+            concurrentAutomaticEngineUpgradePerNodeLimit: 0
+            backingImageCleanupWaitInterval: 60
+            guaranteedEngineManagerCpu: 12
+            guaranteedReplicaManagerCpu: 12
 
-        ingress:
-          enabled: false
+          ingress:
+            enabled: false
 
-        service:
-          ui:
-            type: ClusterIP
+          service:
+            ui:
+              type: ClusterIP
 
-        # Talos-specific configuration
-        longhornManager:
-          tolerations:
-            - key: node-role.kubernetes.io/control-plane
-              operator: Exists
-              effect: NoSchedule
+          # Talos-specific configuration
+          longhornManager:
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
 
-        longhornDriver:
-          tolerations:
-            - key: node-role.kubernetes.io/control-plane
-              operator: Exists
-              effect: NoSchedule
+          longhornDriver:
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
+    - repoURL: git@github.com:storsteinbono/gitops.git
+      targetRevision: HEAD
+      path: infrastructure/longhorn/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
