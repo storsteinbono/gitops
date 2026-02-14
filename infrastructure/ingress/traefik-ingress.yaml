@@ -30,6 +30,7 @@ metadata:
   namespace: traefik
 spec:
   entryPoints:
+    - web
     - websecure
   tls:
     secretName: traefik-tls
