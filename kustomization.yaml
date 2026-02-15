@@ -41,6 +41,7 @@ resources:
   - apps/media-stack/application.yaml  # Media stack parent app
   - apps/ollama/application.yaml
   - apps/open-webui/application.yaml
+  - apps/semaphore/application.yaml
 
 # Labels configuration
 # Note: Using includeSelectors: false to avoid modifying existing selector labels
