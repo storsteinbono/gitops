@@ -47,4 +47,4 @@ spec:
       usernameFromSecret: true
       usernameKey: username
       passwordKey: password
-      existingSecret: postgresql-user 
+      existingSecret: semaphore-user 

@@ -9,10 +9,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - immich.storsteinbo.no
+        - immich.torsteinbo.net
       secretName: immich-tls
   rules:
-    - host: immich.storsteinbo.no
+    - host: immich.torsteinbo.net
       http:
         paths:
           - path: /
