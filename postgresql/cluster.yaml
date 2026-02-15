@@ -55,4 +55,10 @@ spec:
         superuser: false
         passwordSecret:
           name: netbird-user
+      - name: semaphore
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: semaphore-user
 
