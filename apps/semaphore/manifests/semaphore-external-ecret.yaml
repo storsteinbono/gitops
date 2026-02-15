@@ -21,4 +21,9 @@ spec:
     - secretKey: username
       remoteRef:
         key: postgres-semaphore-username
-
+    - secretKey: client-secret
+      remoteRef:
+        key: semaphore_client_secret
+    - secretKey: client-id
+      remoteRef:
+        key: semaphore_client_id

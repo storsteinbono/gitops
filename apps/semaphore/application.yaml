@@ -46,3 +46,17 @@ spec:
       - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
       - PruneLast=true
+  oidc:
+    enable: true
+
+  providers:
+    authentik:
+      display_name: "Sign in with authentik"
+      provider_url: "https://auth.torsteinbo.net/application/o/semaphore/"
+      client_id: "{{ semaphore_client_id }}"
+      client_secret: "{{ semaphore_client_secret }}"
+      redirect_url: "https://semaphore.torsteinbo.net/api/auth/oidc/authentik/redirect"
+      username_claim: "username"
+      name_claim: "name"
+      email_claim: "email"
+      scopes: ["openid", "email", "groups"]
