@@ -19,6 +19,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: semaphore-web
+                name: semaphore
                 port:
                   number: 3000
