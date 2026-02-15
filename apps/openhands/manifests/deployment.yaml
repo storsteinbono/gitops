@@ -20,6 +20,10 @@ spec:
       runtimeClassName: nvidia
       nodeSelector:
         kubernetes.io/hostname: prd-talos-worker-02
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+            - "host.docker.internal"
       containers:
         - name: openhands
           image: docker.openhands.dev/openhands/openhands:latest
@@ -40,8 +44,6 @@ spec:
             - name: SANDBOX_USER_ID
               value: "0"
             - name: DOCKER_HOST
-              value: "unix:///var/run/docker.sock"
-            - name: OPENHANDS_SANDBOX_HOST
               value: "unix:///var/run/docker.sock"
           volumeMounts:
             - name: workspace
