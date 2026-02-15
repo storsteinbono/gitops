@@ -13,7 +13,7 @@ spec:
   sources:
     - repoURL: https://semaphoreui.github.io/charts
       chart: semaphore
-      targetRevision: v1.17.1
+      targetRevision: v2.17.0
       helm:
         releaseName: semaphore
         values: |
