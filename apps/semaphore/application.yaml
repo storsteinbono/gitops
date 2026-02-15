@@ -17,8 +17,18 @@ spec:
       helm:
         releaseName: semaphore
         values: |
-          crds:
-            enabled: true
+          database:
+            type: postgres
+            host: postgresql-rw.postgres.svc
+            port: 5432
+            name: semaphore
+            usernameFromSecret: true
+            usernameKey: username
+            passwordKey: password
+            existingSecret: semaphore-db-credentials
+          admin:
+            create: true
+            username: admin
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: apps/semaphore/manifests
@@ -36,15 +46,3 @@ spec:
       - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
       - PruneLast=true
-  spec:
-    admin:
-      create: true
-      password: [test123]
-    database:
-      type: postgres
-      host: postgresql
-      port: 5432
-      usernameFromSecret: true
-      usernameKey: username
-      passwordKey: password
-      existingSecret: semaphore-user 
