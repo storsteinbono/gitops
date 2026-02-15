@@ -29,7 +29,7 @@ spec:
           admin:
             create: true
             username: admin
-          env:
+          extraEnv:
             - name: SEMAPHORE_OIDC_PROVIDERS
               valueFrom:
                 secretKeyRef:
