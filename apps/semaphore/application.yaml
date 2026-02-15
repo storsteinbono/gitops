@@ -29,12 +29,8 @@ spec:
           admin:
             create: true
             username: admin
-          extraEnv:
-            - name: SEMAPHORE_OIDC_PROVIDERS
-              valueFrom:
-                secretKeyRef:
-                  name: semaphore-secrets
-                  key: oidc-providers-json
+          envFromSecrets:
+            - semaphore-secrets
     - repoURL: git@github.com:storsteinbono/gitops.git
       targetRevision: HEAD
       path: apps/semaphore/manifests
